@@ -15,8 +15,7 @@ public:
 
 };
 
-
-int main()
+Hazel::Application* Hazel::CreateApplication()
 {
-	Hazel::Print();
+	return new Sandbox();
 }
