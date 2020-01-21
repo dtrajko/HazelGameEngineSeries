@@ -1,12 +1,11 @@
 #pragma once
 
-#include "Hazel/Events/Event.h"
-#include "Hazel/Core/Input.h"
+#include "Event.h"
 
 
 namespace Hazel {
 
-	class MouseMovedEvent : public Event
+	class HAZEL_API MouseMovedEvent : public Event
 	{
 	public:
 		MouseMovedEvent(float x, float y)
@@ -23,12 +22,12 @@ namespace Hazel {
 		}
 
 		EVENT_CLASS_TYPE(MouseMoved)
-		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+			EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	private:
 		float m_MouseX, m_MouseY;
 	};
 
-	class MouseScrolledEvent : public Event
+	class HAZEL_API MouseScrolledEvent : public Event
 	{
 	public:
 		MouseScrolledEvent(float xOffset, float yOffset)
@@ -45,28 +44,28 @@ namespace Hazel {
 		}
 
 		EVENT_CLASS_TYPE(MouseScrolled)
-		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+			EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	private:
 		float m_XOffset, m_YOffset;
 	};
 
-	class MouseButtonEvent : public Event
+	class HAZEL_API MouseButtonEvent : public Event
 	{
 	public:
-		inline MouseCode GetMouseButton() const { return m_Button; }
+		inline int GetMouseButton() const { return m_Button; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	protected:
-		MouseButtonEvent(MouseCode button)
+		MouseButtonEvent(int button)
 			: m_Button(button) {}
 
-		MouseCode m_Button;
+		int m_Button;
 	};
 
-	class MouseButtonPressedEvent : public MouseButtonEvent
+	class HAZEL_API MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(MouseCode button)
+		MouseButtonPressedEvent(int button)
 			: MouseButtonEvent(button) {}
 
 		std::string ToString() const override
@@ -79,10 +78,10 @@ namespace Hazel {
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
 
-	class MouseButtonReleasedEvent : public MouseButtonEvent
+	class HAZEL_API MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(MouseCode button)
+		MouseButtonReleasedEvent(int button)
 			: MouseButtonEvent(button) {}
 
 		std::string ToString() const override
