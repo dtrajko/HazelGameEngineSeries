@@ -6,3 +6,6 @@
 	path = Hazel/vendor/GLFW
 	url = https://github.com/TheCherno/glfw
 	branch = master
+[submodule "Hazel/vendor/imgui"]
+	path = Hazel/vendor/imgui
+	url = https://github.com/TheCherno/imgui
