@@ -6,7 +6,7 @@
 namespace Hazel
 {
 
-	class ImGuiLayer : public Layer
+	class HAZEL_API ImGuiLayer : public Layer
 	{
 	public:
 
@@ -21,7 +21,7 @@ namespace Hazel
 
 	private:
 
-
+		float m_Time = 0.0f;
 
 	};
 }

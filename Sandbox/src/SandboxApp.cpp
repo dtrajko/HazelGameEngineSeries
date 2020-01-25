@@ -13,7 +13,7 @@ public:
 
 	void OnUpdate() override
 	{
-		HZ_INFO("ExampleLayer::Update");
+		// HZ_INFO("ExampleLayer::Update");
 	}
 
 	void OnEvent(Hazel::Event& event) override
@@ -35,6 +35,7 @@ public:
 		HZ_INFO("Client Logger (Macro) initialized! Var={0}", a);
 
 		PushLayer(new ExampleLayer());
+		PushOverlay(new Hazel::ImGuiLayer());
 	}
 
 	~Sandbox()
