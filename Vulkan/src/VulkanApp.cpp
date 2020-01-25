@@ -21,7 +21,7 @@ VulkanApp::VulkanApp() : Hazel::Application()
 
 void VulkanApp::run()
 {
-	window = new Window();
+	glfwGetWindowUserPointer(window);
 
 	initVulkan();
 	mainLoop();
@@ -30,8 +30,9 @@ void VulkanApp::run()
 
 void VulkanApp::mainLoop()
 {
-	while (!glfwWindowShouldClose(window->m_Window))
+	while (!glfwWindowShouldClose(window))
 	{
+		std::cout << "Vulkan Main Loop running!" << std::endl;
 		glfwPollEvents();
 		Input::get()->update();
 		drawFrame(device);
@@ -49,12 +50,12 @@ void VulkanApp::initVulkan()
 {
 	instance = new Instance(enableValidationLayers, validationLayers, validationLayer);
 	debug = new Debug(instance->hInstance, enableValidationLayers);
-	surface = new Surface(instance->hInstance, window->m_Window);
+	surface = new Surface(instance->hInstance, window);
 	loader = new Loader();
 	imageFactory = new ImageFactory();
 	physicalDevice = new PhysicalDevice(instance->hInstance, surface->m_surfaceKHR, imageFactory->msaaSamples);
 	device = new Device(physicalDevice, surface->m_surfaceKHR, enableValidationLayers);
-	swapChain = new SwapChain(window->m_Window, physicalDevice, device->m_Device, surface);
+	swapChain = new SwapChain(window, physicalDevice, device->m_Device, surface);
 	swapChain->createImageViews(device->m_Device);
 	renderPass = new RenderPass(physicalDevice, device->m_Device, swapChain, imageFactory);
 	descriptorSetLayout = new DescriptorSetLayout(device->m_Device);
@@ -221,9 +222,9 @@ void VulkanApp::drawFrame(Device* device)
 	presentInfo.pResults = nullptr; // Optional
 
 	result = vkQueuePresentKHR(device->presentQueue, &presentInfo);
-	if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || window->framebufferResized)
+	if (result == VK_ERROR_OUT_OF_DATE_KHR || result == VK_SUBOPTIMAL_KHR || window_framebufferResized)
 	{
-		window->framebufferResized = false;
+		window_framebufferResized = false;
 		recreateSwapChain();
 	}
 	else if (result != VK_SUCCESS)
@@ -267,10 +268,10 @@ void VulkanApp::cleanupSwapChain(UniformBuffer uniformBuffer)
 void VulkanApp::recreateSwapChain()
 {
 	int width = 0, height = 0;
-	glfwGetFramebufferSize(window->m_Window, &width, &height);
+	glfwGetFramebufferSize(window, &width, &height);
 	while (width == 0 || height == 0)
 	{
-		glfwGetFramebufferSize(window->m_Window, &width, &height);
+		glfwGetFramebufferSize(window, &width, &height);
 		glfwWaitEvents();
 	}
 
@@ -278,7 +279,7 @@ void VulkanApp::recreateSwapChain()
 
 	cleanupSwapChain(uniformBuffer);
 
-	swapChain->createSwapChain(window->m_Window, physicalDevice, device->m_Device, surface);
+	swapChain->createSwapChain(window, physicalDevice, device->m_Device, surface);
 	swapChain->createImageViews(device->m_Device);
 	renderPass->createRenderPass(physicalDevice, device->m_Device, swapChain, imageFactory);
 	graphicsPipeline->createGraphicsPipeline(device->m_Device, shaderModule, swapChain, imageFactory, descriptorSetLayout, renderPass);
@@ -320,7 +321,7 @@ void VulkanApp::cleanup()
 	delete debug;
 	delete instance;
 
-	glfwDestroyWindow(window->m_Window);
+	glfwDestroyWindow(window);
 
 	glfwTerminate();
 }

@@ -88,6 +88,9 @@ private:
 	std::vector<VkFence> imagesInFlight;
 	size_t currentFrame = 0;
 
+	// temporary variable
+	bool window_framebufferResized = false;
+
 	// Refactoring
 	ValidationLayer validationLayer;
 	ShaderModule shaderModule;
@@ -97,7 +100,7 @@ private:
 
 	// RAII
 	Debug* debug;
-	Window* window;
+	GLFWwindow* window;
 	Instance* instance;
 	Surface* surface;
 	Loader* loader;

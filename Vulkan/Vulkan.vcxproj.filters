@@ -9,7 +9,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\HelloTriangleApplication.h" />
     <ClInclude Include="src\VulkanApp.h" />
     <ClInclude Include="src\engine\Debug.h">
       <Filter>engine</Filter>
@@ -109,7 +108,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\HelloTriangleApplication.cpp" />
     <ClCompile Include="src\VulkanApp.cpp" />
     <ClCompile Include="src\engine\Debug.cpp">
       <Filter>engine</Filter>

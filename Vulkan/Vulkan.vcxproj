@@ -140,7 +140,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\HelloTriangleApplication.h" />
     <ClInclude Include="src\VulkanApp.h" />
     <ClInclude Include="src\engine\Debug.h" />
     <ClInclude Include="src\engine\Input.h" />
@@ -176,7 +175,6 @@
     <ClInclude Include="src\engine\vulkan\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\HelloTriangleApplication.cpp" />
     <ClCompile Include="src\VulkanApp.cpp" />
     <ClCompile Include="src\engine\Debug.cpp" />
     <ClCompile Include="src\engine\Input.cpp" />
