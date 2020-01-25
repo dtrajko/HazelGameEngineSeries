@@ -9,3 +9,6 @@
 [submodule "Hazel/vendor/imgui"]
 	path = Hazel/vendor/imgui
 	url = https://github.com/TheCherno/imgui
+[submodule "Vulkan/vendor/GLM"]
+	path = Vulkan/vendor/GLM
+	url = https://github.com/g-truc/glm

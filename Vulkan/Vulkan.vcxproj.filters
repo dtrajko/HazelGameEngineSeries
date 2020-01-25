@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="engine">
+      <UniqueIdentifier>{FBDB78FB-E77D-A3D1-D038-B725BC792A22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\vulkan">
+      <UniqueIdentifier>{3B55D497-A715-50CE-7050-994BDCCF94AA}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\HelloTriangleApplication.h" />
+    <ClInclude Include="src\VulkanApp.h" />
+    <ClInclude Include="src\engine\Debug.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\Input.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\Loader.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\Print.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\Timer.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\Vertex.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\Window.h">
+      <Filter>engine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\Buffer.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\CommandBuffer.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\CommandPool.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\DescriptorPool.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\DescriptorSet.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\DescriptorSetLayout.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\Device.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\Format.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\Framebuffer.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\GraphicsPipeline.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\Image.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\ImageFactory.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\ImageView.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\IndexBuffer.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\Instance.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\PhysicalDevice.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\PipelineLayout.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\RenderPass.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\Sampler.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\ShaderModule.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\Surface.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\SwapChain.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\UniformBuffer.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\ValidationLayer.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\vulkan\VertexBuffer.h">
+      <Filter>engine\vulkan</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\HelloTriangleApplication.cpp" />
+    <ClCompile Include="src\VulkanApp.cpp" />
+    <ClCompile Include="src\engine\Debug.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\Input.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\Loader.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\Timer.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\Window.cpp">
+      <Filter>engine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\Buffer.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\CommandBuffer.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\CommandPool.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\DescriptorPool.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\DescriptorSet.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\DescriptorSetLayout.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\Device.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\Format.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\Framebuffer.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\GraphicsPipeline.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\Image.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\ImageFactory.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\ImageView.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\IndexBuffer.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\Instance.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\PhysicalDevice.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\PipelineLayout.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\RenderPass.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\Sampler.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\ShaderModule.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\Surface.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\SwapChain.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\UniformBuffer.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\ValidationLayer.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\vulkan\VertexBuffer.cpp">
+      <Filter>engine\vulkan</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

@@ -14,13 +14,14 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
-IncludeDir["GLFW"] = "Hazel/vendor/GLFW/include"
-IncludeDir["Glad"] = "Hazel/vendor/Glad/include"
+IncludeDir["GLFW"]  = "Hazel/vendor/GLFW/include"
+IncludeDir["Glad"]  = "Hazel/vendor/Glad/include"
 IncludeDir["ImGui"] = "Hazel/vendor/imgui"
 
 include "Hazel/vendor/GLFW"
 include "Hazel/vendor/Glad"
 include "Hazel/vendor/imgui"
+
 
 project "Hazel"
 	location "Hazel"
@@ -70,7 +71,8 @@ project "Hazel"
 
 		postbuildcommands
 		{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox"),
+			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Vulkan"),
 		}
 
 	filter "configurations:Debug"
@@ -87,6 +89,7 @@ project "Hazel"
 		defines "HZ_DIST"
 		buildoptions "/MD"
 		optimize "On"
+
 
 project "Sandbox"
 	location "Sandbox"
@@ -111,6 +114,71 @@ project "Sandbox"
 	links
 	{
 		"Hazel"
+	}
+
+	filter "system:windows"
+		cppdialect "C++17"
+		staticruntime "On"
+		systemversion "latest"
+
+		defines
+		{
+			"HZ_PLATFORM_WINDOWS",
+		}
+
+	filter "configurations:Debug"
+		defines "HZ_DEBUG"
+		buildoptions "/MDd"
+		symbols "On"
+
+	filter "configurations:Release"
+		defines "HZ_RELEASE"
+		buildoptions "/MD"
+		optimize "On"
+
+	filter "configurations:Dist"
+		defines "HZ_DIST"
+		buildoptions "/MD"
+		optimize "On"
+
+
+project "Vulkan"
+	location "Vulkan"
+	kind "ConsoleApp"
+	language "C++"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp",
+	}
+
+	includedirs
+	{
+		"Hazel/src",
+		"%{IncludeDir.GLFW}",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}",
+		"Hazel/vendor/spdlog/include",
+		"D:/VulkanSDK/1.1.130.0/Include",
+		"Vulkan/vendor/GLM",
+		"Vulkan/vendor/STB",
+		"Vulkan/vendor/tinyobjloader",
+	}
+
+	links
+	{
+		"Hazel",
+		"GLFW",
+		"vulkan-1",
+	}
+
+	libdirs
+	{
+		"D:/VulkanSDK/1.1.130.0/Lib",
 	}
 
 	filter "system:windows"
