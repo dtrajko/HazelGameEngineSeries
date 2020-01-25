@@ -44,6 +44,8 @@
 #include "engine/vulkan/RenderPass.h"
 #include "engine/vulkan/GraphicsPipeline.h"
 
+#include "Hazel/Window.h"
+
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
 
@@ -100,7 +102,8 @@ private:
 
 	// RAII
 	Debug* debug;
-	GLFWwindow* window;
+	Window* window;
+	Hazel::Window* hzWindow;
 	Instance* instance;
 	Surface* surface;
 	Loader* loader;

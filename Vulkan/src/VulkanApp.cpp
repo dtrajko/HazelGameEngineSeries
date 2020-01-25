@@ -21,7 +21,8 @@ VulkanApp::VulkanApp() : Hazel::Application()
 
 void VulkanApp::run()
 {
-	glfwGetWindowUserPointer(window);
+	window = new Window();
+	hzWindow = &Application::Get().GetWindow();
 
 	initVulkan();
 	mainLoop();
@@ -30,7 +31,7 @@ void VulkanApp::run()
 
 void VulkanApp::mainLoop()
 {
-	while (!glfwWindowShouldClose(window))
+	while (!glfwWindowShouldClose(window->m_Window))
 	{
 		std::cout << "Vulkan Main Loop running!" << std::endl;
 		glfwPollEvents();
@@ -50,12 +51,12 @@ void VulkanApp::initVulkan()
 {
 	instance = new Instance(enableValidationLayers, validationLayers, validationLayer);
 	debug = new Debug(instance->hInstance, enableValidationLayers);
-	surface = new Surface(instance->hInstance, window);
+	surface = new Surface(instance->hInstance, window->m_Window);
 	loader = new Loader();
 	imageFactory = new ImageFactory();
 	physicalDevice = new PhysicalDevice(instance->hInstance, surface->m_surfaceKHR, imageFactory->msaaSamples);
 	device = new Device(physicalDevice, surface->m_surfaceKHR, enableValidationLayers);
-	swapChain = new SwapChain(window, physicalDevice, device->m_Device, surface);
+	swapChain = new SwapChain(window->m_Window, physicalDevice, device->m_Device, surface);
 	swapChain->createImageViews(device->m_Device);
 	renderPass = new RenderPass(physicalDevice, device->m_Device, swapChain, imageFactory);
 	descriptorSetLayout = new DescriptorSetLayout(device->m_Device);
@@ -268,10 +269,10 @@ void VulkanApp::cleanupSwapChain(UniformBuffer uniformBuffer)
 void VulkanApp::recreateSwapChain()
 {
 	int width = 0, height = 0;
-	glfwGetFramebufferSize(window, &width, &height);
+	glfwGetFramebufferSize(window->m_Window, &width, &height);
 	while (width == 0 || height == 0)
 	{
-		glfwGetFramebufferSize(window, &width, &height);
+		glfwGetFramebufferSize(window->m_Window, &width, &height);
 		glfwWaitEvents();
 	}
 
@@ -279,7 +280,7 @@ void VulkanApp::recreateSwapChain()
 
 	cleanupSwapChain(uniformBuffer);
 
-	swapChain->createSwapChain(window, physicalDevice, device->m_Device, surface);
+	swapChain->createSwapChain(window->m_Window, physicalDevice, device->m_Device, surface);
 	swapChain->createImageViews(device->m_Device);
 	renderPass->createRenderPass(physicalDevice, device->m_Device, swapChain, imageFactory);
 	graphicsPipeline->createGraphicsPipeline(device->m_Device, shaderModule, swapChain, imageFactory, descriptorSetLayout, renderPass);
@@ -321,7 +322,7 @@ void VulkanApp::cleanup()
 	delete debug;
 	delete instance;
 
-	glfwDestroyWindow(window);
+	glfwDestroyWindow(window->m_Window);
 
 	glfwTerminate();
 }
