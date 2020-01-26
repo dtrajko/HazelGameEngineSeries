@@ -8,7 +8,7 @@ Input::Input()
 	mouseY = 0.0;
 }
 
-Input* Input::get()
+Input* Input::Get()
 {
 	static Input input;
 	return &input;
@@ -18,15 +18,15 @@ void Input::update()
 {
 	for (int indexKey = 0; indexKey < GLFW_KEY_LAST; indexKey++)
 	{
-		m_Keys[indexKey] = isKeyPressed(indexKey);
+		m_Keys[indexKey] = IsKeyPressed(indexKey);
 	}
 	for (int indexButton = 0; indexButton < GLFW_MOUSE_BUTTON_LAST; indexButton++)
 	{
-		m_MouseButtons[indexButton] = isMouseButtonPressed(indexButton);
+		m_MouseButtons[indexButton] = IsMouseButtonPressed(indexButton);
 	}
 }
 
-bool Input::isKeyPressed(unsigned int keyCode) const
+bool Input::IsKeyPressed(unsigned int keyCode) const
 {
 	if (keyCode >= MAX_KEYS)
 	{
@@ -35,7 +35,7 @@ bool Input::isKeyPressed(unsigned int keyCode) const
 	return m_Keys[keyCode];
 }
 
-bool Input::isMouseButtonPressed(unsigned int buttonCode) const
+bool Input::IsMouseButtonPressed(unsigned int buttonCode) const
 {
 	if (buttonCode >= MAX_BUTTONS)
 	{
@@ -44,7 +44,7 @@ bool Input::isMouseButtonPressed(unsigned int buttonCode) const
 	return m_MouseButtons[buttonCode];
 }
 
-void Input::setMousePosition(float xpos, float ypos)
+void Input::SetMousePosition(float xpos, float ypos)
 {
 	mouseX = xpos;
 	mouseY = ypos;

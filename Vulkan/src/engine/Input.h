@@ -24,13 +24,13 @@ public:
 public:
 
 	Input();
-	static Input* get();
+	static Input* Get();
 	void update();
 	virtual ~Input();
 
-	bool isKeyPressed(unsigned int keyCode) const;
-	bool isMouseButtonPressed(unsigned int button) const;
-	void setMousePosition(float xpos, float ypos);
+	bool IsKeyPressed(unsigned int keyCode) const;
+	bool IsMouseButtonPressed(unsigned int button) const;
+	void SetMousePosition(float xpos, float ypos);
 
 private:
 
@@ -40,7 +40,7 @@ private:
 	// bool OnMouseScrolledEvent(MouseScrolledEvent& e);
 	// bool OnKeyPressedEvent(KeyPressedEvent& e);
 	// bool OnKeyReleasedEvent(KeyReleasedEvent& e);
-	// // bool OnKeyTypedEvent(KeyTypedEvent& e);
+	// bool OnKeyTypedEvent(KeyTypedEvent& e);
 	// bool OnWindowResizeEvent(WindowResizeEvent& e);
 
 };

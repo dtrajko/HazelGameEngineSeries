@@ -21,8 +21,8 @@ VulkanApp::VulkanApp() : Hazel::Application()
 
 void VulkanApp::run()
 {
-	window = new Window();
-	hzWindow = &Application::Get().GetWindow();
+	window = &(Application::Get().GetWindow());
+	windowHandler = (GLFWwindow*)window->GetNativeWindow();
 
 	initVulkan();
 	mainLoop();
@@ -31,11 +31,11 @@ void VulkanApp::run()
 
 void VulkanApp::mainLoop()
 {
-	while (!glfwWindowShouldClose(window->m_Window))
+	while (!glfwWindowShouldClose(windowHandler))
 	{
 		std::cout << "Vulkan Main Loop running!" << std::endl;
 		glfwPollEvents();
-		Input::get()->update();
+		Input::Get()->update();
 		drawFrame(device);
 	}
 
@@ -51,12 +51,12 @@ void VulkanApp::initVulkan()
 {
 	instance = new Instance(enableValidationLayers, validationLayers, validationLayer);
 	debug = new Debug(instance->hInstance, enableValidationLayers);
-	surface = new Surface(instance->hInstance, window->m_Window);
+	surface = new Surface(instance->hInstance, windowHandler);
 	loader = new Loader();
 	imageFactory = new ImageFactory();
 	physicalDevice = new PhysicalDevice(instance->hInstance, surface->m_surfaceKHR, imageFactory->msaaSamples);
 	device = new Device(physicalDevice, surface->m_surfaceKHR, enableValidationLayers);
-	swapChain = new SwapChain(window->m_Window, physicalDevice, device->m_Device, surface);
+	swapChain = new SwapChain(windowHandler, physicalDevice, device->m_Device, surface);
 	swapChain->createImageViews(device->m_Device);
 	renderPass = new RenderPass(physicalDevice, device->m_Device, swapChain, imageFactory);
 	descriptorSetLayout = new DescriptorSetLayout(device->m_Device);
@@ -89,25 +89,25 @@ void VulkanApp::updateUniformBuffer(uint32_t currentImage, UniformBuffer uniform
 
 	// std::cout << "Input mouseX: " << Input::get()->mouseX << ", mouseY: " << Input::get()->mouseY << std::endl;
 
-	if (Input::get()->isKeyPressed(GLFW_KEY_A))
+	if (Input::Get()->IsKeyPressed(GLFW_KEY_A))
 	{
 		std::cout << "Move LEFT" << std::endl;
 		positionX -= 0.1f;
 	}
 
-	if (Input::get()->isKeyPressed(GLFW_KEY_D))
+	if (Input::Get()->IsKeyPressed(GLFW_KEY_D))
 	{
 		std::cout << "Move RIGHT" << std::endl;
 		positionX += 0.1f;
 	}
 
-	if (Input::get()->isKeyPressed(GLFW_KEY_W))
+	if (Input::Get()->IsKeyPressed(GLFW_KEY_W))
 	{
 		std::cout << "Move UP" << std::endl;
 		positionZ -= 0.1f;
 	}
 
-	if (Input::get()->isKeyPressed(GLFW_KEY_S))
+	if (Input::Get()->IsKeyPressed(GLFW_KEY_S))
 	{
 		std::cout << "Move DOWN" << std::endl;
 		positionZ += 0.1f;
@@ -269,10 +269,10 @@ void VulkanApp::cleanupSwapChain(UniformBuffer uniformBuffer)
 void VulkanApp::recreateSwapChain()
 {
 	int width = 0, height = 0;
-	glfwGetFramebufferSize(window->m_Window, &width, &height);
+	glfwGetFramebufferSize(windowHandler, &width, &height);
 	while (width == 0 || height == 0)
 	{
-		glfwGetFramebufferSize(window->m_Window, &width, &height);
+		glfwGetFramebufferSize(windowHandler, &width, &height);
 		glfwWaitEvents();
 	}
 
@@ -280,7 +280,7 @@ void VulkanApp::recreateSwapChain()
 
 	cleanupSwapChain(uniformBuffer);
 
-	swapChain->createSwapChain(window->m_Window, physicalDevice, device->m_Device, surface);
+	swapChain->createSwapChain(windowHandler, physicalDevice, device->m_Device, surface);
 	swapChain->createImageViews(device->m_Device);
 	renderPass->createRenderPass(physicalDevice, device->m_Device, swapChain, imageFactory);
 	graphicsPipeline->createGraphicsPipeline(device->m_Device, shaderModule, swapChain, imageFactory, descriptorSetLayout, renderPass);
@@ -322,7 +322,7 @@ void VulkanApp::cleanup()
 	delete debug;
 	delete instance;
 
-	glfwDestroyWindow(window->m_Window);
+	glfwDestroyWindow(windowHandler);
 
 	glfwTerminate();
 }

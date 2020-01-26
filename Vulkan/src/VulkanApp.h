@@ -16,7 +16,6 @@
 
 #include "engine/Debug.h"
 #include "engine/Loader.h"
-#include "engine/Window.h"
 #include "engine/Input.h"
 #include "engine/vulkan/PhysicalDevice.h"
 #include "engine/vulkan/ValidationLayer.h"
@@ -102,9 +101,9 @@ private:
 
 	// RAII
 	Debug* debug;
-	Window* window;
-	Hazel::Window* hzWindow;
 	Instance* instance;
+	Hazel::Window* window;
+	GLFWwindow* windowHandler;
 	Surface* surface;
 	Loader* loader;
 	PhysicalDevice* physicalDevice;

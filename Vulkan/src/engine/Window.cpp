@@ -34,7 +34,7 @@ Window::Window()
 		{
 			auto app = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
 
-			Input::get()->m_Keys[key] = action != GLFW_RELEASE;
+			Input::Get()->m_Keys[key] = action != GLFW_RELEASE;
 
 			switch (action)
 			{
@@ -60,7 +60,7 @@ Window::Window()
 		{
 			auto app = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
 
-			Input::get()->m_MouseButtons[button] = action != GLFW_RELEASE;
+			Input::Get()->m_MouseButtons[button] = action != GLFW_RELEASE;
 
 			switch (action)
 			{
@@ -88,7 +88,7 @@ Window::Window()
 		{
 			auto app = reinterpret_cast<Window*>(glfwGetWindowUserPointer(window));
 
-			Input::get()->setMousePosition((float)xPos, (float)yPos);
+			Input::Get()->SetMousePosition((float)xPos, (float)yPos);
 
 			app->OnMouseMoved((float)xPos, (float)yPos);
 			// TODO
