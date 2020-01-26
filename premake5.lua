@@ -2,6 +2,7 @@
 
 workspace "Hazel"
 	architecture "x64"
+	startproject "Sandbox"
 
 	configurations
 	{
