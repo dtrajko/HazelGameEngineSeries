@@ -130,7 +130,7 @@ private:
 public:
 
 	VulkanApp();
-	void run();
+	void Run();
 	~VulkanApp();
 
 private:
@@ -147,7 +147,6 @@ private:
 	// Uniform buffers
 	void updateUniformBuffer(uint32_t currentImage, UniformBuffer uniformBuffer);
 
-	void mainLoop();
 	void drawFrame(Device* device);
 
 	void cleanup();

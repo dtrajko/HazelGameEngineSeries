@@ -1,17 +1,24 @@
 #include "VulkanApp.h"
 
-#include "engine/Print.h"
-#include "engine/Input.h"
+#include "Hazel/Window.h"
+#include "Hazel/Core.h"
 
 
-VulkanApp::VulkanApp() : Hazel::Application()
+#define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
+
+VulkanApp::VulkanApp()
 {
 	PushLayer(new VulkanLayer());
-	PushOverlay(new Hazel::ImGuiLayer());
+	// PushOverlay(new Hazel::ImGuiLayer());
+
+	window = &(Application::Get().GetWindow());
+	windowHandler = (GLFWwindow*)window->GetNativeWindow();
+
+	initVulkan();
 
 	try
 	{
-		run();
+		Run();
 	}
 	catch (const std::exception & e)
 	{
@@ -19,27 +26,18 @@ VulkanApp::VulkanApp() : Hazel::Application()
 	}
 }
 
-void VulkanApp::run()
-{
-	window = &(Application::Get().GetWindow());
-	windowHandler = (GLFWwindow*)window->GetNativeWindow();
-
-	initVulkan();
-	mainLoop();
-	cleanup();
-}
-
-void VulkanApp::mainLoop()
+void VulkanApp::Run()
 {
 	while (!glfwWindowShouldClose(windowHandler))
 	{
 		std::cout << "Vulkan Main Loop running!" << std::endl;
 		glfwPollEvents();
-		Input::Get()->update();
 		drawFrame(device);
 	}
 
 	vkDeviceWaitIdle(device->m_Device);
+
+	cleanup();
 }
 
 VulkanApp::~VulkanApp()
