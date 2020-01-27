@@ -74,7 +74,7 @@ project "Hazel"
 		{
 			"HZ_PLATFORM_WINDOWS",
 			"HZ_BUILD_DLL",
-			-- "GLFW_INCLUDE_NONE"
+			"GLFW_INCLUDE_NONE",
 		}
 
 		postbuildcommands
@@ -118,6 +118,7 @@ project "Sandbox"
 	{
 		"Hazel/vendor/spdlog/include",
 		"Hazel/src",
+		"Hazel/vendor",
 		"%{IncludeDir.glm}",
 	}
 

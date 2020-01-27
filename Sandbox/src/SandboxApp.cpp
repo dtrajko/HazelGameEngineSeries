@@ -1,12 +1,15 @@
 #include <Hazel.h>
 
+#include "imgui/imgui.h"
+
 
 class ExampleLayer : public Hazel::Layer
 {
 
 public:
 
-	ExampleLayer() : Layer("Example")
+	ExampleLayer()
+		: Layer("Example")
 	{
 	
 	}
@@ -15,15 +18,27 @@ public:
 	{
 		if (Hazel::Input::IsKeyPressed(HZ_KEY_TAB))
 		{
-			HZ_INFO("TAB key is pressed!");
+			HZ_INFO("TAB key is pressed (poll)!");
 		}
+	}
+
+	virtual void OnImGuiRender() override
+	{
+		// ImGui::Begin("Test");
+		// ImGui::Text("Hello World");
+		// ImGui::End();
 	}
 
 	void OnEvent(Hazel::Event& event) override
 	{
-		// HZ_TRACE("{0}", event);
+		if (event.GetEventType() == Hazel::EventType::KeyPressed)
+		{
+			Hazel::KeyPressedEvent& e = (Hazel::KeyPressedEvent&)event;
+			if (e.GetKeyCode() == HZ_KEY_TAB)
+				HZ_TRACE("Tab key is pressed (event)!");
+			HZ_TRACE("{0}", (char)e.GetKeyCode());
+		}
 	}
-
 };
 
 class Sandbox : public Hazel::Application
@@ -31,14 +46,7 @@ class Sandbox : public Hazel::Application
 public:
 	Sandbox()
 	{
-		// Hazel::Log::GetCoreLogger()->warn("Core Logger initialized!");
-		// Hazel::Log::GetClientLogger()->info("Client Logger initialized!");
-		HZ_CORE_WARN("Core Logger (Macro) initialized!");
-		int a = 5;
-		HZ_INFO("Client Logger (Macro) initialized! Var={0}", a);
-
 		PushLayer(new ExampleLayer());
-		PushOverlay(new Hazel::ImGuiLayer());
 	}
 
 	~Sandbox()
