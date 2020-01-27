@@ -49,6 +49,9 @@
     <ClInclude Include="src\Hazel\Input.h">
       <Filter>Hazel</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\KeyCodes.h">
+      <Filter>Hazel</Filter>
+    </ClInclude>
     <ClInclude Include="src\Hazel\Layer.h">
       <Filter>Hazel</Filter>
     </ClInclude>
@@ -56,6 +59,9 @@
       <Filter>Hazel</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Log.h">
+      <Filter>Hazel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\MouseButtonCodes.h">
       <Filter>Hazel</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Platform\OpenGL\ImGuiOpenGLRenderer.h">
