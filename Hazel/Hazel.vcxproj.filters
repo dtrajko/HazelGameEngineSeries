@@ -19,6 +19,9 @@
     <Filter Include="src\Hazel\Platform\OpenGL">
       <UniqueIdentifier>{F856A5C4-6419-D94E-ADC9-67DB19CBB12C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Hazel\Platform\Vulkan">
+      <UniqueIdentifier>{44BB57D5-B07D-8B5F-F92D-1AEC652F643D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Hazel\Platform\Windows">
       <UniqueIdentifier>{7E106CB1-6A20-1882-D3D9-7CA0BF08071B}</UniqueIdentifier>
     </Filter>
@@ -95,6 +98,9 @@
     </ClInclude>
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLContext.h">
       <Filter>src\Hazel\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Platform\Vulkan\VulkanContext.h">
+      <Filter>src\Hazel\Platform\Vulkan</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Platform\Windows\WindowsInput.h">
       <Filter>src\Hazel\Platform\Windows</Filter>
@@ -1237,6 +1243,9 @@
     </ClCompile>
     <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLContext.cpp">
       <Filter>src\Hazel\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Platform\Vulkan\VulkanContext.cpp">
+      <Filter>src\Hazel\Platform\Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Hazel\Platform\Windows</Filter>
