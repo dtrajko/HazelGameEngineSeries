@@ -59,7 +59,7 @@ bool PhysicalDevice::isDeviceSuitable(VkPhysicalDevice hPhysicalDevice, VkSurfac
 	VkPhysicalDeviceFeatures supportedFeatures;
 	vkGetPhysicalDeviceFeatures(hPhysicalDevice, &supportedFeatures);
 
-	Print::printSwapChainSupport(swapChainAdequate, swapChainSupport);
+	// Print::printSwapChainSupport(swapChainAdequate, swapChainSupport);
 
 	return indices.isComplete() && extensionsSupported && swapChainAdequate && supportedFeatures.samplerAnisotropy;
 }
@@ -104,14 +104,12 @@ bool PhysicalDevice::checkDeviceExtensionSupport(VkPhysicalDevice hPhysicalDevic
 
 	std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
 
-	std::cout << std::endl;
-	std::cout << "Device Extension Support: " << std::endl;
-
 	for (const auto& extension : availableExtensions)
 	{
 		requiredExtensions.erase(extension.extensionName);
-		std::cout << "\t" << "extensionName: " << extension.extensionName << std::endl;
 	}
+
+	// Print::deviceExtensionSupport(availableExtensions);
 
 	return requiredExtensions.empty();
 }
@@ -140,7 +138,7 @@ int PhysicalDevice::rateDeviceSuitability()
 		score = 0;
 	}
 
-	Print::printDeviceProperties(deviceProperties, deviceFeatures, score);
+	// Print::printDeviceProperties(deviceProperties, deviceFeatures, score);
 
 	return score;
 }

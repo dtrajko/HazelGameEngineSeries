@@ -12,8 +12,8 @@ public:
 	// GLFW
 	GLFWwindow* m_Window;
 
-	const int WIDTH = 1280;
-	const int HEIGHT = 720;
+	const int WIDTH = 100;
+	const int HEIGHT = 100;
 
 	// Framebuffers
 	bool framebufferResized = false; // used to recreate the swap chain

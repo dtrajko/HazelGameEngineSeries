@@ -2,6 +2,7 @@
 
 #include "Hazel/Window.h"
 #include "Hazel/Core.h"
+#include "engine/Print.h"
 
 
 #define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
@@ -30,7 +31,6 @@ void VulkanApp::Run()
 {
 	while (!glfwWindowShouldClose(windowHandler))
 	{
-		std::cout << "Vulkan Main Loop running!" << std::endl;
 		glfwPollEvents();
 		drawFrame(device);
 	}
@@ -53,6 +53,7 @@ void VulkanApp::initVulkan()
 	loader = new Loader();
 	imageFactory = new ImageFactory();
 	physicalDevice = new PhysicalDevice(instance->hInstance, surface->m_surfaceKHR, imageFactory->msaaSamples);
+	printDevicePropertiesBasic(physicalDevice->m_Device);
 	device = new Device(physicalDevice, surface->m_surfaceKHR, enableValidationLayers);
 	swapChain = new SwapChain(windowHandler, physicalDevice, device->m_Device, surface);
 	swapChain->createImageViews(device->m_Device);
@@ -76,6 +77,17 @@ void VulkanApp::initVulkan()
 	commandPool->createCommandBuffers(device->m_Device, loader, renderPass->m_RenderPass, swapChain, framebuffer.swapChainFramebuffers,
 		graphicsPipeline->m_Pipeline, graphicsPipeline->m_PipelineLayout->m_PipelineLayout, vertexBuffer, indexBuffer, descriptorSet);
 	createSyncObjects();
+}
+
+void VulkanApp::printDevicePropertiesBasic(VkPhysicalDevice physicalDevice)
+{
+	VkPhysicalDeviceProperties deviceProperties;
+	vkGetPhysicalDeviceProperties(physicalDevice, &deviceProperties);
+
+	HZ_CORE_INFO("Vulkan Info:");
+	HZ_CORE_INFO("   Vendor: {0}", deviceProperties.vendorID);
+	HZ_CORE_INFO("   Renderer: {0}", deviceProperties.deviceName);
+	HZ_CORE_INFO("   Version: {0}", deviceProperties.apiVersion);
 }
 
 void VulkanApp::updateUniformBuffer(uint32_t currentImage, UniformBuffer uniformBuffer)

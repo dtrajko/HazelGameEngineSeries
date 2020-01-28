@@ -28,9 +28,6 @@
     <ClInclude Include="src\engine\Vertex.h">
       <Filter>engine</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\Window.h">
-      <Filter>engine</Filter>
-    </ClInclude>
     <ClInclude Include="src\engine\vulkan\Buffer.h">
       <Filter>engine\vulkan</Filter>
     </ClInclude>
@@ -119,9 +116,6 @@
       <Filter>engine</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\Timer.cpp">
-      <Filter>engine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\engine\Window.cpp">
       <Filter>engine</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\vulkan\Buffer.cpp">

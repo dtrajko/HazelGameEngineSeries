@@ -2,6 +2,8 @@
 
 #include "imgui/imgui.h"
 
+#define GRAPHICS_API_OPENGL
+
 
 class ExampleLayer : public Hazel::Layer
 {
@@ -46,6 +48,8 @@ class Sandbox : public Hazel::Application
 public:
 	Sandbox()
 	{
+		Application::s_Graphics_API = GraphicsAPI::OPENGL;
+
 		PushLayer(new ExampleLayer());
 	}
 

@@ -6,7 +6,9 @@
 #include "Hazel/Events/MouseEvent.h"
 #include "Hazel/Events/KeyEvent.h"
 
+#include "Hazel/Application.h"
 #include "Hazel/Platform/OpenGL/OpenGLContext.h"
+#include "Hazel/Platform/Vulkan/VulkanContext.h"
 
 #include <GLFW/glfw3.h>
 
@@ -52,9 +54,23 @@ namespace Hazel {
 			s_GLFWInitialized = true;
 		}
 
+		if (Application::s_Graphics_API == GraphicsAPI::VULKAN)
+		{
+			// required for vulkan: don't init OpenGL by default
+			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+			glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+		}
+
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 
-		m_Context = new OpenGLContext(m_Window);
+		if (Application::s_Graphics_API == GraphicsAPI::OPENGL)
+		{
+			m_Context = new OpenGLContext(m_Window);
+		}
+		else if (Application::s_Graphics_API == GraphicsAPI::VULKAN)
+		{
+			m_Context = new VulkanContext(m_Window);
+		}
 		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
@@ -151,6 +167,8 @@ namespace Hazel {
 	}
 	void WindowsWindow::Shutdown()
 	{
+		if (Application::s_Graphics_API != GraphicsAPI::OPENGL) return;
+
 		glfwDestroyWindow(m_Window);
 	}
 
@@ -162,6 +180,8 @@ namespace Hazel {
 
 	void WindowsWindow::SetVSync(bool enabled)
 	{
+		if (Application::s_Graphics_API != GraphicsAPI::OPENGL) return;
+
 		if (enabled)
 			glfwSwapInterval(1);
 		else

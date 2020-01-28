@@ -13,6 +13,17 @@ class Print
 
 public:
 
+	static void deviceExtensionSupport(std::vector<VkExtensionProperties> availableExtensions)
+	{
+		std::cout << std::endl;
+		std::cout << "Device Extension Support: " << std::endl;
+
+		for (const auto& extension : availableExtensions)
+		{
+			std::cout << "\t" << "extensionName: " << extension.extensionName << std::endl;
+		}
+	}
+
 	static void printDeviceProperties(
 		VkPhysicalDeviceProperties deviceProperties,
 		VkPhysicalDeviceFeatures deviceFeatures,

@@ -9,10 +9,19 @@
 #include "Hazel/ImGui/ImGuiLayer.h"
 
 
-namespace Hazel {
+enum class GraphicsAPI
+{
+	OPENGL,
+	VULKAN,
+};
+
+
+namespace Hazel
+{
 
 	class HAZEL_API Application
 	{
+
 	public:
 		Application();
 		virtual ~Application();
@@ -34,6 +43,9 @@ namespace Hazel {
 
 		bool OnWindowClose(WindowCloseEvent& e);
 
+		// temporary
+		void DrawOpenGLTriangle();
+
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
@@ -46,6 +58,10 @@ namespace Hazel {
 	private:
 
 		static Application* s_Instance;
+
+	public:
+
+		static GraphicsAPI s_Graphics_API;
 
 	};
 

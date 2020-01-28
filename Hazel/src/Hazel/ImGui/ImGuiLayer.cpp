@@ -18,7 +18,10 @@ namespace Hazel
 	ImGuiLayer::ImGuiLayer()
 		: Layer("ImGuiLayer")
 	{
-	
+		if (Application::s_Graphics_API != GraphicsAPI::OPENGL)
+		{
+			std::runtime_error("ImGuiLayer requires OpenGL to run!");
+		}
 	}
 
 	ImGuiLayer::~ImGuiLayer()

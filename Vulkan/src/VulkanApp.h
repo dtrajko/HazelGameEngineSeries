@@ -45,6 +45,8 @@
 
 #include "Hazel/Window.h"
 
+#define GRAPHICS_API_VULKAN
+
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
 
@@ -137,6 +139,8 @@ private:
 
 	void initVulkan();
 
+	void printDevicePropertiesBasic(VkPhysicalDevice physicalDevice);
+
 	// Swap chain support
 	void cleanupSwapChain(UniformBuffer uniformBuffer);
 	void recreateSwapChain();
@@ -155,5 +159,7 @@ private:
 
 Hazel::Application* Hazel::CreateApplication()
 {
+	Application::s_Graphics_API = GraphicsAPI::VULKAN;
+
 	return new VulkanApp();
 }

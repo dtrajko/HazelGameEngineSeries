@@ -144,7 +144,6 @@
     <ClInclude Include="src\engine\Print.h" />
     <ClInclude Include="src\engine\Timer.h" />
     <ClInclude Include="src\engine\Vertex.h" />
-    <ClInclude Include="src\engine\Window.h" />
     <ClInclude Include="src\engine\vulkan\Buffer.h" />
     <ClInclude Include="src\engine\vulkan\CommandBuffer.h" />
     <ClInclude Include="src\engine\vulkan\CommandPool.h" />
@@ -177,7 +176,6 @@
     <ClCompile Include="src\engine\Input.cpp" />
     <ClCompile Include="src\engine\Loader.cpp" />
     <ClCompile Include="src\engine\Timer.cpp" />
-    <ClCompile Include="src\engine\Window.cpp" />
     <ClCompile Include="src\engine\vulkan\Buffer.cpp" />
     <ClCompile Include="src\engine\vulkan\CommandBuffer.cpp" />
     <ClCompile Include="src\engine\vulkan\CommandPool.cpp" />
