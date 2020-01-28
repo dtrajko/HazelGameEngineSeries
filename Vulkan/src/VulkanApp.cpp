@@ -1,6 +1,7 @@
 #include "VulkanApp.h"
 
 #include "Hazel/Window.h"
+#include "Hazel/Input.h"
 #include "Hazel/Core.h"
 #include "engine/Print.h"
 
@@ -99,34 +100,34 @@ void VulkanApp::updateUniformBuffer(uint32_t currentImage, UniformBuffer uniform
 
 	// std::cout << "Input mouseX: " << Input::get()->mouseX << ", mouseY: " << Input::get()->mouseY << std::endl;
 
-	if (Input::Get()->IsKeyPressed(GLFW_KEY_A))
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_A))
 	{
-		std::cout << "Move LEFT" << std::endl;
-		positionX -= 0.1f;
+		positionX -= movementSpeed;
+		std::cout << "Move LEFT " << positionX << std::endl;
 	}
 
-	if (Input::Get()->IsKeyPressed(GLFW_KEY_D))
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_D))
 	{
-		std::cout << "Move RIGHT" << std::endl;
-		positionX += 0.1f;
+		positionX += movementSpeed;
+		std::cout << "Move RIGHT " << positionX << std::endl;
 	}
 
-	if (Input::Get()->IsKeyPressed(GLFW_KEY_W))
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_W))
 	{
-		std::cout << "Move UP" << std::endl;
-		positionZ -= 0.1f;
+		positionZ -= movementSpeed;
+		std::cout << "Move UP " << positionZ << std::endl;
 	}
 
-	if (Input::Get()->IsKeyPressed(GLFW_KEY_S))
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_S))
 	{
-		std::cout << "Move DOWN" << std::endl;
-		positionZ += 0.1f;
+		positionZ += movementSpeed;
+		std::cout << "Move DOWN " << positionZ << std::endl;
 	}
 
 	UniformBufferObject ubo = {};
 	ubo.model = glm::rotate(glm::mat4(0.1f), time * glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	ubo.view = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f + positionZ), glm::vec3(0.0f + positionX, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	ubo.proj = glm::perspective(glm::radians(45.0f), (float)swapChain->swapChainExtent.width / (float)swapChain->swapChainExtent.height, 0.1f, 10.0f);
+	ubo.proj = glm::perspective(glm::radians(45.0f), (float)swapChain->swapChainExtent.width / (float)swapChain->swapChainExtent.height, 0.1f, 20.0f);
 	ubo.proj[1][1] *= -1;
 
 	void* data;

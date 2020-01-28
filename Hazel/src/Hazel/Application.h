@@ -8,6 +8,8 @@
 
 #include "Hazel/ImGui/ImGuiLayer.h"
 
+#include "Hazel/Renderer/Shader.h"
+
 
 enum class GraphicsAPI
 {
@@ -54,6 +56,8 @@ namespace Hazel
 		unsigned int m_VertexArray;
 		unsigned int m_VertexBuffer;
 		unsigned int m_IndexBuffer;
+
+		std::unique_ptr<Shader> m_Shader;
 
 	private:
 

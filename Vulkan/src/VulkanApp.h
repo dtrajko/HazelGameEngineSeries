@@ -16,7 +16,6 @@
 
 #include "engine/Debug.h"
 #include "engine/Loader.h"
-#include "engine/Input.h"
 #include "engine/vulkan/PhysicalDevice.h"
 #include "engine/vulkan/ValidationLayer.h"
 #include "engine/vulkan/Surface.h"
@@ -44,8 +43,6 @@
 #include "engine/vulkan/GraphicsPipeline.h"
 
 #include "Hazel/Window.h"
-
-#define GRAPHICS_API_VULKAN
 
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
@@ -127,6 +124,7 @@ private:
 	// movement
 	float positionX = 0.0f;
 	float positionZ = 0.0f;
+	float movementSpeed = 0.002f;
 
 
 public:

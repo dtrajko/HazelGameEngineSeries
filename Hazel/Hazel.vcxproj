@@ -160,6 +160,7 @@
     <ClInclude Include="src\Hazel\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Hazel\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Hazel\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Hazel\Renderer\Shader.h" />
     <ClInclude Include="src\Hazel\Window.h" />
     <ClInclude Include="src\hzpch.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
@@ -542,6 +543,7 @@
     <ClCompile Include="src\Hazel\Platform\Vulkan\VulkanContext.cpp" />
     <ClCompile Include="src\Hazel\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Hazel\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\Hazel\Renderer\Shader.cpp" />
     <ClCompile Include="src\hzpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

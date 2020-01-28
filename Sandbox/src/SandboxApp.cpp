@@ -2,8 +2,6 @@
 
 #include "imgui/imgui.h"
 
-#define GRAPHICS_API_OPENGL
-
 
 class ExampleLayer : public Hazel::Layer
 {
