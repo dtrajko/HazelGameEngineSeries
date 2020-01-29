@@ -122,22 +122,28 @@ namespace Hazel {
 	{
 		while (m_Running)
 		{
-			glClearColor(0.1f, 0.1f, 0.2f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			if (s_Graphics_API == GraphicsAPI::OPENGL)
+			{
+				glClearColor(0.1f, 0.1f, 0.2f, 1);
+				glClear(GL_COLOR_BUFFER_BIT);
 
-			m_Shader->Bind();
-			glBindVertexArray(m_VertexArray);
-			glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+				m_Shader->Bind();
+				glBindVertexArray(m_VertexArray);
+				glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+			}
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 
 			auto [x, y] = Input::GetMousePosition();
 
-			m_ImGuiLayer->Begin();
-			for (Layer* layer : m_LayerStack)
-				layer->OnImGuiRender();
-			m_ImGuiLayer->End();
+			if (s_Graphics_API == GraphicsAPI::OPENGL)
+			{
+				m_ImGuiLayer->Begin();
+				for (Layer* layer : m_LayerStack)
+					layer->OnImGuiRender();
+				m_ImGuiLayer->End();
+			}
 
 			m_Window->OnUpdate();
 		}

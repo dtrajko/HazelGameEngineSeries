@@ -56,29 +56,6 @@ const bool enableValidationLayers = false;
 
 class VulkanLayer : public Hazel::Layer
 {
-
-public:
-
-	VulkanLayer() : Layer("VulkanLayer")
-	{
-	
-	}
-
-	void OnUpdate() override
-	{
-		// HZ_INFO("ExampleLayer::Update");
-	}
-
-	void OnEvent(Hazel::Event& event) override
-	{
-		HZ_TRACE("{0}", event);
-	}
-
-};
-
-class VulkanApp : public Hazel::Application
-{
-
 private:
 
 	// Semaphores (for synchronizing swap chain events)
@@ -124,14 +101,14 @@ private:
 	// movement
 	float positionX = 0.0f;
 	float positionZ = 0.0f;
-	float movementSpeed = 0.002f;
-
+	float movementSpeed = 0.02f;
 
 public:
 
-	VulkanApp();
-	void Run();
-	~VulkanApp();
+	VulkanLayer();
+	void OnUpdate() override;
+	void OnEvent(Hazel::Event& event) override;
+	~VulkanLayer();
 
 private:
 
@@ -154,6 +131,18 @@ private:
 	void cleanup();
 
 };
+
+
+class VulkanApp : public Hazel::Application
+{
+
+public:
+
+	VulkanApp();
+	~VulkanApp();
+
+};
+
 
 Hazel::Application* Hazel::CreateApplication()
 {

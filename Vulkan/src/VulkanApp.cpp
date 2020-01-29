@@ -8,45 +8,33 @@
 
 #define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
-VulkanApp::VulkanApp()
-{
-	PushLayer(new VulkanLayer());
-	// PushOverlay(new Hazel::ImGuiLayer());
 
-	window = &(Application::Get().GetWindow());
+VulkanLayer::VulkanLayer() : Layer("VulkanLayer")
+{
+	window = &(Hazel::Application::Get().GetWindow());
 	windowHandler = (GLFWwindow*)window->GetNativeWindow();
 
 	initVulkan();
-
-	try
-	{
-		Run();
-	}
-	catch (const std::exception & e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
 }
 
-void VulkanApp::Run()
+void VulkanLayer::OnUpdate()
 {
-	while (!glfwWindowShouldClose(windowHandler))
-	{
-		glfwPollEvents();
-		drawFrame(device);
-	}
-
+	drawFrame(device);
 	vkDeviceWaitIdle(device->m_Device);
+}
 
+void VulkanLayer::OnEvent(Hazel::Event& event)
+{
+	HZ_TRACE("{0}", event);
+}
+
+VulkanLayer::~VulkanLayer()
+{
 	cleanup();
 }
 
-VulkanApp::~VulkanApp()
-{
 
-}
-
-void VulkanApp::initVulkan()
+void VulkanLayer::initVulkan()
 {
 	instance = new Instance(enableValidationLayers, validationLayers, validationLayer);
 	debug = new Debug(instance->hInstance, enableValidationLayers);
@@ -80,7 +68,7 @@ void VulkanApp::initVulkan()
 	createSyncObjects();
 }
 
-void VulkanApp::printDevicePropertiesBasic(VkPhysicalDevice physicalDevice)
+void VulkanLayer::printDevicePropertiesBasic(VkPhysicalDevice physicalDevice)
 {
 	VkPhysicalDeviceProperties deviceProperties;
 	vkGetPhysicalDeviceProperties(physicalDevice, &deviceProperties);
@@ -91,7 +79,7 @@ void VulkanApp::printDevicePropertiesBasic(VkPhysicalDevice physicalDevice)
 	HZ_CORE_INFO("   Version: {0}", deviceProperties.apiVersion);
 }
 
-void VulkanApp::updateUniformBuffer(uint32_t currentImage, UniformBuffer uniformBuffer)
+void VulkanLayer::updateUniformBuffer(uint32_t currentImage, UniformBuffer uniformBuffer)
 {
 	static auto startTime = std::chrono::high_resolution_clock::now();
 
@@ -136,7 +124,7 @@ void VulkanApp::updateUniformBuffer(uint32_t currentImage, UniformBuffer uniform
 	vkUnmapMemory(device->m_Device, uniformBuffer.uniformBuffersMemory[currentImage]);
 }
 
-void VulkanApp::createSyncObjects()
+void VulkanLayer::createSyncObjects()
 {
 	imageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
 	renderFinishedSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
@@ -169,7 +157,7 @@ void VulkanApp::createSyncObjects()
 	}
 }
 
-void VulkanApp::drawFrame(Device* device)
+void VulkanLayer::drawFrame(Device* device)
 {
 	vkWaitForFences(device->m_Device, 1, &inFlightFences[currentFrame], VK_TRUE, UINT64_MAX);
 
@@ -247,7 +235,7 @@ void VulkanApp::drawFrame(Device* device)
 	currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT;
 }
 
-void VulkanApp::cleanupSwapChain(UniformBuffer uniformBuffer)
+void VulkanLayer::cleanupSwapChain(UniformBuffer uniformBuffer)
 {
 	// imageFactory->cleanUp(device->m_Device);
 
@@ -277,7 +265,7 @@ void VulkanApp::cleanupSwapChain(UniformBuffer uniformBuffer)
 	vkDestroyDescriptorPool(device->m_Device, descriptorPool->m_DescriptorPool, nullptr);
 }
 
-void VulkanApp::recreateSwapChain()
+void VulkanLayer::recreateSwapChain()
 {
 	int width = 0, height = 0;
 	glfwGetFramebufferSize(windowHandler, &width, &height);
@@ -306,7 +294,7 @@ void VulkanApp::recreateSwapChain()
 		graphicsPipeline->m_Pipeline, graphicsPipeline->m_PipelineLayout->m_PipelineLayout, vertexBuffer, indexBuffer, descriptorSet);
 }
 
-void VulkanApp::cleanup()
+void VulkanLayer::cleanup()
 {
 	delete imageFactory;
 
@@ -336,4 +324,15 @@ void VulkanApp::cleanup()
 	glfwDestroyWindow(windowHandler);
 
 	glfwTerminate();
+}
+
+
+VulkanApp::VulkanApp()
+{
+	PushLayer(new VulkanLayer());
+	// PushOverlay(new Hazel::ImGuiLayer());
+}
+
+VulkanApp::~VulkanApp()
+{
 }
