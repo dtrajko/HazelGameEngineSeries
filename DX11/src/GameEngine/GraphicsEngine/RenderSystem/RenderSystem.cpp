@@ -21,6 +21,7 @@
 #include <d3d11.h>
 #include <d3dcompiler.h>
 #include <exception>
+#include <iostream>
 
 
 RenderSystem::RenderSystem()
@@ -62,6 +63,14 @@ RenderSystem::RenderSystem()
 	m_d3d_device->QueryInterface(__uuidof(IDXGIDevice), (void**)&m_dxgi_device);
 	m_dxgi_device->GetParent(__uuidof(IDXGIAdapter), (void**)&m_dxgi_adapter);
 	m_dxgi_adapter->GetParent(__uuidof(IDXGIFactory), (void**)&m_dxgi_factory);
+
+	DXGI_ADAPTER_DESC adapterDescription;
+	m_dxgi_adapter->GetDesc(&adapterDescription);
+
+	std::cout << "DirectX 11 Info:" << std::endl;
+	std::cout << "   Vendor: " << adapterDescription.VendorId << std::endl;
+	std::cout << "   Renderer: " << adapterDescription.Description << std::endl;
+	std::cout << "   Version: " << adapterDescription.Revision << std::endl;
 }
 
 SwapChain* RenderSystem::createSwapChain(HWND hwnd, UINT width, UINT height)

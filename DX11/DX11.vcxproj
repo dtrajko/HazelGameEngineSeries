@@ -152,7 +152,6 @@
     <ClInclude Include="src\GameEngine\Math\Point.h" />
     <ClInclude Include="src\GameEngine\Math\Vector3D.h" />
     <ClInclude Include="src\GameEngine\Math\Vector4D.h" />
-    <ClInclude Include="src\GameEngine\WindowingSystem\Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DX11App.cpp" />
@@ -167,7 +166,6 @@
     <ClCompile Include="src\GameEngine\GraphicsEngine\RenderSystem\VertexShader\VertexShader.cpp" />
     <ClCompile Include="src\GameEngine\GraphicsEngine\Timer\Timer.cpp" />
     <ClCompile Include="src\GameEngine\InputSystem\InputSystem.cpp" />
-    <ClCompile Include="src\GameEngine\WindowingSystem\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Hazel\Hazel.vcxproj">

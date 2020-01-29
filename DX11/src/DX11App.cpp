@@ -32,30 +32,37 @@ struct constant
 
 #define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
-DX11App::DX11App()
+
+DX11Layer::DX11Layer()
+	: Layer("DirectX 11 Layer")
 {
-	PushLayer(new DX11Layer());
-	// PushOverlay(new Hazel::ImGuiLayer());
-
-	window = &(Application::Get().GetWindow());
+	window = &(Hazel::Application::Get().GetWindow());
 	windowHandler = (GLFWwindow*)window->GetNativeWindow();
+	m_hwnd = glfwGetWin32Window(windowHandler);
 
-	m_render_system = GraphicsEngine::get()->getRenderSystem();
-
-	try
-	{
-		Run();
-	}
-	catch (const std::exception & e)
-	{
-		std::cerr << e.what() << std::endl;
-	}
+	Create();
 }
 
-void DX11App::Create()
+void DX11Layer::OnEvent(Hazel::Event& event)
 {
-	RECT rect = this->getClientWindowRect();
-	m_swap_chain = m_render_system->createSwapChain(this->m_hwnd, rect.right - rect.left, rect.bottom - rect.top);
+	HZ_TRACE("{0}", event);
+}
+
+void DX11Layer::Create()
+{
+	m_render_system = GraphicsEngine::get()->getRenderSystem();
+
+	m_swap_chain = m_render_system->createSwapChain(this->m_hwnd,
+		Hazel::Application::Get().GetWindow().GetWidth(),
+		Hazel::Application::Get().GetWindow().GetHeight());
+
+	HZ_ASSERT(m_swap_chain, "Swap chain create failed!");
+
+	width = (float)Hazel::Application::Get().GetWindow().GetWidth();
+	height = (float)Hazel::Application::Get().GetWindow().GetHeight();
+
+	HZ_INFO("Create Display width: {0}", Hazel::Application::Get().GetWindow().GetWidth());
+	HZ_INFO("Create Display height: {0}", Hazel::Application::Get().GetWindow().GetHeight());
 
 	m_world_cam.setTranslation(Vector3D(0.0f, 0.0f, -4.0f));
 
@@ -124,21 +131,20 @@ void DX11App::Create()
 	m_cb = m_render_system->createConstantBuffer(&cc, sizeof(constant));
 }
 
-void DX11App::Run()
-{
-	OnUpdate();
-}
-
-void DX11App::OnUpdate()
+void DX11Layer::OnUpdate()
 {
 	// Clear the render target
 	m_render_system->getImmediateDeviceContext()->clearRenderTargetColor(m_swap_chain, 0.2f, 0.4f, 0.8f, 1);
 
 	// Set Viewport of render target in which we have to draw
-	RECT rect = this->getClientWindowRect();
-	m_render_system->getImmediateDeviceContext()->setViewportSize(rect.right - rect.left, rect.bottom - rect.top);
+	m_render_system->getImmediateDeviceContext()->setViewportSize(
+		Hazel::Application::Get().GetWindow().GetWidth(),
+		Hazel::Application::Get().GetWindow().GetHeight());
 
-	this->Update();
+	// HZ_INFO("OnUpdate Display width: {0}", Hazel::Application::Get().GetWindow().GetWidth());
+	// HZ_INFO("OnUpdate Display height: {0}", Hazel::Application::Get().GetWindow().GetHeight());
+
+	this->UpdateScene();
 
 	m_render_system->getImmediateDeviceContext()->setConstantBuffer(m_vs, m_cb);
 	m_render_system->getImmediateDeviceContext()->setConstantBuffer(m_ps, m_cb);
@@ -164,8 +170,35 @@ void DX11App::OnUpdate()
 	m_delta_time = m_old_delta ? ((m_new_delta - m_old_delta) / 1000.0f) : 0.0f;
 }
 
-void DX11App::Update()
+void DX11Layer::UpdateScene()
 {
+	m_right = 0.0f;
+	m_forward = 0.0f;
+
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_A))
+	{
+		m_right -= cam_speed;
+		std::cout << "Move LEFT " << m_right << std::endl;
+	}
+
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_D))
+	{
+		m_right += cam_speed;
+		std::cout << "Move RIGHT " << m_right << std::endl;
+	}
+
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_W))
+	{
+		m_forward += cam_speed;
+		std::cout << "Move UP " << m_forward << std::endl;
+	}
+
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_S))
+	{
+		m_forward -= cam_speed;
+		std::cout << "Move DOWN " << m_forward << std::endl;
+	}
+
 	constant cc;
 	cc.m_time = (unsigned int)::GetTickCount64();
 
@@ -175,14 +208,6 @@ void DX11App::Update()
 	Matrix4x4 world_cam;
 	world_cam.setIdentity();
 
-	temp.setIdentity();
-	temp.setRotationX(m_rot_x);
-	world_cam *= temp;
-
-	temp.setIdentity();
-	temp.setRotationY(m_rot_y);
-	world_cam *= temp;
-
 	Vector3D new_pos =
 		m_world_cam.getTranslation() +
 		world_cam.getXDirection() * (m_right * cam_speed) +
@@ -191,10 +216,13 @@ void DX11App::Update()
 	world_cam.setTranslation(new_pos);
 	m_world_cam = world_cam;
 	world_cam.inverse();
-
 	cc.m_view = world_cam;
 
-	float fov = 1.0f; // 1.57f;
+	temp.setIdentity();
+	temp.setRotationY((float)cc.m_time * 0.001f);
+	cc.m_world *= temp;
+
+	float fov = 0.5f;
 	float aspect = width / height;
 	float znear = 0.1f;
 	float zfar = 100.0f;
@@ -203,14 +231,7 @@ void DX11App::Update()
 	m_cb->update(m_render_system->getImmediateDeviceContext(), &cc);
 }
 
-RECT DX11App::getClientWindowRect()
-{
-	RECT rect;
-	::GetClientRect(this->m_hwnd, &rect);
-	return rect;
-}
-
-DX11App::~DX11App()
+DX11Layer::~DX11Layer()
 {
 	delete m_ps;
 	delete m_vs;
@@ -218,5 +239,15 @@ DX11App::~DX11App()
 	delete m_ib;
 	delete m_vb;
 	delete m_swap_chain;
+}
 
+
+DX11App::DX11App()
+{
+	PushLayer(new DX11Layer());
+	// PushOverlay(new Hazel::ImGuiLayer());
+}
+
+DX11App::~DX11App()
+{
 }
