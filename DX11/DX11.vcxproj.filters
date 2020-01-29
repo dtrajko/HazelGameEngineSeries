@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="GameEngine">
+      <UniqueIdentifier>{D54F7917-C107-BB64-2A0F-94C016E65555}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine">
+      <UniqueIdentifier>{8BAE6F59-F770-A3E3-4021-3270AC227CC1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem">
+      <UniqueIdentifier>{BF39CD2B-AB8B-A41B-94AA-E12B809BBD04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\ConstantBuffer">
+      <UniqueIdentifier>{3231ADE8-9E4D-9FD9-6725-0C47D300099B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\DeviceContext">
+      <UniqueIdentifier>{03F6F0E1-EF34-9B5D-98B7-778F84D550C8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\IndexBuffer">
+      <UniqueIdentifier>{E0F64FD7-CC8A-457F-354F-9F3321028071}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\PixelShader">
+      <UniqueIdentifier>{C7BE5B0D-B352-51B5-1C17-AB6908CA8BA7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\SwapChain">
+      <UniqueIdentifier>{CCD880BE-B881-E8ED-E117-046DCD1F032F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\VertexBuffer">
+      <UniqueIdentifier>{E61E45D7-5230-ED7D-DB81-7FBD479276B7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\RenderSystem\VertexShader">
+      <UniqueIdentifier>{A3CCFEFD-0FDE-A6A4-982F-39E4044030DE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\GraphicsEngine\Timer">
+      <UniqueIdentifier>{9B1BA7C5-07FF-B505-1002-E4417C647C56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\InputSystem">
+      <UniqueIdentifier>{39F6F8CF-25F0-2122-0E5D-B832FAF5878E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\Math">
+      <UniqueIdentifier>{CEE1FBE6-3A6D-69AB-437E-EC9FAF88C5AB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameEngine\WindowingSystem">
+      <UniqueIdentifier>{FFE94F5A-EBF9-FB2A-54B3-604940E2EAC3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\DX11App.h" />
+    <ClInclude Include="src\GameEngine\GraphicsEngine\GraphicsEngine.h">
+      <Filter>GameEngine\GraphicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\GraphicsEngine\Prerequisites.h">
+      <Filter>GameEngine\GraphicsEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\GraphicsEngine\RenderSystem\ConstantBuffer\ConstantBuffer.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\GraphicsEngine\RenderSystem\DeviceContext\DeviceContext.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\DeviceContext</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\GraphicsEngine\RenderSystem\IndexBuffer\IndexBuffer.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\IndexBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\GraphicsEngine\RenderSystem\PixelShader\PixelShader.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\PixelShader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\GraphicsEngine\RenderSystem\RenderSystem.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\GraphicsEngine\RenderSystem\SwapChain\SwapChain.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\SwapChain</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\GraphicsEngine\RenderSystem\VertexBuffer\VertexBuffer.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\VertexBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\GraphicsEngine\RenderSystem\VertexShader\VertexShader.h">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\VertexShader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\GraphicsEngine\Timer\Timer.h">
+      <Filter>GameEngine\GraphicsEngine\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\InputSystem\InputListener.h">
+      <Filter>GameEngine\InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\InputSystem\InputSystem.h">
+      <Filter>GameEngine\InputSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\Math\Matrix4x4.h">
+      <Filter>GameEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\Math\Point.h">
+      <Filter>GameEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\Math\Vector3D.h">
+      <Filter>GameEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\Math\Vector4D.h">
+      <Filter>GameEngine\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameEngine\WindowingSystem\Window.h">
+      <Filter>GameEngine\WindowingSystem</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\DX11App.cpp" />
+    <ClCompile Include="src\GameEngine\GraphicsEngine\GraphicsEngine.cpp">
+      <Filter>GameEngine\GraphicsEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine\GraphicsEngine\RenderSystem\ConstantBuffer\ConstantBuffer.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\ConstantBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine\GraphicsEngine\RenderSystem\DeviceContext\DeviceContext.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\DeviceContext</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine\GraphicsEngine\RenderSystem\IndexBuffer\IndexBuffer.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\IndexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine\GraphicsEngine\RenderSystem\PixelShader\PixelShader.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\PixelShader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine\GraphicsEngine\RenderSystem\RenderSystem.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine\GraphicsEngine\RenderSystem\SwapChain\SwapChain.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\SwapChain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine\GraphicsEngine\RenderSystem\VertexBuffer\VertexBuffer.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\VertexBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine\GraphicsEngine\RenderSystem\VertexShader\VertexShader.cpp">
+      <Filter>GameEngine\GraphicsEngine\RenderSystem\VertexShader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine\GraphicsEngine\Timer\Timer.cpp">
+      <Filter>GameEngine\GraphicsEngine\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine\InputSystem\InputSystem.cpp">
+      <Filter>GameEngine\InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine\WindowingSystem\Window.cpp">
+      <Filter>GameEngine\WindowingSystem</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

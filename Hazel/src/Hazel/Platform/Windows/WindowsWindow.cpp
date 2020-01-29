@@ -9,6 +9,7 @@
 #include "Hazel/Application.h"
 #include "Hazel/Platform/OpenGL/OpenGLContext.h"
 #include "Hazel/Platform/Vulkan/VulkanContext.h"
+#include "Hazel/Platform/DX11/DX11Context.h"
 
 #include <GLFW/glfw3.h>
 
@@ -71,6 +72,11 @@ namespace Hazel {
 		{
 			m_Context = new VulkanContext(m_Window);
 		}
+		else if (Application::s_Graphics_API == GraphicsAPI::DX11)
+		{
+			m_Context = new DX11Context(m_Window);
+		}
+
 		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);

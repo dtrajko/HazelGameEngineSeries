@@ -246,6 +246,8 @@ project "DX11"
 	{
 		"Hazel",
 		"GLFW",
+		"d3d11",
+		"d3dcompiler",
 	}
 
 	libdirs

@@ -15,6 +15,7 @@ enum class GraphicsAPI
 {
 	OPENGL,
 	VULKAN,
+	DX11,
 };
 
 

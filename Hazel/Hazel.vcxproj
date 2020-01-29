@@ -155,6 +155,7 @@
     <ClInclude Include="src\Hazel\LayerStack.h" />
     <ClInclude Include="src\Hazel\Log.h" />
     <ClInclude Include="src\Hazel\MouseButtonCodes.h" />
+    <ClInclude Include="src\Hazel\Platform\DX11\DX11Context.h" />
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Hazel\Platform\Vulkan\VulkanContext.h" />
     <ClInclude Include="src\Hazel\Platform\Windows\WindowsInput.h" />
@@ -539,6 +540,7 @@
     <ClCompile Include="src\Hazel\Layer.cpp" />
     <ClCompile Include="src\Hazel\LayerStack.cpp" />
     <ClCompile Include="src\Hazel\Log.cpp" />
+    <ClCompile Include="src\Hazel\Platform\DX11\DX11Context.cpp" />
     <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Hazel\Platform\Vulkan\VulkanContext.cpp" />
     <ClCompile Include="src\Hazel\Platform\Windows\WindowsInput.cpp" />
