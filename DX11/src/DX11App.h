@@ -61,7 +61,7 @@ private:
 	float m_up = 0.0f;
 	Matrix4x4 m_world_cam;
 
-	float cam_speed = 0.2f;
+	float cam_speed = 0.05f;
 	float mouse_speed = 0.01f;
 
 public:

@@ -40,6 +40,9 @@
     <Filter Include="GameEngine\Math">
       <UniqueIdentifier>{CEE1FBE6-3A6D-69AB-437E-EC9FAF88C5AB}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameEngine\WindowingSystem">
+      <UniqueIdentifier>{FFE94F5A-EBF9-FB2A-54B3-604940E2EAC3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DX11App.h" />
@@ -94,6 +97,9 @@
     <ClInclude Include="src\GameEngine\Math\Vector4D.h">
       <Filter>GameEngine\Math</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameEngine\WindowingSystem\Window.h">
+      <Filter>GameEngine\WindowingSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DX11App.cpp" />
@@ -129,6 +135,9 @@
     </ClCompile>
     <ClCompile Include="src\GameEngine\InputSystem\InputSystem.cpp">
       <Filter>GameEngine\InputSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine\WindowingSystem\Window.cpp">
+      <Filter>GameEngine\WindowingSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

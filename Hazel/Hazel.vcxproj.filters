@@ -102,6 +102,9 @@
     <ClInclude Include="src\Hazel\Platform\DX11\DX11Context.h">
       <Filter>src\Hazel\Platform\DX11</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>src\Hazel\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLContext.h">
       <Filter>src\Hazel\Platform\OpenGL</Filter>
     </ClInclude>
@@ -114,7 +117,13 @@
     <ClInclude Include="src\Hazel\Platform\Windows\WindowsWindow.h">
       <Filter>src\Hazel\Platform\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\Buffer.h">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\GraphicsContext.h">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\Renderer.h">
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\Shader.h">
@@ -1253,6 +1262,9 @@
     <ClCompile Include="src\Hazel\Platform\DX11\DX11Context.cpp">
       <Filter>src\Hazel\Platform\DX11</Filter>
     </ClCompile>
+    <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>src\Hazel\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLContext.cpp">
       <Filter>src\Hazel\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1264,6 +1276,12 @@
     </ClCompile>
     <ClCompile Include="src\Hazel\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\Hazel\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\Buffer.cpp">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\Renderer.cpp">
+      <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\Shader.cpp">
       <Filter>src\Hazel\Renderer</Filter>

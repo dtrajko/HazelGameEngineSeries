@@ -9,6 +9,7 @@
 #include "Hazel/ImGui/ImGuiLayer.h"
 
 #include "Hazel/Renderer/Shader.h"
+#include "Hazel/Renderer/Buffer.h"
 
 
 enum class GraphicsAPI
@@ -17,7 +18,6 @@ enum class GraphicsAPI
 	VULKAN,
 	DX11,
 };
-
 
 namespace Hazel
 {
@@ -55,10 +55,10 @@ namespace Hazel
 		LayerStack m_LayerStack;
 
 		unsigned int m_VertexArray;
-		unsigned int m_VertexBuffer;
-		unsigned int m_IndexBuffer;
 
 		std::unique_ptr<Shader> m_Shader;
+		std::unique_ptr<VertexBuffer> m_VertexBuffer;
+		std::unique_ptr<IndexBuffer> m_IndexBuffer;
 
 	private:
 

@@ -173,30 +173,43 @@ void DX11Layer::OnUpdate()
 void DX11Layer::UpdateScene()
 {
 	m_right = 0.0f;
+	m_up = 0.0f;
 	m_forward = 0.0f;
 
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_A))
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_A) || Hazel::Input::IsKeyPressed(HZ_KEY_LEFT))
 	{
 		m_right -= cam_speed;
 		std::cout << "Move LEFT " << m_right << std::endl;
 	}
 
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_D))
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_D) || Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT))
 	{
 		m_right += cam_speed;
 		std::cout << "Move RIGHT " << m_right << std::endl;
 	}
 
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_W))
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_W) || Hazel::Input::IsKeyPressed(HZ_KEY_UP))
 	{
 		m_forward += cam_speed;
 		std::cout << "Move UP " << m_forward << std::endl;
 	}
 
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_S))
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_S) || Hazel::Input::IsKeyPressed(HZ_KEY_DOWN))
 	{
 		m_forward -= cam_speed;
 		std::cout << "Move DOWN " << m_forward << std::endl;
+	}
+
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_Q))
+	{
+		m_up += cam_speed;
+		std::cout << "Move UP " << m_up << std::endl;
+	}
+
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_E))
+	{
+		m_up -= cam_speed;
+		std::cout << "Move DOWN " << m_up << std::endl;
 	}
 
 	constant cc;
@@ -210,9 +223,9 @@ void DX11Layer::UpdateScene()
 
 	Vector3D new_pos =
 		m_world_cam.getTranslation() +
-		world_cam.getXDirection() * (m_right * cam_speed) +
-		world_cam.getYDirection() * (m_up * cam_speed) +
-		world_cam.getZDirection() * (m_forward * cam_speed);
+		world_cam.getXDirection() * m_right +
+		world_cam.getYDirection() * m_up +
+		world_cam.getZDirection() * m_forward;
 	world_cam.setTranslation(new_pos);
 	m_world_cam = world_cam;
 	world_cam.inverse();
