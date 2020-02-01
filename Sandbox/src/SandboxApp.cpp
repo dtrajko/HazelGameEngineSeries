@@ -2,6 +2,8 @@
 
 #include "imgui/imgui.h"
 
+#include "Hazel/Renderer/RendererAPI.h"
+
 
 class ExampleLayer : public Hazel::Layer
 {
@@ -46,8 +48,6 @@ class Sandbox : public Hazel::Application
 public:
 	Sandbox()
 	{
-		Application::s_Graphics_API = GraphicsAPI::OPENGL;
-
 		PushLayer(new ExampleLayer());
 	}
 
@@ -60,5 +60,7 @@ public:
 
 Hazel::Application* Hazel::CreateApplication()
 {
+	RendererAPI::SetAPI(RendererAPI::API::OpenGL);
+
 	return new Sandbox();
 }

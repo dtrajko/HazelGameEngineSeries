@@ -1,7 +1,7 @@
 #include "hzpch.h"
 
 #include "VulkanContext.h"
-#include "Hazel/Application.h"
+#include "Hazel/Renderer/RendererAPI.h"
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
@@ -15,7 +15,7 @@ namespace Hazel
 	{
 		HZ_CORE_ASSERT(windowHandle, "Window handle is null!");
 
-		Application::s_Graphics_API = GraphicsAPI::VULKAN;
+		RendererAPI::SetAPI(RendererAPI::API::Vulkan);
 	}
 
 	void VulkanContext::Init()

@@ -6,6 +6,7 @@
 #include "examples/imgui_impl_opengl3.h"
 
 #include "Hazel/Application.h"
+#include "Hazel/Renderer/RendererAPI.h"
 
 // Temporary
 #include <glad/glad.h>
@@ -18,7 +19,7 @@ namespace Hazel
 	ImGuiLayer::ImGuiLayer()
 		: Layer("ImGuiLayer")
 	{
-		if (Application::s_Graphics_API != GraphicsAPI::OPENGL)
+		if (RendererAPI::GetAPI() != RendererAPI::API::OpenGL)
 		{
 			std::runtime_error("ImGuiLayer requires OpenGL to run!");
 		}

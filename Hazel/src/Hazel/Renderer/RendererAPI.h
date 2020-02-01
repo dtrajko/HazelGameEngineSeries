@@ -28,6 +28,7 @@ namespace Hazel
 		virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) = 0;
 
 		inline static API GetAPI() { return s_API; };
+		inline static void SetAPI(API api) { s_API = api; };
 
 	private:
 		static API s_API;

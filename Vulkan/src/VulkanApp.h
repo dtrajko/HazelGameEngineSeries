@@ -43,6 +43,7 @@
 #include "engine/vulkan/GraphicsPipeline.h"
 
 #include "Hazel/Window.h"
+#include "Hazel/Renderer/RendererAPI.h"
 
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
@@ -146,7 +147,7 @@ public:
 
 Hazel::Application* Hazel::CreateApplication()
 {
-	Application::s_Graphics_API = GraphicsAPI::VULKAN;
+	RendererAPI::SetAPI(RendererAPI::API::Vulkan);
 
 	return new VulkanApp();
 }

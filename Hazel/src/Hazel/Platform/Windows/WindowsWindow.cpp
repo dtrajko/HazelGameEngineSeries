@@ -7,6 +7,7 @@
 #include "Hazel/Events/KeyEvent.h"
 
 #include "Hazel/Application.h"
+#include "Hazel/Renderer/RendererAPI.h"
 #include "Hazel/Platform/OpenGL/OpenGLContext.h"
 #include "Hazel/Platform/Vulkan/VulkanContext.h"
 #include "Hazel/Platform/DX11/DX11Context.h"
@@ -55,7 +56,7 @@ namespace Hazel {
 			s_GLFWInitialized = true;
 		}
 
-		if (Application::s_Graphics_API == GraphicsAPI::VULKAN)
+		if (RendererAPI::GetAPI() == RendererAPI::API::Vulkan)
 		{
 			// required for vulkan: don't init OpenGL by default
 			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -64,15 +65,15 @@ namespace Hazel {
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 
-		if (Application::s_Graphics_API == GraphicsAPI::OPENGL)
+		if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
 		{
 			m_Context = new OpenGLContext(m_Window);
 		}
-		else if (Application::s_Graphics_API == GraphicsAPI::VULKAN)
+		else if (RendererAPI::GetAPI() == RendererAPI::API::Vulkan)
 		{
 			m_Context = new VulkanContext(m_Window);
 		}
-		else if (Application::s_Graphics_API == GraphicsAPI::DX11)
+		else if (RendererAPI::GetAPI() == RendererAPI::API::DX11)
 		{
 			m_Context = new DX11Context(m_Window);
 		}
@@ -173,7 +174,7 @@ namespace Hazel {
 	}
 	void WindowsWindow::Shutdown()
 	{
-		if (Application::s_Graphics_API != GraphicsAPI::OPENGL) return;
+		if (RendererAPI::GetAPI() != RendererAPI::API::OpenGL) return;
 
 		glfwDestroyWindow(m_Window);
 	}
@@ -186,7 +187,7 @@ namespace Hazel {
 
 	void WindowsWindow::SetVSync(bool enabled)
 	{
-		if (Application::s_Graphics_API != GraphicsAPI::OPENGL) return;
+		if (RendererAPI::GetAPI() != RendererAPI::API::OpenGL) return;
 
 		if (enabled)
 			glfwSwapInterval(1);

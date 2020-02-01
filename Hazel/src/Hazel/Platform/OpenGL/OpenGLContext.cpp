@@ -1,7 +1,7 @@
 #include "hzpch.h"
 
 #include "OpenGLContext.h"
-#include "Hazel/Application.h"
+#include "Hazel/Renderer/RendererAPI.h"
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
@@ -14,7 +14,7 @@ namespace Hazel
 	{
 		HZ_CORE_ASSERT(windowHandle, "Window handle is null!");
 
-		Application::s_Graphics_API = GraphicsAPI::OPENGL;
+		RendererAPI::SetAPI(RendererAPI::API::OpenGL);
 	}
 
 	void OpenGLContext::Init()

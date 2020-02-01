@@ -11,6 +11,8 @@
 #include "Hazel/Renderer/Shader.h"
 #include "Hazel/Renderer/VertexArray.h"
 #include "Hazel/Renderer/Buffer.h"
+#include "Hazel/Renderer/OrthographicCamera.h"
+
 
 
 enum class GraphicsAPI
@@ -20,9 +22,9 @@ enum class GraphicsAPI
 	DX11,
 };
 
+
 namespace Hazel
 {
-
 	class HAZEL_API Application
 	{
 
@@ -49,6 +51,7 @@ namespace Hazel
 
 		// temporary
 		void DrawOpenGLTriangle();
+		void updateInput();
 
 		std::unique_ptr<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
@@ -61,13 +64,13 @@ namespace Hazel
 		std::shared_ptr<Shader> m_BlueShader;
 		std::shared_ptr<VertexArray> m_SquareVA;
 
+		OrthographicCamera m_Camera;
+		glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
+		float m_CameraSpeed = 0.02f;
+
 	private:
 
 		static Application* s_Instance;
-
-	public:
-
-		static GraphicsAPI s_Graphics_API;
 
 	};
 
