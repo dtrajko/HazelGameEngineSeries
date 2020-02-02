@@ -2,7 +2,19 @@
 Hazel Game Engine by TheCherno
 
 
+Draft: Meshes, Materials, Material Instances
+------------------------------------------------------------------------
+
+Hazel::MaterialRef material = new Hazel::Material(m_FlatColorShader);
+Hazel::MaterialInstanceRef mi = new Hazel::MaterialInstance(material);
+mi->Set("u_Color", redColor);
+material->Set("u_Texture", texture);
+material->Set("u_AlbedoMap", albedoMap);
+squareMesh->SetMaterial(mi);
+
+
 Example 1: Responding to events
+------------------------------------------------------------------------
 
 void OnEvent(Hazel::Event& event) override
 {
@@ -17,6 +29,7 @@ void OnEvent(Hazel::Event& event) override
 
 
 Example 2: Responding to keyboard events
+------------------------------------------------------------------------
 
 void OnEvent(Hazel::Event& event) override
 {
