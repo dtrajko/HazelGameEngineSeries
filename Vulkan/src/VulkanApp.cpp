@@ -18,9 +18,11 @@ VulkanLayer::VulkanLayer()
 	InitVulkan();
 }
 
-void VulkanLayer::OnUpdate()
+void VulkanLayer::OnUpdate(Hazel::Timestep timestep)
 {
-	UpdateInputPolling();
+	HZ_TRACE("Delta time: {0} sec, {1} ms", timestep.GetSeconds(), timestep.GetMilliseconds());
+
+	UpdateInputPolling(timestep);
 
 	m_Camera.SetPosition(m_CameraPosition);
 	m_Camera.SetRotation(m_CameraRotation);
@@ -29,42 +31,42 @@ void VulkanLayer::OnUpdate()
 	vkDeviceWaitIdle(device->m_Device);
 }
 
-void VulkanLayer::UpdateInputPolling()
+void VulkanLayer::UpdateInputPolling(Hazel::Timestep timestep)
 {
 	if (Hazel::Input::IsKeyPressed(HZ_KEY_LEFT) || Hazel::Input::IsKeyPressed(HZ_KEY_A))
 	{
-		m_CameraPosition = { m_CameraPosition.x - m_CameraMoveSpeed, m_CameraPosition.y, m_CameraPosition.z };
+		m_CameraPosition.x -= m_CameraMoveSpeed * timestep.GetSeconds();
 	}
 	else if (Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT) || Hazel::Input::IsKeyPressed(HZ_KEY_D))
 	{
-		m_CameraPosition = { m_CameraPosition.x + m_CameraMoveSpeed, m_CameraPosition.y, m_CameraPosition.z };
+		m_CameraPosition.x += m_CameraMoveSpeed * timestep.GetSeconds();
 	}
 
 	if (Hazel::Input::IsKeyPressed(HZ_KEY_UP) || Hazel::Input::IsKeyPressed(HZ_KEY_W))
 	{
-		m_CameraPosition = { m_CameraPosition.x, m_CameraPosition.y, m_CameraPosition.z - m_CameraMoveSpeed };
+		m_CameraPosition.z -= m_CameraMoveSpeed * timestep.GetSeconds();
 	}
 	else if (Hazel::Input::IsKeyPressed(HZ_KEY_DOWN) || Hazel::Input::IsKeyPressed(HZ_KEY_S))
 	{
-		m_CameraPosition = { m_CameraPosition.x, m_CameraPosition.y, m_CameraPosition.z + m_CameraMoveSpeed };
+		m_CameraPosition.z += m_CameraMoveSpeed * timestep.GetSeconds();
 	}
 
 	if (Hazel::Input::IsKeyPressed(HZ_KEY_Q))
 	{
-		m_CameraPosition = { m_CameraPosition.x, m_CameraPosition.y + m_CameraMoveSpeed, m_CameraPosition.z };
+		m_CameraPosition.y += m_CameraMoveSpeed * timestep.GetSeconds();
 	}
 	else if (Hazel::Input::IsKeyPressed(HZ_KEY_E))
 	{
-		m_CameraPosition = { m_CameraPosition.x, m_CameraPosition.y - m_CameraMoveSpeed, m_CameraPosition.z };
+		m_CameraPosition.y -= m_CameraMoveSpeed * timestep.GetSeconds();
 	}
 
 	if (Hazel::Input::IsKeyPressed(HZ_KEY_1))
 	{
-		m_CameraRotation += m_CameraRotationSpeed;
+		m_CameraRotation += m_CameraRotationSpeed * timestep.GetSeconds();
 	}
 	else if (Hazel::Input::IsKeyPressed(HZ_KEY_2))
 	{
-		m_CameraRotation -= m_CameraRotationSpeed;
+		m_CameraRotation -= m_CameraRotationSpeed * timestep.GetSeconds();
 	}
 }
 

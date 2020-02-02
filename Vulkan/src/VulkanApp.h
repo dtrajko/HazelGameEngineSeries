@@ -107,15 +107,15 @@ private:
 	// Camera
 	Hazel::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
-	float m_CameraMoveSpeed = 0.1f;
+	float m_CameraMoveSpeed = 2.0f;
 
 	float m_CameraRotation = 0.0f;
-	float m_CameraRotationSpeed = 1.0f;
+	float m_CameraRotationSpeed = 20.0f;
 
 public:
 
 	VulkanLayer();
-	void OnUpdate() override;
+	void OnUpdate(Hazel::Timestep timestep) override;
 	void OnEvent(Hazel::Event& event) override;
 	~VulkanLayer();
 
@@ -135,7 +135,7 @@ private:
 	// Uniform buffers
 	void UpdateUniformBuffer(uint32_t currentImage, UniformBuffer uniformBuffer);
 
-	void UpdateInputPolling();
+	void UpdateInputPolling(Hazel::Timestep timestep);
 
 	void DrawFrame(Device* device);
 

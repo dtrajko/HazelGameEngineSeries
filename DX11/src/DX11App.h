@@ -45,32 +45,25 @@ private:
 	VertexShader* m_vs;
 	PixelShader* m_ps;
 
-	// Timer
-	float m_old_delta;
-	float m_new_delta;
-	float m_delta_time;
-
-	Matrix4x4 m_world_cam;
-
 	// Camera
 	Hazel::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
-	float m_CameraMoveSpeed = 0.1f;
+	float m_CameraMoveSpeed = 2.0f;
 
 	float m_CameraRotation = 0.0f;
-	float m_CameraRotationSpeed = 1.0f;
+	float m_CameraRotationSpeed = 20.0f;
 
 public:
 
 	DX11Layer();
-	void OnUpdate() override;
+	void OnUpdate(Hazel::Timestep timestep) override;
 	void OnEvent(Hazel::Event& event) override;
 	~DX11Layer();
 
 private:
 
 	void Create();
-	void UpdateInputPolling();
+	void UpdateInputPolling(Hazel::Timestep timestep);
 	void DX11Layer::UpdateScene();
 
 };

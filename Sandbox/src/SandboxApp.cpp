@@ -138,11 +138,13 @@ public:
 		m_BlueShader.reset(new Hazel::Shader(blueShaderVertexSrc, blueShaderFragmentSrc));
 	}
 
-	void OnUpdate() override
+	void OnUpdate(Hazel::Timestep timestep) override
 	{
 		if (Hazel::RendererAPI::GetAPI() != Hazel::RendererAPI::API::OpenGL) return;
 
-		UpdateInputPolling();
+		HZ_TRACE("Delta time: {0} sec, {1} ms", timestep.GetSeconds(), timestep.GetMilliseconds());
+
+		UpdateInputPolling(timestep);
 
 		Hazel::RenderCommand::SetClearColor({ 0.1f, 0.2f, 0.7f, 1.0f });
 		Hazel::RenderCommand::Clear();
@@ -162,33 +164,33 @@ public:
 	{
 	}
 
-	void UpdateInputPolling()
+	void UpdateInputPolling(Hazel::Timestep timestep)
 	{
 		if (Hazel::Input::IsKeyPressed(HZ_KEY_LEFT) || Hazel::Input::IsKeyPressed(HZ_KEY_A))
 		{
-			m_CameraPosition = { m_CameraPosition.x - m_CameraMoveSpeed, m_CameraPosition.y, m_CameraPosition.z };
+			m_CameraPosition.x -= m_CameraMoveSpeed * timestep.GetSeconds();
 		}
 		else if (Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT) || Hazel::Input::IsKeyPressed(HZ_KEY_D))
 		{
-			m_CameraPosition = { m_CameraPosition.x + m_CameraMoveSpeed, m_CameraPosition.y, m_CameraPosition.z };
+			m_CameraPosition.x += m_CameraMoveSpeed * timestep.GetSeconds();
 		}
 
 		if (Hazel::Input::IsKeyPressed(HZ_KEY_UP) || Hazel::Input::IsKeyPressed(HZ_KEY_W))
 		{
-			m_CameraPosition = { m_CameraPosition.x, m_CameraPosition.y + m_CameraMoveSpeed, m_CameraPosition.z };
+			m_CameraPosition.y += m_CameraMoveSpeed * timestep.GetSeconds();
 		}
 		else if (Hazel::Input::IsKeyPressed(HZ_KEY_DOWN) || Hazel::Input::IsKeyPressed(HZ_KEY_S))
 		{
-			m_CameraPosition = { m_CameraPosition.x, m_CameraPosition.y - m_CameraMoveSpeed, m_CameraPosition.z };
+			m_CameraPosition.y -= m_CameraMoveSpeed * timestep.GetSeconds();
 		}
 
 		if (Hazel::Input::IsKeyPressed(HZ_KEY_1))
 		{
-			m_CameraRotation += m_CameraRotationSpeed;
+			m_CameraRotation += m_CameraRotationSpeed * timestep.GetSeconds();
 		}
 		else if (Hazel::Input::IsKeyPressed(HZ_KEY_2))
 		{
-			m_CameraRotation -= m_CameraRotationSpeed;
+			m_CameraRotation -= m_CameraRotationSpeed * timestep.GetSeconds();
 		}
 	}
 
@@ -207,10 +209,10 @@ private:
 
 	Hazel::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
-	float m_CameraMoveSpeed = 0.05f;
+	float m_CameraMoveSpeed = 0.5f;
 
 	float m_CameraRotation = 0.0f;
-	float m_CameraRotationSpeed = 1.0f;
+	float m_CameraRotationSpeed = 10.0f;
 
 };
 

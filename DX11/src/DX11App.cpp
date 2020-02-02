@@ -129,9 +129,11 @@ void DX11Layer::Create()
 	m_cb = m_render_system->createConstantBuffer(&cc, sizeof(constant));
 }
 
-void DX11Layer::OnUpdate()
+void DX11Layer::OnUpdate(Hazel::Timestep timestep)
 {
-	UpdateInputPolling();
+	HZ_TRACE("Delta time: {0} sec, {1} ms", timestep.GetSeconds(), timestep.GetMilliseconds());
+
+	UpdateInputPolling(timestep);
 
 	m_Camera.SetPosition(m_CameraPosition);
 	m_Camera.SetRotation(m_CameraRotation);
@@ -167,48 +169,44 @@ void DX11Layer::OnUpdate()
 	m_render_system->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
 
 	m_swap_chain->present(true);
-
-	m_old_delta = m_new_delta;
-	m_new_delta = (float)::GetTickCount64(); // time in milliseconds
-	m_delta_time = m_old_delta ? ((m_new_delta - m_old_delta) / 1000.0f) : 0.0f;
 }
 
-void DX11Layer::UpdateInputPolling()
+void DX11Layer::UpdateInputPolling(Hazel::Timestep timestep)
 {
 	if (Hazel::Input::IsKeyPressed(HZ_KEY_LEFT) || Hazel::Input::IsKeyPressed(HZ_KEY_A))
 	{
-		m_CameraPosition = { m_CameraPosition.x - m_CameraMoveSpeed, m_CameraPosition.y, m_CameraPosition.z };
+		m_CameraPosition.x -= m_CameraMoveSpeed * timestep.GetSeconds();
 	}
 	else if (Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT) || Hazel::Input::IsKeyPressed(HZ_KEY_D))
 	{
-		m_CameraPosition = { m_CameraPosition.x + m_CameraMoveSpeed, m_CameraPosition.y, m_CameraPosition.z };
+		m_CameraPosition.x += m_CameraMoveSpeed * timestep.GetSeconds();
 	}
 
 	if (Hazel::Input::IsKeyPressed(HZ_KEY_UP) || Hazel::Input::IsKeyPressed(HZ_KEY_W))
 	{
-		m_CameraPosition = { m_CameraPosition.x, m_CameraPosition.y, m_CameraPosition.z + m_CameraMoveSpeed }; // opposite direction in DirectX 11 project?
+		m_CameraPosition.z += m_CameraMoveSpeed * timestep.GetSeconds(); // opposite direction in DirectX 11 project?
 	}
 	else if (Hazel::Input::IsKeyPressed(HZ_KEY_DOWN) || Hazel::Input::IsKeyPressed(HZ_KEY_S))
 	{
-		m_CameraPosition = { m_CameraPosition.x, m_CameraPosition.y, m_CameraPosition.z - m_CameraMoveSpeed }; // opposite direction in DirectX 11 project?
+		m_CameraPosition.z -= m_CameraMoveSpeed * timestep.GetSeconds(); // opposite direction in DirectX 11 project?
 	}
 
 	if (Hazel::Input::IsKeyPressed(HZ_KEY_Q))
 	{
-		m_CameraPosition = { m_CameraPosition.x, m_CameraPosition.y + m_CameraMoveSpeed, m_CameraPosition.z };
+		m_CameraPosition.y += m_CameraMoveSpeed * timestep.GetSeconds();
 	}
 	else if (Hazel::Input::IsKeyPressed(HZ_KEY_E))
 	{
-		m_CameraPosition = { m_CameraPosition.x, m_CameraPosition.y - m_CameraMoveSpeed, m_CameraPosition.z };
+		m_CameraPosition.y -= m_CameraMoveSpeed * timestep.GetSeconds();
 	}
 
 	if (Hazel::Input::IsKeyPressed(HZ_KEY_1))
 	{
-		m_CameraRotation += m_CameraRotationSpeed;
+		m_CameraRotation += m_CameraRotationSpeed * timestep.GetSeconds();
 	}
 	else if (Hazel::Input::IsKeyPressed(HZ_KEY_2))
 	{
-		m_CameraRotation -= m_CameraRotationSpeed;
+		m_CameraRotation -= m_CameraRotationSpeed * timestep.GetSeconds();
 	}
 }
 
@@ -216,6 +214,8 @@ void DX11Layer::UpdateScene()
 {
 	constant cc;
 	cc.m_time = (unsigned int)::GetTickCount64();
+
+	Matrix4x4 m_world_cam;
 
 	cc.m_world.setIdentity();
 	cc.m_view.setIdentity();

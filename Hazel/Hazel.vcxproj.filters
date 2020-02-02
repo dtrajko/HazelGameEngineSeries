@@ -7,6 +7,9 @@
     <Filter Include="src\Hazel">
       <UniqueIdentifier>{F0370AB3-5CA2-BE29-A5E0-6FCF118A9C7E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Hazel\Core">
+      <UniqueIdentifier>{48D253A8-34A0-47AE-1D34-B8D409A12313}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Hazel\Events">
       <UniqueIdentifier>{D495B311-C08E-D263-E9C0-B7E8D518B26F}</UniqueIdentifier>
     </Filter>
@@ -62,6 +65,9 @@
     </ClInclude>
     <ClInclude Include="src\Hazel\Core.h">
       <Filter>src\Hazel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Core\Timestep.h">
+      <Filter>src\Hazel\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\EntryPoint.h">
       <Filter>src\Hazel</Filter>
