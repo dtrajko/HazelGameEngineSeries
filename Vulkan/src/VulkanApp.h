@@ -107,7 +107,7 @@ private:
 	// Camera
 	Hazel::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
-	float m_CameraMoveSpeed = 0.05f;
+	float m_CameraMoveSpeed = 0.1f;
 
 	float m_CameraRotation = 0.0f;
 	float m_CameraRotationSpeed = 1.0f;

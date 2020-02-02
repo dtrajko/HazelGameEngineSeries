@@ -49,22 +49,16 @@ private:
 	float m_old_delta;
 	float m_new_delta;
 	float m_delta_time;
-	float m_delta_pos;
-	float m_delta_rot;
-	float m_delta_scale;
 
-	float m_rot_x = 0.0f;
-	float m_rot_y = 0.0f;
-
-	float m_scale_cube = 1;
-
-	float m_forward = 0.0f;
-	float m_right = 0.0f;
-	float m_up = 0.0f;
 	Matrix4x4 m_world_cam;
 
-	float cam_speed = 0.05f;
-	float mouse_speed = 0.01f;
+	// Camera
+	Hazel::OrthographicCamera m_Camera;
+	glm::vec3 m_CameraPosition;
+	float m_CameraMoveSpeed = 0.1f;
+
+	float m_CameraRotation = 0.0f;
+	float m_CameraRotationSpeed = 1.0f;
 
 public:
 
@@ -76,6 +70,7 @@ public:
 private:
 
 	void Create();
+	void UpdateInputPolling();
 	void DX11Layer::UpdateScene();
 
 };

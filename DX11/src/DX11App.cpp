@@ -34,7 +34,7 @@ struct constant
 
 
 DX11Layer::DX11Layer()
-	: Layer("DirectX 11 Layer")
+	: Layer("DirectX 11 Layer"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f, 0.0f, -10.0f)
 {
 	window = &(Hazel::Application::Get().GetWindow());
 	windowHandler = (GLFWwindow*)window->GetNativeWindow();
@@ -63,8 +63,6 @@ void DX11Layer::Create()
 
 	HZ_INFO("Create Display width: {0}", Hazel::Application::Get().GetWindow().GetWidth());
 	HZ_INFO("Create Display height: {0}", Hazel::Application::Get().GetWindow().GetHeight());
-
-	m_world_cam.setTranslation(Vector3D(0.0f, 0.0f, -4.0f));
 
 	vertex vertex_list[] =
 	{
@@ -133,6 +131,11 @@ void DX11Layer::Create()
 
 void DX11Layer::OnUpdate()
 {
+	UpdateInputPolling();
+
+	m_Camera.SetPosition(m_CameraPosition);
+	m_Camera.SetRotation(m_CameraRotation);
+
 	// Clear the render target
 	m_render_system->getImmediateDeviceContext()->clearRenderTargetColor(m_swap_chain, 0.2f, 0.4f, 0.8f, 1);
 
@@ -170,69 +173,72 @@ void DX11Layer::OnUpdate()
 	m_delta_time = m_old_delta ? ((m_new_delta - m_old_delta) / 1000.0f) : 0.0f;
 }
 
-void DX11Layer::UpdateScene()
+void DX11Layer::UpdateInputPolling()
 {
-	m_right = 0.0f;
-	m_up = 0.0f;
-	m_forward = 0.0f;
-
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_A) || Hazel::Input::IsKeyPressed(HZ_KEY_LEFT))
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_LEFT) || Hazel::Input::IsKeyPressed(HZ_KEY_A))
 	{
-		m_right -= cam_speed;
-		std::cout << "Move LEFT " << m_right << std::endl;
+		m_CameraPosition = { m_CameraPosition.x - m_CameraMoveSpeed, m_CameraPosition.y, m_CameraPosition.z };
+	}
+	else if (Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT) || Hazel::Input::IsKeyPressed(HZ_KEY_D))
+	{
+		m_CameraPosition = { m_CameraPosition.x + m_CameraMoveSpeed, m_CameraPosition.y, m_CameraPosition.z };
 	}
 
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_D) || Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT))
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_UP) || Hazel::Input::IsKeyPressed(HZ_KEY_W))
 	{
-		m_right += cam_speed;
-		std::cout << "Move RIGHT " << m_right << std::endl;
+		m_CameraPosition = { m_CameraPosition.x, m_CameraPosition.y, m_CameraPosition.z + m_CameraMoveSpeed }; // opposite direction in DirectX 11 project?
 	}
-
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_W) || Hazel::Input::IsKeyPressed(HZ_KEY_UP))
+	else if (Hazel::Input::IsKeyPressed(HZ_KEY_DOWN) || Hazel::Input::IsKeyPressed(HZ_KEY_S))
 	{
-		m_forward += cam_speed;
-		std::cout << "Move UP " << m_forward << std::endl;
-	}
-
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_S) || Hazel::Input::IsKeyPressed(HZ_KEY_DOWN))
-	{
-		m_forward -= cam_speed;
-		std::cout << "Move DOWN " << m_forward << std::endl;
+		m_CameraPosition = { m_CameraPosition.x, m_CameraPosition.y, m_CameraPosition.z - m_CameraMoveSpeed }; // opposite direction in DirectX 11 project?
 	}
 
 	if (Hazel::Input::IsKeyPressed(HZ_KEY_Q))
 	{
-		m_up += cam_speed;
-		std::cout << "Move UP " << m_up << std::endl;
+		m_CameraPosition = { m_CameraPosition.x, m_CameraPosition.y + m_CameraMoveSpeed, m_CameraPosition.z };
 	}
-
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_E))
+	else if (Hazel::Input::IsKeyPressed(HZ_KEY_E))
 	{
-		m_up -= cam_speed;
-		std::cout << "Move DOWN " << m_up << std::endl;
+		m_CameraPosition = { m_CameraPosition.x, m_CameraPosition.y - m_CameraMoveSpeed, m_CameraPosition.z };
 	}
 
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_1))
+	{
+		m_CameraRotation += m_CameraRotationSpeed;
+	}
+	else if (Hazel::Input::IsKeyPressed(HZ_KEY_2))
+	{
+		m_CameraRotation -= m_CameraRotationSpeed;
+	}
+}
+
+void DX11Layer::UpdateScene()
+{
 	constant cc;
 	cc.m_time = (unsigned int)::GetTickCount64();
 
 	cc.m_world.setIdentity();
+	cc.m_view.setIdentity();
+	cc.m_proj.setIdentity();
+	m_world_cam.setIdentity();
 
 	Matrix4x4 temp;
 	Matrix4x4 world_cam;
+	temp.setIdentity();
 	world_cam.setIdentity();
 
 	Vector3D new_pos =
 		m_world_cam.getTranslation() +
-		world_cam.getXDirection() * m_right +
-		world_cam.getYDirection() * m_up +
-		world_cam.getZDirection() * m_forward;
+		world_cam.getXDirection() * m_CameraPosition.x +
+		world_cam.getYDirection() * m_CameraPosition.y +
+		world_cam.getZDirection() * m_CameraPosition.z;
 	world_cam.setTranslation(new_pos);
 	m_world_cam = world_cam;
 	world_cam.inverse();
 	cc.m_view = world_cam;
 
-	temp.setIdentity();
 	temp.setRotationY((float)cc.m_time * 0.001f);
+	temp.setRotationX((float)cc.m_time * 0.001f);
 	cc.m_world *= temp;
 
 	float fov = 0.5f;
@@ -258,7 +264,6 @@ DX11Layer::~DX11Layer()
 DX11App::DX11App()
 {
 	PushLayer(new DX11Layer());
-	// PushOverlay(new Hazel::ImGuiLayer());
 }
 
 DX11App::~DX11App()
