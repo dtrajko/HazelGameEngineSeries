@@ -99,10 +99,18 @@ private:
 	RenderPass* renderPass;
 	GraphicsPipeline* graphicsPipeline;
 
-	// movement
+	// Model movement
 	float positionX = 0.0f;
 	float positionZ = 0.0f;
 	float movementSpeed = 0.02f;
+
+	// Camera
+	Hazel::OrthographicCamera m_Camera;
+	glm::vec3 m_CameraPosition;
+	float m_CameraMoveSpeed = 0.05f;
+
+	float m_CameraRotation = 0.0f;
+	float m_CameraRotationSpeed = 1.0f;
 
 public:
 
@@ -113,23 +121,25 @@ public:
 
 private:
 
-	void initVulkan();
+	void InitVulkan();
 
-	void printDevicePropertiesBasic(VkPhysicalDevice physicalDevice);
+	void PrintDevicePropertiesBasic(VkPhysicalDevice physicalDevice);
 
 	// Swap chain support
-	void cleanupSwapChain(UniformBuffer uniformBuffer);
-	void recreateSwapChain();
+	void CleanupSwapChain(UniformBuffer uniformBuffer);
+	void RecreateSwapChain();
 
 	// Semaphores (for synchronizing swap chain events)
-	void createSyncObjects();
+	void CreateSyncObjects();
 
 	// Uniform buffers
-	void updateUniformBuffer(uint32_t currentImage, UniformBuffer uniformBuffer);
+	void UpdateUniformBuffer(uint32_t currentImage, UniformBuffer uniformBuffer);
 
-	void drawFrame(Device* device);
+	void UpdateInputPolling();
 
-	void cleanup();
+	void DrawFrame(Device* device);
+
+	void Cleanup();
 
 };
 
