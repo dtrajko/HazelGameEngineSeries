@@ -17,7 +17,7 @@ class ExampleLayer : public Hazel::Layer
 public:
 
 	ExampleLayer()
-		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_SquarePosition(0.0f)
+		: Layer("Example"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_TrianglePosition(0.0f)
 	{
 		if (Hazel::Renderer::GetAPI() != Hazel::RendererAPI::API::OpenGL) return;
 
@@ -194,20 +194,20 @@ public:
 
 		if (Hazel::Input::IsKeyPressed(HZ_KEY_J))
 		{
-			m_SquarePosition.x -= m_SquareMoveSpeed * timestep.GetSeconds();
+			m_TrianglePosition.x -= m_SquareMoveSpeed * timestep.GetSeconds();
 		}
 		else if (Hazel::Input::IsKeyPressed(HZ_KEY_L))
 		{
-			m_SquarePosition.x += m_SquareMoveSpeed * timestep.GetSeconds();
+			m_TrianglePosition.x += m_SquareMoveSpeed * timestep.GetSeconds();
 		}
 
 		if (Hazel::Input::IsKeyPressed(HZ_KEY_I))
 		{
-			m_SquarePosition.y += m_SquareMoveSpeed * timestep.GetSeconds();
+			m_TrianglePosition.y += m_SquareMoveSpeed * timestep.GetSeconds();
 		}
 		else if (Hazel::Input::IsKeyPressed(HZ_KEY_K))
 		{
-			m_SquarePosition.y -= m_SquareMoveSpeed * timestep.GetSeconds();
+			m_TrianglePosition.y -= m_SquareMoveSpeed * timestep.GetSeconds();
 		}
 
 		/* Model movement End */
@@ -250,9 +250,12 @@ public:
 			}
 		}
 
-		glm::mat4 transformTriangle = glm::translate(glm::mat4(1.0f), m_SquarePosition);
-		glm::mat4 scaleTriangle = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
-		Hazel::Renderer::Submit(m_Shader, m_VertexArray, transformTriangle * scaleTriangle);
+		Hazel::Renderer::Submit(m_FlatColorShader, m_SquareVA, glm::translate(glm::mat4(1.0f), m_TrianglePosition) * glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+
+		// Triangle
+		// glm::mat4 transformTriangle = glm::translate(glm::mat4(1.0f), m_TrianglePosition);
+		// glm::mat4 scaleTriangle = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
+		// Hazel::Renderer::Submit(m_Shader, m_VertexArray, transformTriangle * scaleTriangle);
 
 		Hazel::Renderer::EndScene();
 	}
@@ -272,7 +275,7 @@ private:
 	float m_CameraRotation = 0.0f;
 	float m_CameraRotationSpeed = 90.0f;
 
-	glm::vec3 m_SquarePosition;
+	glm::vec3 m_TrianglePosition;
 	float m_SquareMoveSpeed = 1.0f;
 	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 	glm::vec4 m_BackgroundColor = { 0.9f, 0.8f, 0.8f, 1.0f };

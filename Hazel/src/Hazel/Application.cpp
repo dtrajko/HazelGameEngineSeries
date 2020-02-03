@@ -3,7 +3,7 @@
 #include "Application.h"
 #include "Hazel/Log.h"
 #include "Input.h"
-#include "Hazel/Renderer/RendererAPI.h"
+#include "Hazel/Renderer/Renderer.h"
 #include "Hazel/KeyCodes.h"
 
 #include <GLFW/glfw3.h>
@@ -46,6 +46,7 @@ namespace Hazel {
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(Application::OnWindowResize));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{
@@ -88,6 +89,20 @@ namespace Hazel {
 
 	Application::~Application()
 	{
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent& e)
+	{
+		if (e.GetWidth() == 0 || e.GetHeight() == 0)
+		{
+			m_Minimized = true;
+			return false;
+		}
+
+		m_Minimized = false;
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+
+		return false;
 	}
 
 }
