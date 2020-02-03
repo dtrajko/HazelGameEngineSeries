@@ -28,7 +28,7 @@ public:
 	{
 		m_VertexArray.reset(Hazel::VertexArray::Create());
 
-		float vertices[3 * 3 + 3 * 4] =
+		float vertices[3 * 7] =
 		{
 			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
 			 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
@@ -173,15 +173,65 @@ public:
 
 			in vec2 v_TexCoord;
 
-			uniform vec4 u_Color;
+			uniform sampler2D u_Texture;
 
 			void main()
 			{
-				color = vec4(v_TexCoord, 0.0, 1.0);
+				color = texture(u_Texture, v_TexCoord);
 			}
 		)";
 
 		m_TextureShader.reset(Hazel::Shader::Create(textureShaderVertexSrc, textureShaderFragmentSrc));
+
+		m_Texture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
+
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+	}
+
+	void OnUpdate(Hazel::Timestep timestep) override
+	{
+		if (Hazel::RendererAPI::GetAPI() != Hazel::RendererAPI::API::OpenGL) return;
+
+		// HZ_TRACE("Delta time: {0} sec, {1} ms", timestep.GetSeconds(), timestep.GetMilliseconds());
+
+		m_FPS = (unsigned int)(1.0f / timestep.GetSeconds());
+
+		UpdateInputPolling(timestep);
+
+		Hazel::RenderCommand::SetClearColor(m_BackgroundColor);
+		Hazel::RenderCommand::Clear();
+
+		m_Camera.SetPosition(m_CameraPosition);
+		m_Camera.SetRotation(m_CameraRotation);
+
+		Hazel::Renderer::BeginScene(m_Camera);
+
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
+
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_FlatColorShader)->Bind();
+		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat4("u_Color", m_SquareColor);
+
+		for (int y = -9; y <= 9; y++)
+		{
+			for (int x = -16; x <= 16; x++)
+			{
+				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
+				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+				Hazel::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
+			}
+		}
+
+		m_Texture->Bind();
+		Hazel::Renderer::Submit(m_TextureShader, m_SquareVA, glm::translate(glm::mat4(1.0f), m_TrianglePosition) * glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		// Hazel::Renderer::Submit(m_TextureShader, m_SquareVA, glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+
+		// Triangle
+		// glm::mat4 transformTriangle = glm::translate(glm::mat4(1.0f), m_TrianglePosition);
+		// glm::mat4 scaleTriangle = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
+		// Hazel::Renderer::Submit(m_Shader, m_VertexArray, transformTriangle * scaleTriangle);
+
+		Hazel::Renderer::EndScene();
 	}
 
 	virtual void OnImGuiRender() override
@@ -253,49 +303,6 @@ public:
 	{
 	}
 
-	void OnUpdate(Hazel::Timestep timestep) override
-	{
-		if (Hazel::RendererAPI::GetAPI() != Hazel::RendererAPI::API::OpenGL) return;
-
-		// HZ_TRACE("Delta time: {0} sec, {1} ms", timestep.GetSeconds(), timestep.GetMilliseconds());
-
-		m_FPS = (unsigned int)(1.0f / timestep.GetSeconds());
-
-		UpdateInputPolling(timestep);
-
-		Hazel::RenderCommand::SetClearColor(m_BackgroundColor);
-		Hazel::RenderCommand::Clear();
-
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
-
-		Hazel::Renderer::BeginScene(m_Camera);
-
-		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
-
-		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_FlatColorShader)->Bind();
-		std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat4("u_Color", m_SquareColor);
-
-		for (int y = -9; y <= 9; y++)
-		{
-			for (int x = -16; x <= 16; x++)
-			{
-				glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
-				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
-				Hazel::Renderer::Submit(m_FlatColorShader, m_SquareVA, transform);
-			}
-		}
-
-		Hazel::Renderer::Submit(m_TextureShader, m_SquareVA, glm::translate(glm::mat4(1.0f), m_TrianglePosition) * glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
-
-		// Triangle
-		// glm::mat4 transformTriangle = glm::translate(glm::mat4(1.0f), m_TrianglePosition);
-		// glm::mat4 scaleTriangle = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
-		// Hazel::Renderer::Submit(m_Shader, m_VertexArray, transformTriangle * scaleTriangle);
-
-		Hazel::Renderer::EndScene();
-	}
-
 private:
 
 	Hazel::Ref<Hazel::Shader> m_Shader;
@@ -304,6 +311,8 @@ private:
 	Hazel::Ref<Hazel::Shader> m_FlatColorShader;
 	Hazel::Ref<Hazel::Shader> m_TextureShader;
 	Hazel::Ref<Hazel::VertexArray> m_SquareVA;
+
+	Hazel::Ref<Hazel::Texture2D> m_Texture;
 
 	Hazel::OrthographicCamera m_Camera;
 	glm::vec3 m_CameraPosition;
