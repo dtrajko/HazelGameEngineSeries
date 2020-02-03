@@ -22,6 +22,8 @@ void VulkanLayer::OnUpdate(Hazel::Timestep timestep)
 {
 	HZ_TRACE("Delta time: {0} sec, {1} ms", timestep.GetSeconds(), timestep.GetMilliseconds());
 
+	m_FPS = (unsigned int)(1.0f / timestep.GetSeconds());
+
 	UpdateInputPolling(timestep);
 
 	m_Camera.SetPosition(m_CameraPosition);

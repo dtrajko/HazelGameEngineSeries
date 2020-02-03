@@ -117,6 +117,9 @@
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLRendererAPI.h">
       <Filter>src\Hazel\Platform\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\Hazel\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLVertexArray.h">
       <Filter>src\Hazel\Platform\OpenGL</Filter>
     </ClInclude>
@@ -1293,6 +1296,9 @@
       <Filter>src\Hazel\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>src\Hazel\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLShader.cpp">
       <Filter>src\Hazel\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLVertexArray.cpp">

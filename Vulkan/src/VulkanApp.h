@@ -112,6 +112,8 @@ private:
 	float m_CameraRotation = 0.0f;
 	float m_CameraRotationSpeed = 20.0f;
 
+	unsigned int m_FPS;
+
 public:
 
 	VulkanLayer();
