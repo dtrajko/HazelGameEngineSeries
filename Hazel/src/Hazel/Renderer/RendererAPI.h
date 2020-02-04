@@ -32,6 +32,8 @@ namespace Hazel
 		inline static API GetAPI() { return s_API; };
 		inline static void SetAPI(API api) { s_API = api; };
 
+		static RendererAPI* Create();
+
 	private:
 		static API s_API;
 

@@ -20,7 +20,7 @@ VulkanLayer::VulkanLayer()
 
 void VulkanLayer::OnUpdate(Hazel::Timestep timestep)
 {
-	HZ_TRACE("Delta time: {0} sec, {1} ms", timestep.GetSeconds(), timestep.GetMilliseconds());
+	// HZ_TRACE("Delta time: {0} sec, {1} ms", timestep.GetSeconds(), timestep.GetMilliseconds());
 
 	m_FPS = (unsigned int)(1.0f / timestep.GetSeconds());
 

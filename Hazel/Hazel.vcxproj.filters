@@ -111,6 +111,9 @@
     <ClInclude Include="src\Hazel\Platform\DX11\DX11Context.h">
       <Filter>src\Hazel\Platform\DX11</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Platform\DX11\DX11RendererAPI.h">
+      <Filter>src\Hazel\Platform\DX11</Filter>
+    </ClInclude>
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\Hazel\Platform\OpenGL</Filter>
     </ClInclude>
@@ -130,6 +133,9 @@
       <Filter>src\Hazel\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Platform\Vulkan\VulkanContext.h">
+      <Filter>src\Hazel\Platform\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Platform\Vulkan\VulkanRendererAPI.h">
       <Filter>src\Hazel\Platform\Vulkan</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Platform\Windows\WindowsInput.h">
@@ -1301,6 +1307,9 @@
     <ClCompile Include="src\Hazel\Platform\DX11\DX11Context.cpp">
       <Filter>src\Hazel\Platform\DX11</Filter>
     </ClCompile>
+    <ClCompile Include="src\Hazel\Platform\DX11\DX11RendererAPI.cpp">
+      <Filter>src\Hazel\Platform\DX11</Filter>
+    </ClCompile>
     <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Hazel\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1320,6 +1329,9 @@
       <Filter>src\Hazel\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Platform\Vulkan\VulkanContext.cpp">
+      <Filter>src\Hazel\Platform\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Platform\Vulkan\VulkanRendererAPI.cpp">
       <Filter>src\Hazel\Platform\Vulkan</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Platform\Windows\WindowsInput.cpp">

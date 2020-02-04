@@ -157,6 +157,7 @@
     <ClInclude Include="src\Hazel\Log.h" />
     <ClInclude Include="src\Hazel\MouseButtonCodes.h" />
     <ClInclude Include="src\Hazel\Platform\DX11\DX11Context.h" />
+    <ClInclude Include="src\Hazel\Platform\DX11\DX11RendererAPI.h" />
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLRendererAPI.h" />
@@ -164,6 +165,7 @@
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLTexture.h" />
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\Hazel\Platform\Vulkan\VulkanContext.h" />
+    <ClInclude Include="src\Hazel\Platform\Vulkan\VulkanRendererAPI.h" />
     <ClInclude Include="src\Hazel\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Hazel\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Hazel\Renderer\Buffer.h" />
@@ -555,6 +557,7 @@
     <ClCompile Include="src\Hazel\LayerStack.cpp" />
     <ClCompile Include="src\Hazel\Log.cpp" />
     <ClCompile Include="src\Hazel\Platform\DX11\DX11Context.cpp" />
+    <ClCompile Include="src\Hazel\Platform\DX11\DX11RendererAPI.cpp" />
     <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLRendererAPI.cpp" />
@@ -562,6 +565,7 @@
     <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLTexture.cpp" />
     <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\Hazel\Platform\Vulkan\VulkanContext.cpp" />
+    <ClCompile Include="src\Hazel\Platform\Vulkan\VulkanRendererAPI.cpp" />
     <ClCompile Include="src\Hazel\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Hazel\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Buffer.cpp" />
