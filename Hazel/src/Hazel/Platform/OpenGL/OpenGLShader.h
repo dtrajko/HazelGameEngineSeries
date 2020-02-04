@@ -8,6 +8,10 @@
 #include <string>
 
 
+// TODO: REMOVE!
+typedef unsigned int GLenum;
+
+
 namespace Hazel
 {
 
@@ -32,7 +36,8 @@ namespace Hazel
 
 	private:
 		std::string ReadFile(const std::string& filepath);
-		void Compile();
+		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
+		void Compile(const std::unordered_map<GLenum, std::string>& shaderSources);
 
 	private:
 		uint32_t m_RendererID;
