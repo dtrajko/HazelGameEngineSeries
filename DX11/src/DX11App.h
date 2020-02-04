@@ -64,7 +64,8 @@ private:
 
 	void Create();
 	void UpdateInputPolling(Hazel::Timestep timestep);
-	void DX11Layer::UpdateScene();
+	bool OnWindowResizeEvent(Hazel::WindowResizeEvent& event);
+	void UpdateScene();
 
 };
 

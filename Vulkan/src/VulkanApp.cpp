@@ -74,7 +74,15 @@ void VulkanLayer::UpdateInputPolling(Hazel::Timestep timestep)
 
 void VulkanLayer::OnEvent(Hazel::Event& event)
 {
-	// HZ_TRACE("{0}", event);
+	Hazel::EventDispatcher dispatcher(event);
+	dispatcher.Dispatch<Hazel::WindowResizeEvent>(HZ_BIND_EVENT_FN(VulkanLayer::OnWindowResizeEvent));
+}
+
+bool VulkanLayer::OnWindowResizeEvent(Hazel::WindowResizeEvent& event)
+{
+	RecreateSwapChain();
+
+	return false;
 }
 
 VulkanLayer::~VulkanLayer()

@@ -105,7 +105,11 @@ namespace Hazel {
 		}
 
 		m_Minimized = false;
-		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+
+		if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
+		{
+			Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+		}
 
 		return false;
 	}

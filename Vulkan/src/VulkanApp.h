@@ -138,6 +138,8 @@ private:
 
 	void UpdateInputPolling(Hazel::Timestep timestep);
 
+	bool OnWindowResizeEvent(Hazel::WindowResizeEvent& event);
+
 	void DrawFrame(Device* device);
 
 	void Cleanup();

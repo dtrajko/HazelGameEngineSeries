@@ -1,11 +1,9 @@
 #include <Hazel.h>
 
 #include "Hazel/Core.h"
-
 #include "Hazel/Platform/OpenGL/OpenGLShader.h"
 
 #include "imgui/imgui.h"
-
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <memory>

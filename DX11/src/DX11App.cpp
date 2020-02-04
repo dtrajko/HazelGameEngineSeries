@@ -45,7 +45,20 @@ DX11Layer::DX11Layer()
 
 void DX11Layer::OnEvent(Hazel::Event& event)
 {
-	HZ_TRACE("{0}", event);
+	Hazel::EventDispatcher dispatcher(event);
+	dispatcher.Dispatch<Hazel::WindowResizeEvent>(HZ_BIND_EVENT_FN(DX11Layer::OnWindowResizeEvent));
+}
+
+bool DX11Layer::OnWindowResizeEvent(Hazel::WindowResizeEvent& event)
+{
+	m_render_system = GraphicsEngine::get()->getRenderSystem();
+
+	m_swap_chain = m_render_system->createSwapChain(this->m_hwnd, event.GetWidth(), event.GetHeight());
+
+	width = (float)event.GetWidth();
+	height = (float)event.GetHeight();
+
+	return false;
 }
 
 void DX11Layer::Create()
