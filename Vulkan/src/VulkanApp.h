@@ -71,7 +71,6 @@ private:
 
 	// Refactoring
 	ValidationLayer validationLayer;
-	ShaderModule shaderModule;
 	DescriptorSet descriptorSet;
 	Framebuffer framebuffer;
 	Format format;

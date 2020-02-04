@@ -13,6 +13,7 @@ class SwapChain;
 class ImageView;
 class Format;
 class Image;
+class Device;
 
 
 class ImageFactory
@@ -37,26 +38,26 @@ public:
 
 	void cleanUp(VkDevice device);
 
-	void transitionImageLayout(VkDevice device, CommandPool* commandPool, VkImage image, VkFormat imageFormat,
-		VkImageLayout oldLayout, VkImageLayout newLayout, uint32_t mipLevels, Format format, VkQueue graphicsQueue);
+	void transitionImageLayout(Device* device, CommandPool* commandPool, VkImage image, VkFormat imageFormat,
+		VkImageLayout oldLayout, VkImageLayout newLayout, uint32_t mipLevels, Format format);
 
 	// Texture mapping
-	void createTextureImage(const char* texFilepath, VkDevice device, PhysicalDevice* physicalDevice,
-		CommandPool* commandPool, Format format, VkQueue graphicsQueue);
+	void createTextureImage(const char* texFilepath, Device* device, PhysicalDevice* physicalDevice,
+		CommandPool* commandPool, Format format);
 
 	// Multisampling (MSAA)
 	void createColorResources(VkDevice device, PhysicalDevice* physicalDevice, SwapChain* swapChain);
 
 	// Depth resources
-	void createDepthResources(VkDevice device, PhysicalDevice* physicalDevice, SwapChain* swapChain,
-		CommandPool* commandPool, Format format, VkQueue graphicsQueue);
+	void createDepthResources(Device* device, PhysicalDevice* physicalDevice, SwapChain* swapChain,
+		CommandPool* commandPool, Format format);
 
 	void createTextureImageView(VkDevice device);
 
 	VkFormat findSupportedFormat(VkPhysicalDevice hPhysicalDevice, const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
 	VkFormat findDepthFormat(VkPhysicalDevice hPhysicalDevice);
 
-	void generateMipmaps(VkPhysicalDevice hPhysicalDevice, VkDevice device, CommandPool* commandPool,
-		VkQueue graphicsQueue, VkImage image, VkFormat imageFormat, int32_t texWidth, int32_t texHeight, uint32_t mipLevels);
+	void generateMipmaps(VkPhysicalDevice hPhysicalDevice, Device* device, CommandPool* commandPool,
+		VkImage image, VkFormat imageFormat, int32_t texWidth, int32_t texHeight, uint32_t mipLevels);
 
 };

@@ -4,6 +4,7 @@
 #include "ShaderModule.h"
 #include "SwapChain.h"
 #include "ImageFactory.h"
+#include "ShaderModule.h"
 #include "DescriptorSetLayout.h"
 #include "RenderPass.h"
 #include "PipelineLayout.h"
@@ -11,20 +12,20 @@
 #include <iostream>
 
 
-GraphicsPipeline::GraphicsPipeline(VkDevice device, ShaderModule shaderModule, SwapChain* swapChain, ImageFactory* imageFactory,
+GraphicsPipeline::GraphicsPipeline(VkDevice device, SwapChain* swapChain, ImageFactory* imageFactory,
 	DescriptorSetLayout* descriptorSetLayout, RenderPass* renderPass) : m_Device(device)
 {
-	createGraphicsPipeline(device, shaderModule, swapChain, imageFactory, descriptorSetLayout, renderPass);
+	createGraphicsPipeline(device, swapChain, imageFactory, descriptorSetLayout, renderPass);
 }
 
-void GraphicsPipeline::createGraphicsPipeline(VkDevice device, ShaderModule shaderModule, SwapChain* swapChain, ImageFactory* imageFactory,
+void GraphicsPipeline::createGraphicsPipeline(VkDevice device, SwapChain* swapChain, ImageFactory* imageFactory,
 	DescriptorSetLayout* descriptorSetLayout, RenderPass* renderPass)
 {
 	auto vertShaderCode = Loader::readFile("shaders/shader_vertex.spv");
 	auto fragShaderCode = Loader::readFile("shaders/shader_fragment.spv");
 
-	VkShaderModule vertShaderModule = shaderModule.createShaderModule(device, vertShaderCode);
-	VkShaderModule fragShaderModule = shaderModule.createShaderModule(device, fragShaderCode);
+	m_VertShaderModule = new ShaderModule(device, vertShaderCode);
+	m_FragShaderModule = new ShaderModule(device, fragShaderCode);
 
 	std::cout << std::endl;
 	std::cout << "Loading vertex and fragment shaders in binary SPIR-V format:" << std::endl;
@@ -34,13 +35,13 @@ void GraphicsPipeline::createGraphicsPipeline(VkDevice device, ShaderModule shad
 	VkPipelineShaderStageCreateInfo vertShaderStageInfo = {};
 	vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	vertShaderStageInfo.stage = VK_SHADER_STAGE_VERTEX_BIT;
-	vertShaderStageInfo.module = vertShaderModule;
+	vertShaderStageInfo.module = m_VertShaderModule->m_ShaderModule;
 	vertShaderStageInfo.pName = "main";
 
 	VkPipelineShaderStageCreateInfo fragShaderStageInfo = {};
 	fragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
 	fragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
-	fragShaderStageInfo.module = fragShaderModule;
+	fragShaderStageInfo.module = m_FragShaderModule->m_ShaderModule;
 	fragShaderStageInfo.pName = "main";
 
 	VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo };
@@ -158,8 +159,8 @@ void GraphicsPipeline::createGraphicsPipeline(VkDevice device, ShaderModule shad
 		throw std::runtime_error("Failed to create the Graphics pipeline!");
 	}
 
-	vkDestroyShaderModule(m_Device, fragShaderModule, nullptr);
-	vkDestroyShaderModule(m_Device, vertShaderModule, nullptr);
+	vkDestroyShaderModule(m_Device, m_FragShaderModule->m_ShaderModule, nullptr);
+	vkDestroyShaderModule(m_Device, m_VertShaderModule->m_ShaderModule, nullptr);
 }
 
 void GraphicsPipeline::cleanUp()
@@ -169,5 +170,7 @@ void GraphicsPipeline::cleanUp()
 
 GraphicsPipeline::~GraphicsPipeline()
 {
+	delete m_VertShaderModule;
+	delete m_FragShaderModule;
 	delete m_PipelineLayout;
 }

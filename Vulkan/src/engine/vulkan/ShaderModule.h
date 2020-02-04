@@ -10,5 +10,11 @@ class ShaderModule
 {
 public:
 
-	VkShaderModule createShaderModule(VkDevice device, const std::vector<char>& code);
+	ShaderModule(VkDevice device, const std::vector<char>& code);
+	~ShaderModule();
+
+public:
+
+	VkShaderModule m_ShaderModule;
+
 };

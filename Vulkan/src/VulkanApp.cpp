@@ -97,12 +97,12 @@ void VulkanLayer::InitVulkan()
 	swapChain->createImageViews(device->m_Device);
 	renderPass = new RenderPass(physicalDevice, device->m_Device, swapChain, imageFactory);
 	descriptorSetLayout = new DescriptorSetLayout(device->m_Device);
-	graphicsPipeline = new GraphicsPipeline(device->m_Device, shaderModule, swapChain, imageFactory, descriptorSetLayout, renderPass);
+	graphicsPipeline = new GraphicsPipeline(device->m_Device, swapChain, imageFactory, descriptorSetLayout, renderPass);
 	commandPool = new CommandPool(physicalDevice, device->m_Device, surface->m_surfaceKHR);
 	imageFactory->createColorResources(device->m_Device, physicalDevice, swapChain);
-	imageFactory->createDepthResources(device->m_Device, physicalDevice, swapChain, commandPool, format, device->graphicsQueue);
+	imageFactory->createDepthResources(device, physicalDevice, swapChain, commandPool, format);
 	framebuffer.createFramebuffers(device->m_Device, swapChain, imageFactory, renderPass->m_RenderPass);
-	imageFactory->createTextureImage(loader->TEXTURE_PATH.c_str(), device->m_Device, physicalDevice, commandPool, format, device->graphicsQueue);
+	imageFactory->createTextureImage(loader->TEXTURE_PATH.c_str(), device, physicalDevice, commandPool, format);
 	imageFactory->createTextureImageView(device->m_Device);
 	textureSampler = new Sampler(device->m_Device, imageFactory->mipLevels);
 	loader->loadModel();
@@ -307,9 +307,9 @@ void VulkanLayer::RecreateSwapChain()
 	swapChain->createSwapChain(windowHandler, physicalDevice, device->m_Device, surface);
 	swapChain->createImageViews(device->m_Device);
 	renderPass->createRenderPass(physicalDevice, device->m_Device, swapChain, imageFactory);
-	graphicsPipeline->createGraphicsPipeline(device->m_Device, shaderModule, swapChain, imageFactory, descriptorSetLayout, renderPass);
+	graphicsPipeline->createGraphicsPipeline(device->m_Device, swapChain, imageFactory, descriptorSetLayout, renderPass);
 	imageFactory->createColorResources(device->m_Device, physicalDevice, swapChain);
-	imageFactory->createDepthResources(device->m_Device, physicalDevice, swapChain, commandPool, format, device->graphicsQueue);
+	imageFactory->createDepthResources(device, physicalDevice, swapChain, commandPool, format);
 	framebuffer.createFramebuffers(device->m_Device, swapChain, imageFactory, renderPass->m_RenderPass);
 	uniformBuffer.createUniformBuffers(physicalDevice, device->m_Device, swapChain);
 	descriptorPool->createDescriptorPool(device->m_Device, swapChain);

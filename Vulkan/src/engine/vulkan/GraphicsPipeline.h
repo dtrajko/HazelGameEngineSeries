@@ -21,13 +21,15 @@ public:
 	VkPipeline m_Pipeline;
 	VkDevice m_Device;
 	PipelineLayout* m_PipelineLayout;
+	ShaderModule* m_VertShaderModule;
+	ShaderModule* m_FragShaderModule;
 
 public:
 
-	GraphicsPipeline(VkDevice device, ShaderModule shaderModule, SwapChain* swapChain, ImageFactory* imageFactory,
+	GraphicsPipeline(VkDevice device, SwapChain* swapChain, ImageFactory* imageFactory,
 		DescriptorSetLayout* descriptorSetLayout, RenderPass* renderPass);
 
-	void createGraphicsPipeline(VkDevice device, ShaderModule shaderModule, SwapChain* swapChain, ImageFactory* imageFactory,
+	void createGraphicsPipeline(VkDevice device, SwapChain* swapChain, ImageFactory* imageFactory,
 		DescriptorSetLayout* descriptorSetLayout, RenderPass* renderPass);
 	void cleanUp();
 	~GraphicsPipeline();
