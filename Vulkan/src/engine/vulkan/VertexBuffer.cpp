@@ -6,17 +6,18 @@
 #include "CommandPool.h"
 #include "Buffer.h"
 #include "PhysicalDevice.h"
+#include "Device.h"
 
 
-VertexBuffer::VertexBuffer(PhysicalDevice* physicalDevice, VkDevice device, Loader* loader, IndexBuffer* indexBuffer,
-	VkQueue graphicsQueue, CommandPool* commandPool) : m_device(device)
+VertexBuffer::VertexBuffer(PhysicalDevice* physicalDevice, Device* device, Loader* loader, IndexBuffer* indexBuffer, CommandPool* commandPool)
+	: m_Device(device->m_Device)
 {
 	VkDeviceSize bufferSize = sizeof(loader->vertices[0]) * loader->vertices.size();
 
 	VkBuffer stagingBuffer;
 	VkDeviceMemory stagingBufferMemory;
 
-	Buffer* oStagingBuffer = new Buffer(physicalDevice, device, bufferSize,
+	Buffer* oStagingBuffer = new Buffer(physicalDevice, m_Device, bufferSize,
 		VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 
@@ -24,21 +25,21 @@ VertexBuffer::VertexBuffer(PhysicalDevice* physicalDevice, VkDevice device, Load
 	stagingBufferMemory = oStagingBuffer->m_Memory;
 
 	void* data;
-	vkMapMemory(device, stagingBufferMemory, 0, bufferSize, 0, &data);
+	vkMapMemory(m_Device, stagingBufferMemory, 0, bufferSize, 0, &data);
 	memcpy(data, loader->vertices.data(), (size_t)bufferSize);
-	vkUnmapMemory(device, stagingBufferMemory);
+	vkUnmapMemory(m_Device, stagingBufferMemory);
 
-	Buffer* oVertexBuffer = new Buffer(physicalDevice, device, bufferSize,
+	Buffer* oVertexBuffer = new Buffer(physicalDevice, m_Device, bufferSize,
 		VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
 		VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
 
 	m_Buffer = oVertexBuffer->m_Buffer;
 	m_Memory = oVertexBuffer->m_Memory;
 
-	indexBuffer->copyBuffer(device, graphicsQueue, commandPool, stagingBuffer, m_Buffer, bufferSize);
+	indexBuffer->copyBuffer(device, commandPool, stagingBuffer, m_Buffer, bufferSize);
 
-	vkDestroyBuffer(device, stagingBuffer, nullptr);
-	vkFreeMemory(device, stagingBufferMemory, nullptr);
+	vkDestroyBuffer(m_Device, stagingBuffer, nullptr);
+	vkFreeMemory(m_Device, stagingBufferMemory, nullptr);
 
 	delete oVertexBuffer;
 	delete oStagingBuffer;
@@ -46,6 +47,6 @@ VertexBuffer::VertexBuffer(PhysicalDevice* physicalDevice, VkDevice device, Load
 
 VertexBuffer::~VertexBuffer()
 {
-	vkDestroyBuffer(m_device, m_Buffer, nullptr);
-	vkFreeMemory(m_device, m_Memory, nullptr);
+	vkDestroyBuffer(m_Device, m_Buffer, nullptr);
+	vkFreeMemory(m_Device, m_Memory, nullptr);
 }

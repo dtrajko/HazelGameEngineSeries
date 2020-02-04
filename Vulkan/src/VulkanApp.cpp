@@ -106,8 +106,8 @@ void VulkanLayer::InitVulkan()
 	imageFactory->createTextureImageView(device->m_Device);
 	textureSampler = new Sampler(device->m_Device, imageFactory->mipLevels);
 	loader->loadModel();
-	vertexBuffer = new VertexBuffer(physicalDevice, device->m_Device, loader, indexBuffer, device->graphicsQueue, commandPool);
-	indexBuffer = new IndexBuffer(physicalDevice, device->m_Device, loader, buffer, device->graphicsQueue, commandPool);
+	vertexBuffer = new VertexBuffer(physicalDevice, device, loader, indexBuffer, commandPool);
+	indexBuffer = new IndexBuffer(physicalDevice, device, loader, buffer, commandPool);
 	uniformBuffer.createUniformBuffers(physicalDevice, device->m_Device, swapChain);
 	descriptorPool = new DescriptorPool(device->m_Device, swapChain);
 	descriptorSet.createDescriptorSets(device->m_Device, uniformBuffer, swapChain, descriptorSetLayout, descriptorPool,

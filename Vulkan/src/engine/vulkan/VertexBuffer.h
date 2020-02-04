@@ -10,6 +10,7 @@ class CommandBuffer;
 class CommandPool;
 class Buffer;
 class PhysicalDevice;
+class Device;
 
 
 class VertexBuffer
@@ -20,10 +21,9 @@ public:
 	// Vertex buffer
 	VkBuffer m_Buffer;
 	VkDeviceMemory m_Memory;
-	VkDevice m_device;
+	VkDevice m_Device;
 
-	VertexBuffer(PhysicalDevice* physicalDevice, VkDevice device, Loader* loader, IndexBuffer* indexBuffer,
-		VkQueue graphicsQueue, CommandPool* commandPool);
+	VertexBuffer(PhysicalDevice* physicalDevice, Device* device, Loader* loader, IndexBuffer* indexBuffer, CommandPool* commandPool);
 
 	~VertexBuffer();
 

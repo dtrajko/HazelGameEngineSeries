@@ -49,8 +49,7 @@ public:
 	void createColorResources(VkDevice device, PhysicalDevice* physicalDevice, SwapChain* swapChain);
 
 	// Depth resources
-	void createDepthResources(Device* device, PhysicalDevice* physicalDevice, SwapChain* swapChain,
-		CommandPool* commandPool, Format format);
+	void createDepthResources(Device* device, PhysicalDevice* physicalDevice, SwapChain* swapChain, CommandPool* commandPool, Format format);
 
 	void createTextureImageView(VkDevice device);
 

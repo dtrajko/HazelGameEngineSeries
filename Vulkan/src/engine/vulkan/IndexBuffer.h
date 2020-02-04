@@ -9,6 +9,7 @@ class Buffer;
 class CommandBuffer;
 class CommandPool;
 class PhysicalDevice;
+class Device;
 
 
 class IndexBuffer
@@ -20,12 +21,11 @@ public:
 	VkDeviceMemory m_Memory;
 	VkDevice m_Device;
 
-	IndexBuffer(PhysicalDevice* physicalDevice, VkDevice device, Loader* loader, Buffer* buffer,
-		VkQueue graphicsQueue, CommandPool* commandPool);
+	IndexBuffer(PhysicalDevice* physicalDevice, Device* device, Loader* loader, Buffer* buffer, CommandPool* commandPool);
 
 	~IndexBuffer();
 
-	void copyBuffer(VkDevice device, VkQueue graphicsQueue, CommandPool* commandPool,
+	void copyBuffer(Device* device, CommandPool* commandPool,
 		VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 
 };
