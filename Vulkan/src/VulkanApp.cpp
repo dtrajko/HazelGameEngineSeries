@@ -75,12 +75,25 @@ void VulkanLayer::OnEvent(Hazel::Event& event)
 {
 	Hazel::EventDispatcher dispatcher(event);
 	dispatcher.Dispatch<Hazel::WindowResizeEvent>(HZ_BIND_EVENT_FN(VulkanLayer::OnWindowResizeEvent));
+	dispatcher.Dispatch<Hazel::MouseScrolledEvent>(HZ_BIND_EVENT_FN(VulkanLayer::OnMouseScrolled));
+	dispatcher.Dispatch<Hazel::MouseMovedEvent>(HZ_BIND_EVENT_FN(VulkanLayer::OnMouseMoved));
 }
 
 bool VulkanLayer::OnWindowResizeEvent(Hazel::WindowResizeEvent& event)
 {
 	RecreateSwapChain();
 
+	return false;
+}
+
+bool VulkanLayer::OnMouseScrolled(Hazel::MouseScrolledEvent& e)
+{
+	m_CameraPosition.z -= e.GetYOffset() * 0.5f;
+	return false;
+}
+
+bool VulkanLayer::OnMouseMoved(Hazel::MouseMovedEvent& e)
+{
 	return false;
 }
 

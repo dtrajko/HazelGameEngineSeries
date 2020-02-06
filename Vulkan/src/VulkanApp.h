@@ -139,6 +139,8 @@ private:
 	void UpdateInputPolling(Hazel::Timestep timestep);
 
 	bool OnWindowResizeEvent(Hazel::WindowResizeEvent& event);
+	bool OnMouseScrolled(Hazel::MouseScrolledEvent& e);
+	bool OnMouseMoved(Hazel::MouseMovedEvent& e);
 
 	void DrawFrame(Device* device);
 
