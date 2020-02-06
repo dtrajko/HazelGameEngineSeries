@@ -42,7 +42,7 @@
 #include "engine/vulkan/RenderPass.h"
 #include "engine/vulkan/GraphicsPipeline.h"
 
-#include "Hazel/Window.h"
+#include "Hazel/Core/Window.h"
 #include "Hazel/Renderer/RendererAPI.h"
 
 

@@ -1,8 +1,7 @@
 #include "DX11App.h"
 
-#include "Hazel/Window.h"
-#include "Hazel/Input.h"
-#include "Hazel/Core.h"
+#include "Hazel/Core/Core.h"
+#include "Hazel/Core/Input.h"
 
 #include "GameEngine/Math/Vector3D.h"
 #include "GameEngine/Math/Matrix4x4.h"

@@ -63,11 +63,14 @@
     <ClInclude Include="src\Hazel.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Application.h">
-      <Filter>src\Hazel</Filter>
+    <ClInclude Include="src\Hazel\Core\Application.h">
+      <Filter>src\Hazel\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Core.h">
-      <Filter>src\Hazel</Filter>
+    <ClInclude Include="src\Hazel\Core\Core.h">
+      <Filter>src\Hazel\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Core\EntryPoint.h">
+      <Filter>src\Hazel\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Core\Input.h">
       <Filter>src\Hazel\Core</Filter>
@@ -90,8 +93,8 @@
     <ClInclude Include="src\Hazel\Core\Timestep.h">
       <Filter>src\Hazel\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\EntryPoint.h">
-      <Filter>src\Hazel</Filter>
+    <ClInclude Include="src\Hazel\Core\Window.h">
+      <Filter>src\Hazel\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Events\ApplicationEvent.h">
       <Filter>src\Hazel\Events</Filter>
@@ -173,9 +176,6 @@
     </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\VertexArray.h">
       <Filter>src\Hazel\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Window.h">
-      <Filter>src\Hazel</Filter>
     </ClInclude>
     <ClInclude Include="src\hzpch.h">
       <Filter>src</Filter>
@@ -1289,8 +1289,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Hazel\Application.cpp">
-      <Filter>src\Hazel</Filter>
+    <ClCompile Include="src\Hazel\Core\Application.cpp">
+      <Filter>src\Hazel\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Core\Layer.cpp">
       <Filter>src\Hazel\Core</Filter>

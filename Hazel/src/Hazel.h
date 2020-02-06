@@ -2,7 +2,7 @@
 
 // For use by Hazel applications
 
-#include "Hazel/Application.h"
+#include "Hazel/Core/Application.h"
 #include "Hazel/Core/Layer.h"
 #include "Hazel/Core/Log.h"
 #include "Hazel/Core/Timestep.h"
@@ -26,5 +26,5 @@
 #include "Hazel/Renderer/OrthographicCamera.h"
 
 // --- EntryPoint -----------------------------------
-#include "Hazel/EntryPoint.h"
+#include "Hazel/Core/EntryPoint.h"
 // --------------------------------------------------

@@ -141,8 +141,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Hazel.h" />
-    <ClInclude Include="src\Hazel\Application.h" />
-    <ClInclude Include="src\Hazel\Core.h" />
+    <ClInclude Include="src\Hazel\Core\Application.h" />
+    <ClInclude Include="src\Hazel\Core\Core.h" />
+    <ClInclude Include="src\Hazel\Core\EntryPoint.h" />
     <ClInclude Include="src\Hazel\Core\Input.h" />
     <ClInclude Include="src\Hazel\Core\KeyCodes.h" />
     <ClInclude Include="src\Hazel\Core\Layer.h" />
@@ -150,7 +151,7 @@
     <ClInclude Include="src\Hazel\Core\Log.h" />
     <ClInclude Include="src\Hazel\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\Hazel\Core\Timestep.h" />
-    <ClInclude Include="src\Hazel\EntryPoint.h" />
+    <ClInclude Include="src\Hazel\Core\Window.h" />
     <ClInclude Include="src\Hazel\Events\ApplicationEvent.h" />
     <ClInclude Include="src\Hazel\Events\Event.h" />
     <ClInclude Include="src\Hazel\Events\KeyEvent.h" />
@@ -178,7 +179,6 @@
     <ClInclude Include="src\Hazel\Renderer\Shader.h" />
     <ClInclude Include="src\Hazel\Renderer\Texture.h" />
     <ClInclude Include="src\Hazel\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Hazel\Window.h" />
     <ClInclude Include="src\hzpch.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
@@ -551,7 +551,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Hazel\Application.cpp" />
+    <ClCompile Include="src\Hazel\Core\Application.cpp" />
     <ClCompile Include="src\Hazel\Core\Layer.cpp" />
     <ClCompile Include="src\Hazel\Core\LayerStack.cpp" />
     <ClCompile Include="src\Hazel\Core\Log.cpp" />

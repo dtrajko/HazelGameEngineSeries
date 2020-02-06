@@ -1,5 +1,5 @@
 #include <Hazel.h>
-#include "Hazel/Window.h"
+#include "Hazel/Core/Window.h"
 
 #include "GameEngine/WindowingSystem/Window.h"
 #include "GameEngine/GraphicsEngine/RenderSystem/RenderSystem.h"
