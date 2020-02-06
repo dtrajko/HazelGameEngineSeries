@@ -1,13 +1,13 @@
 #include "hzpch.h"
-#include "Hazel/Log.h"
+
 #include "WindowsWindow.h"
 
 #include "Hazel/Events/ApplicationEvent.h"
 #include "Hazel/Events/MouseEvent.h"
 #include "Hazel/Events/KeyEvent.h"
 
-#include "Hazel/Application.h"
-#include "Hazel/Renderer/RendererAPI.h"
+#include "Hazel/Renderer/Renderer.h"
+
 #include "Hazel/Platform/OpenGL/OpenGLContext.h"
 #include "Hazel/Platform/Vulkan/VulkanContext.h"
 #include "Hazel/Platform/DX11/DX11Context.h"
