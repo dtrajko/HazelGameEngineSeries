@@ -176,6 +176,13 @@ public:
 	void OnEvent(Hazel::Event& event) override
 	{
 		m_CameraController.OnEvent(event);
+
+		if (event.GetEventType() == Hazel::EventType::WindowResize)
+		{
+			auto& resizeEvent = (Hazel::WindowResizeEvent&)event;
+
+			// TODO: adjust zoom level, aspect ratio, projection matrix...
+		}
 	}
 
 private:

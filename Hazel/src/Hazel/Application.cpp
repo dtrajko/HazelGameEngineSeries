@@ -69,10 +69,13 @@ namespace Hazel {
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
-			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate(timestep);
-
 			auto [x, y] = Input::GetMousePosition();
+
+			if (!m_Minimized)
+			{
+				for (Layer* layer : m_LayerStack)
+					layer->OnUpdate(timestep);
+			}
 
 			if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
 			{
