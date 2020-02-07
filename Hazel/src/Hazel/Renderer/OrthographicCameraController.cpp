@@ -39,16 +39,17 @@ namespace Hazel
 			m_CameraPosition.y -= m_CameraTranslationSpeed * timestep.GetSeconds();
 		}
 
-
 		if (m_Rotation)
 		{
+			float shiftSpeedMultiplier = Input::IsKeyPressed(HZ_KEY_LEFT_SHIFT) ? m_ShiftSpeedMultiplier : 1.f;
+
 			if (Input::IsKeyPressed(HZ_KEY_Q))
 			{
-				m_CameraRotation += m_CameraRotationSpeed * timestep.GetSeconds();
+				m_CameraRotation += m_CameraRotationSpeed * shiftSpeedMultiplier * timestep.GetSeconds();
 			}
 			else if (Input::IsKeyPressed(HZ_KEY_E))
 			{
-				m_CameraRotation -= m_CameraRotationSpeed * timestep.GetSeconds();
+				m_CameraRotation -= m_CameraRotationSpeed * shiftSpeedMultiplier * timestep.GetSeconds();
 			}
 
 			m_Camera.SetRotation(m_CameraRotation);
