@@ -46,6 +46,8 @@ void DX11Layer::OnEvent(Hazel::Event& event)
 {
 	Hazel::EventDispatcher dispatcher(event);
 	dispatcher.Dispatch<Hazel::WindowResizeEvent>(HZ_BIND_EVENT_FN(DX11Layer::OnWindowResizeEvent));
+	dispatcher.Dispatch<Hazel::MouseScrolledEvent>(HZ_BIND_EVENT_FN(DX11Layer::OnMouseScrolled));
+	dispatcher.Dispatch<Hazel::MouseMovedEvent>(HZ_BIND_EVENT_FN(DX11Layer::OnMouseMoved));
 }
 
 bool DX11Layer::OnWindowResizeEvent(Hazel::WindowResizeEvent& event)
@@ -57,6 +59,17 @@ bool DX11Layer::OnWindowResizeEvent(Hazel::WindowResizeEvent& event)
 	width = (float)event.GetWidth();
 	height = (float)event.GetHeight();
 
+	return false;
+}
+
+bool DX11Layer::OnMouseScrolled(Hazel::MouseScrolledEvent& e)
+{
+	m_CameraPosition.z -= e.GetYOffset() * 0.5f;
+	return false;
+}
+
+bool DX11Layer::OnMouseMoved(Hazel::MouseMovedEvent& e)
+{
 	return false;
 }
 

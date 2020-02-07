@@ -1,4 +1,6 @@
 #include <Hazel.h>
+#include <Hazel/Core/EntryPoint.h>
+
 #include "Hazel/Core/Window.h"
 
 #include "GameEngine/WindowingSystem/Window.h"
@@ -65,6 +67,8 @@ private:
 	void Create();
 	void UpdateInputPolling(Hazel::Timestep timestep);
 	bool OnWindowResizeEvent(Hazel::WindowResizeEvent& event);
+	bool OnMouseScrolled(Hazel::MouseScrolledEvent& e);
+	bool OnMouseMoved(Hazel::MouseMovedEvent& e);
 	void UpdateScene();
 
 };

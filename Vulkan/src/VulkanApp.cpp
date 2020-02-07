@@ -1,5 +1,7 @@
 #include "VulkanApp.h"
 
+#include <Hazel/Core/EntryPoint.h>
+
 #include "Hazel/Core/Core.h"
 #include "Hazel/Core/Input.h"
 #include "engine/Print.h"
