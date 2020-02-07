@@ -11,6 +11,7 @@
 
 #include "Hazel/Core/Input.h"
 #include "Hazel/Renderer/OrthographicCameraController.h"
+#include "Hazel/Renderer/CameraController.h"
 
 #include "Hazel/ImGui/ImGuiLayer.h"
 
@@ -24,3 +25,4 @@
 #include "Hazel/Renderer/VertexArray.h"
 
 #include "Hazel/Renderer/OrthographicCamera.h"
+#include "Hazel/Renderer/Camera.h"

@@ -157,6 +157,7 @@
     <ClInclude Include="src\Hazel\Events\KeyEvent.h" />
     <ClInclude Include="src\Hazel\Events\MouseEvent.h" />
     <ClInclude Include="src\Hazel\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\Hazel\Loader\Loader.h" />
     <ClInclude Include="src\Hazel\Platform\DX11\DX11Context.h" />
     <ClInclude Include="src\Hazel\Platform\DX11\DX11RendererAPI.h" />
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.h" />
@@ -170,6 +171,8 @@
     <ClInclude Include="src\Hazel\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Hazel\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Hazel\Renderer\Buffer.h" />
+    <ClInclude Include="src\Hazel\Renderer\Camera.h" />
+    <ClInclude Include="src\Hazel\Renderer\CameraController.h" />
     <ClInclude Include="src\Hazel\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Hazel\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\Hazel\Renderer\OrthographicCameraController.h" />
@@ -557,6 +560,7 @@
     <ClCompile Include="src\Hazel\Core\Log.cpp" />
     <ClCompile Include="src\Hazel\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Hazel\ImGui\ImGuiLayer.cpp" />
+    <ClCompile Include="src\Hazel\Loader\Loader.cpp" />
     <ClCompile Include="src\Hazel\Platform\DX11\DX11Context.cpp" />
     <ClCompile Include="src\Hazel\Platform\DX11\DX11RendererAPI.cpp" />
     <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.cpp" />
@@ -570,6 +574,8 @@
     <ClCompile Include="src\Hazel\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Hazel\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Hazel\Renderer\Camera.cpp" />
+    <ClCompile Include="src\Hazel\Renderer\CameraController.cpp" />
     <ClCompile Include="src\Hazel\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Hazel\Renderer\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Hazel\Renderer\RenderCommand.cpp" />
