@@ -30,8 +30,8 @@ void ExampleLayer::DrawOpenGLTriangle()
 	float vertices[3 * 7] =
 	{
 		-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-			0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-			0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+		 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+		 0.0f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
 	};
 
 	Hazel::Ref<Hazel::VertexBuffer> vertexBuffer;
@@ -60,8 +60,8 @@ void ExampleLayer::DrawOpenGLTriangle()
 	float squareVertices[5 * 4] =
 	{
 		-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-			0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-			0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+		 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+		 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
 		-0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
 	};
 
@@ -113,7 +113,7 @@ void ExampleLayer::OnUpdate(Hazel::Timestep timestep)
 	auto flatColorShader = m_ShaderLibrary.Get("FlatColor");
 
 	flatColorShader->Bind();
-	std::dynamic_pointer_cast<Hazel::OpenGLShader>(flatColorShader)->UploadUniformFloat4("u_Color", m_SquareColor);
+	flatColorShader->SetFloat4("u_Color", m_SquareColor);
 
 	for (int y = -12; y <= 12; y++)
 	{
