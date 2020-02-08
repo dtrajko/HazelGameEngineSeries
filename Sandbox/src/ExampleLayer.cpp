@@ -128,10 +128,10 @@ void ExampleLayer::OnUpdate(Hazel::Timestep timestep)
 	m_Texture->Bind();
 	auto m_TextureShader = m_ShaderLibrary.Get("Texture");
 	Hazel::Renderer::Submit(m_TextureShader, m_SquareVA,
-		glm::translate(glm::mat4(1.0f), m_TrianglePosition) * glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		glm::translate(glm::mat4(1.0f), { m_TrianglePosition.x, m_TrianglePosition .y, 0.1f }) * glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 	m_ChernoLogoTexture->Bind();
 	Hazel::Renderer::Submit(m_TextureShader, m_SquareVA,
-		glm::translate(glm::mat4(1.0f), m_TrianglePosition) * glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
+		glm::translate(glm::mat4(1.0f), { m_TrianglePosition.x, m_TrianglePosition.y, 0.2f }) * glm::scale(glm::mat4(1.0f), glm::vec3(1.5f)));
 
 	Hazel::Renderer::EndScene();
 }

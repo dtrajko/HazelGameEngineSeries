@@ -64,7 +64,7 @@ bool DX11Layer::OnWindowResizeEvent(Hazel::WindowResizeEvent& event)
 
 bool DX11Layer::OnMouseScrolled(Hazel::MouseScrolledEvent& e)
 {
-	m_CameraPosition.z -= e.GetYOffset() * 0.5f;
+	m_CameraPosition.z += e.GetYOffset() * 0.5f;
 	return false;
 }
 

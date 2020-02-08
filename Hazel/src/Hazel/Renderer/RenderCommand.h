@@ -20,11 +20,6 @@ namespace Hazel
 			s_RendererAPI->SetViewport(x, y, width, height);
 		}
 
-		inline static void EnableDepthBuffering()
-		{
-			s_RendererAPI->EnableDepthBuffering();
-		}
-
 		inline static void SetClearColor(const glm::vec4& color)
 		{
 			s_RendererAPI->SetClearColor(color);

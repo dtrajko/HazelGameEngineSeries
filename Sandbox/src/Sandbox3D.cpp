@@ -98,16 +98,15 @@ void Sandbox3D::OnUpdate(Hazel::Timestep timestep)
 	// Render
 	Hazel::RenderCommand::SetClearColor(m_BackgroundColor);
 	Hazel::RenderCommand::Clear();
-	Hazel::RenderCommand::EnableDepthBuffering();
 
 	Hazel::Renderer::BeginScene(m_CameraController.GetCamera().GetViewProjectionMatrix());
 
 	m_FlatColorShader->Bind();
-	std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat4("u_Color", m_SquareColor1);
+	m_FlatColorShader->SetFloat4("u_Color", m_SquareColor1);
 	Hazel::Renderer::Submit(m_FlatColorShader, m_SquareVA, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -8.0f)));
-	std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat4("u_Color", m_SquareColor2);
+	m_FlatColorShader->SetFloat4("u_Color", m_SquareColor2);
 	Hazel::Renderer::Submit(m_FlatColorShader, m_SquareVA, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -6.0f)));
-	std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat4("u_Color", m_SquareColor3);
+	m_FlatColorShader->SetFloat4("u_Color", m_SquareColor3);
 	Hazel::Renderer::Submit(m_FlatColorShader, m_SquareVA, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -4.0f)));
 
 	Hazel::Renderer::EndScene();

@@ -18,11 +18,6 @@ namespace Hazel
 		// TODO
 	}
 
-	void DX11RendererAPI::EnableDepthBuffering()
-	{
-		// TODO
-	}
-
 	void DX11RendererAPI::SetClearColor(const glm::vec4& color)
 	{
 		// TODO

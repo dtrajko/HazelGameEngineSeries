@@ -14,6 +14,8 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
+	m_BackgroundTexture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
+	m_QuadTexture = Hazel::Texture2D::Create("assets/textures/statue_512x512.jpg");
 }
 
 void Sandbox2D::OnDetach()
@@ -31,8 +33,9 @@ void Sandbox2D::OnUpdate(Hazel::Timestep timestep)
 
 	Hazel::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-	Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 2.0f, 1.0f }, m_SquareColor);
-	Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 1.0f, 2.0f }, m_SquareColor);
+	Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 10.0f, 10.0f }, m_BackgroundTexture);
+	Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.1f }, { 2.0f, 1.0f }, m_QuadColor);
+	Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.2f }, { 1.0f, 2.0f }, m_QuadTexture);
 
 	Hazel::Renderer2D::EndScene();
 }
@@ -41,7 +44,7 @@ void Sandbox2D::OnImGuiRender()
 {
 	ImGui::Begin("Settings");
 	ImGui::ColorEdit4("Background Color", glm::value_ptr(m_BackgroundColor));
-	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_SquareColor));
+	ImGui::ColorEdit4("Square Color", glm::value_ptr(m_QuadColor));
 	ImGui::End();
 }
 
