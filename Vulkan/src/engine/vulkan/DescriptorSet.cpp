@@ -14,6 +14,8 @@
 #include <stdexcept>
 
 
+std::vector<VkDescriptorSet> DescriptorSet::descriptorSets = std::vector<VkDescriptorSet>();
+
 void DescriptorSet::createDescriptorSets(VkDevice device, UniformBuffer uniformBuffer, SwapChain* swapChain,
 	DescriptorSetLayout* descriptorSetLayout, DescriptorPool* descriptorPool, VkImageView imageViewTexture, Sampler* sampler)
 {

@@ -6,16 +6,15 @@
 #include <vector>
 
 
-const std::vector<const char*> validationLayers =
-{
-	"VK_LAYER_KHRONOS_validation"
-};
-
 
 class ValidationLayer
 {
 public:
 
-	bool checkValidationLayerSupport(const std::vector<const char*> validationLayers);
+	static const std::vector<const char*> validationLayers;
+
+public:
+
+	static bool checkValidationLayerSupport();
 
 };

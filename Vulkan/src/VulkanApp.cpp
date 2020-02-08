@@ -7,6 +7,7 @@
 #include "engine/Print.h"
 
 
+
 #define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
 
@@ -17,6 +18,69 @@ VulkanLayer::VulkanLayer()
 	windowHandler = (GLFWwindow*)window->GetNativeWindow();
 
 	InitVulkan();
+}
+
+void VulkanLayer::InitVulkan()
+{
+	instance = new Instance(enableValidationLayers);
+	debug = new Debug(instance->hInstance, enableValidationLayers);
+	surface = new Surface(instance->hInstance, windowHandler);
+	loader = new Loader();
+	imageFactory = new ImageFactory();
+	physicalDevice = new PhysicalDevice(instance->hInstance, surface->m_surfaceKHR, imageFactory->msaaSamples);
+	PrintDevicePropertiesBasic(physicalDevice->m_Device);
+	device = new Device(physicalDevice, surface->m_surfaceKHR, enableValidationLayers);
+	swapChain = new SwapChain(windowHandler, physicalDevice, device->m_Device, surface);
+	swapChain->createImageViews(device->m_Device);
+	renderPass = new RenderPass(physicalDevice, device->m_Device, swapChain, imageFactory);
+	descriptorSetLayout = new DescriptorSetLayout(device->m_Device);
+	graphicsPipeline = new GraphicsPipeline(device->m_Device, swapChain, imageFactory, descriptorSetLayout, renderPass);
+	commandPool = new CommandPool(physicalDevice, device->m_Device, surface->m_surfaceKHR);
+	imageFactory->createColorResources(device->m_Device, physicalDevice, swapChain);
+	imageFactory->createDepthResources(device, physicalDevice, swapChain, commandPool);
+	Framebuffer::createFramebuffers(device->m_Device, swapChain, imageFactory, renderPass->m_RenderPass);
+	imageFactory->createTextureImage(loader->TEXTURE_PATH.c_str(), device, physicalDevice, commandPool);
+	imageFactory->createTextureImageView(device->m_Device);
+	textureSampler = new Sampler(device->m_Device, imageFactory->mipLevels);
+	loader->loadModel();
+	vertexBuffer = new VertexBuffer(physicalDevice, device, loader, indexBuffer, commandPool);
+	indexBuffer = new IndexBuffer(physicalDevice, device, loader, buffer, commandPool);
+	uniformBuffer.createUniformBuffers(physicalDevice, device->m_Device, swapChain);
+	descriptorPool = new DescriptorPool(device->m_Device, swapChain);
+	DescriptorSet::createDescriptorSets(device->m_Device, uniformBuffer, swapChain, descriptorSetLayout, descriptorPool,
+		imageFactory->imageTexture->m_ImageView->m_ImageView, textureSampler);
+	commandPool->createCommandBuffers(device->m_Device, loader, renderPass->m_RenderPass, swapChain,
+		graphicsPipeline->m_Pipeline, graphicsPipeline->m_PipelineLayout->m_PipelineLayout, vertexBuffer, indexBuffer);
+	CreateSyncObjects();
+}
+
+void VulkanLayer::RecreateSwapChain()
+{
+	int width = 0, height = 0;
+	glfwGetFramebufferSize(windowHandler, &width, &height);
+	while (width == 0 || height == 0)
+	{
+		glfwGetFramebufferSize(windowHandler, &width, &height);
+		glfwWaitEvents();
+	}
+
+	vkDeviceWaitIdle(device->m_Device);
+
+	CleanupSwapChain(uniformBuffer);
+
+	swapChain->createSwapChain(windowHandler, physicalDevice, device->m_Device, surface);
+	swapChain->createImageViews(device->m_Device);
+	renderPass->createRenderPass(physicalDevice, device->m_Device, swapChain, imageFactory);
+	graphicsPipeline->createGraphicsPipeline(device->m_Device, swapChain, imageFactory, descriptorSetLayout, renderPass);
+	imageFactory->createColorResources(device->m_Device, physicalDevice, swapChain);
+	imageFactory->createDepthResources(device, physicalDevice, swapChain, commandPool);
+	Framebuffer::createFramebuffers(device->m_Device, swapChain, imageFactory, renderPass->m_RenderPass);
+	uniformBuffer.createUniformBuffers(physicalDevice, device->m_Device, swapChain);
+	descriptorPool->createDescriptorPool(device->m_Device, swapChain);
+	DescriptorSet::createDescriptorSets(device->m_Device, uniformBuffer, swapChain, descriptorSetLayout, descriptorPool,
+		imageFactory->imageTexture->m_ImageView->m_ImageView, textureSampler);
+	commandPool->createCommandBuffers(device->m_Device, loader, renderPass->m_RenderPass, swapChain,
+		graphicsPipeline->m_Pipeline, graphicsPipeline->m_PipelineLayout->m_PipelineLayout, vertexBuffer, indexBuffer);
 }
 
 void VulkanLayer::OnUpdate(Hazel::Timestep timestep)
@@ -102,41 +166,6 @@ bool VulkanLayer::OnMouseMoved(Hazel::MouseMovedEvent& e)
 VulkanLayer::~VulkanLayer()
 {
 	Cleanup();
-}
-
-
-void VulkanLayer::InitVulkan()
-{
-	instance = new Instance(enableValidationLayers, validationLayers, validationLayer);
-	debug = new Debug(instance->hInstance, enableValidationLayers);
-	surface = new Surface(instance->hInstance, windowHandler);
-	loader = new Loader();
-	imageFactory = new ImageFactory();
-	physicalDevice = new PhysicalDevice(instance->hInstance, surface->m_surfaceKHR, imageFactory->msaaSamples);
-	PrintDevicePropertiesBasic(physicalDevice->m_Device);
-	device = new Device(physicalDevice, surface->m_surfaceKHR, enableValidationLayers);
-	swapChain = new SwapChain(windowHandler, physicalDevice, device->m_Device, surface);
-	swapChain->createImageViews(device->m_Device);
-	renderPass = new RenderPass(physicalDevice, device->m_Device, swapChain, imageFactory);
-	descriptorSetLayout = new DescriptorSetLayout(device->m_Device);
-	graphicsPipeline = new GraphicsPipeline(device->m_Device, swapChain, imageFactory, descriptorSetLayout, renderPass);
-	commandPool = new CommandPool(physicalDevice, device->m_Device, surface->m_surfaceKHR);
-	imageFactory->createColorResources(device->m_Device, physicalDevice, swapChain);
-	imageFactory->createDepthResources(device, physicalDevice, swapChain, commandPool, format);
-	framebuffer.createFramebuffers(device->m_Device, swapChain, imageFactory, renderPass->m_RenderPass);
-	imageFactory->createTextureImage(loader->TEXTURE_PATH.c_str(), device, physicalDevice, commandPool, format);
-	imageFactory->createTextureImageView(device->m_Device);
-	textureSampler = new Sampler(device->m_Device, imageFactory->mipLevels);
-	loader->loadModel();
-	vertexBuffer = new VertexBuffer(physicalDevice, device, loader, indexBuffer, commandPool);
-	indexBuffer = new IndexBuffer(physicalDevice, device, loader, buffer, commandPool);
-	uniformBuffer.createUniformBuffers(physicalDevice, device->m_Device, swapChain);
-	descriptorPool = new DescriptorPool(device->m_Device, swapChain);
-	descriptorSet.createDescriptorSets(device->m_Device, uniformBuffer, swapChain, descriptorSetLayout, descriptorPool,
-		imageFactory->imageTexture->m_ImageView->m_ImageView, textureSampler);
-	commandPool->createCommandBuffers(device->m_Device, loader, renderPass->m_RenderPass, swapChain, framebuffer.swapChainFramebuffers,
-		graphicsPipeline->m_Pipeline, graphicsPipeline->m_PipelineLayout->m_PipelineLayout, vertexBuffer, indexBuffer, descriptorSet);
-	CreateSyncObjects();
 }
 
 void VulkanLayer::PrintDevicePropertiesBasic(VkPhysicalDevice physicalDevice)
@@ -286,7 +315,7 @@ void VulkanLayer::CleanupSwapChain(UniformBuffer uniformBuffer)
 {
 	// imageFactory->cleanUp(device->m_Device);
 
-	for (auto framebuffer : framebuffer.swapChainFramebuffers)
+	for (auto framebuffer : Framebuffer::swapChainFramebuffers)
 	{
 		vkDestroyFramebuffer(device->m_Device, framebuffer, nullptr);
 	}
@@ -310,35 +339,6 @@ void VulkanLayer::CleanupSwapChain(UniformBuffer uniformBuffer)
 	}
 
 	vkDestroyDescriptorPool(device->m_Device, descriptorPool->m_DescriptorPool, nullptr);
-}
-
-void VulkanLayer::RecreateSwapChain()
-{
-	int width = 0, height = 0;
-	glfwGetFramebufferSize(windowHandler, &width, &height);
-	while (width == 0 || height == 0)
-	{
-		glfwGetFramebufferSize(windowHandler, &width, &height);
-		glfwWaitEvents();
-	}
-
-	vkDeviceWaitIdle(device->m_Device);
-
-	CleanupSwapChain(uniformBuffer);
-
-	swapChain->createSwapChain(windowHandler, physicalDevice, device->m_Device, surface);
-	swapChain->createImageViews(device->m_Device);
-	renderPass->createRenderPass(physicalDevice, device->m_Device, swapChain, imageFactory);
-	graphicsPipeline->createGraphicsPipeline(device->m_Device, swapChain, imageFactory, descriptorSetLayout, renderPass);
-	imageFactory->createColorResources(device->m_Device, physicalDevice, swapChain);
-	imageFactory->createDepthResources(device, physicalDevice, swapChain, commandPool, format);
-	framebuffer.createFramebuffers(device->m_Device, swapChain, imageFactory, renderPass->m_RenderPass);
-	uniformBuffer.createUniformBuffers(physicalDevice, device->m_Device, swapChain);
-	descriptorPool->createDescriptorPool(device->m_Device, swapChain);
-	descriptorSet.createDescriptorSets(device->m_Device, uniformBuffer, swapChain, descriptorSetLayout, descriptorPool,
-		imageFactory->imageTexture->m_ImageView->m_ImageView, textureSampler);
-	commandPool->createCommandBuffers(device->m_Device, loader, renderPass->m_RenderPass, swapChain, framebuffer.swapChainFramebuffers,
-		graphicsPipeline->m_Pipeline, graphicsPipeline->m_PipelineLayout->m_PipelineLayout, vertexBuffer, indexBuffer, descriptorSet);
 }
 
 void VulkanLayer::Cleanup()

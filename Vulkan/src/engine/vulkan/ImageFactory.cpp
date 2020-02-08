@@ -7,10 +7,10 @@
 #include "CommandPool.h"
 #include "SwapChain.h"
 #include "ImageView.h"
-#include "Format.h"
 #include "Buffer.h"
 #include "Image.h"
 #include "Device.h"
+#include "Format.h"
 
 #include <stdexcept>
 #include <algorithm>
@@ -87,8 +87,7 @@ void ImageFactory::createColorResources(VkDevice device, PhysicalDevice* physica
 	imageColor->createImageView(device, imageColor->m_Image, colorFormat, VK_IMAGE_ASPECT_COLOR_BIT, 1);
 }
 
-void ImageFactory::createDepthResources(Device* device, PhysicalDevice* physicalDevice, SwapChain* swapChain,
-	CommandPool* commandPool, Format format)
+void ImageFactory::createDepthResources(Device* device, PhysicalDevice* physicalDevice, SwapChain* swapChain, CommandPool* commandPool)
 {
 	VkFormat depthFormat = findDepthFormat(physicalDevice->m_Device);
 
@@ -98,7 +97,7 @@ void ImageFactory::createDepthResources(Device* device, PhysicalDevice* physical
 	imageDepth->createImageView(device->m_Device, imageDepth->m_Image, depthFormat, VK_IMAGE_ASPECT_DEPTH_BIT, 1);
 
 	transitionImageLayout(device, commandPool, imageDepth->m_Image, depthFormat,
-		VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, 1, format);
+		VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, 1);
 }
 
 void ImageFactory::createTextureImageView(VkDevice device)
@@ -107,7 +106,7 @@ void ImageFactory::createTextureImageView(VkDevice device)
 }
 
 void ImageFactory::transitionImageLayout(Device* device, CommandPool* commandPool, VkImage image, VkFormat imageFormat,
-	VkImageLayout oldLayout, VkImageLayout newLayout, uint32_t mipLevels, Format format)
+	VkImageLayout oldLayout, VkImageLayout newLayout, uint32_t mipLevels)
 {
 	CommandBuffer* commandBuffer = commandPool->beginSingleTimeCommands(device->m_Device);
 
@@ -133,7 +132,7 @@ void ImageFactory::transitionImageLayout(Device* device, CommandPool* commandPoo
 	{
 		barrier.subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT;
 
-		if (format.hasStencilComponent(imageFormat)) {
+		if (Format::hasStencilComponent(imageFormat)) {
 			barrier.subresourceRange.aspectMask |= VK_IMAGE_ASPECT_STENCIL_BIT;
 		}
 	}
@@ -274,7 +273,7 @@ void ImageFactory::generateMipmaps(VkPhysicalDevice hPhysicalDevice, Device* dev
 }
 
 void ImageFactory::createTextureImage(const char* texFilepath, Device* device, PhysicalDevice* physicalDevice,
-	CommandPool* commandPool, Format format)
+	CommandPool* commandPool)
 {
 	int texWidth, texHeight, texChannels;
 
@@ -307,7 +306,7 @@ void ImageFactory::createTextureImage(const char* texFilepath, Device* device, P
 
 	transitionImageLayout(device, commandPool, imageTexture->m_Image,
 		VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-		mipLevels, format);
+		mipLevels);
 	commandPool->copyBufferToImage(device->m_Device, device->graphicsQueue, stagingBuffer, imageTexture->m_Image, static_cast<uint32_t>(texWidth), static_cast<uint32_t>(texHeight));
 
 	vkDestroyBuffer(device->m_Device, stagingBuffer, nullptr);

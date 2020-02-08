@@ -69,12 +69,6 @@ private:
 	// temporary variable
 	bool window_framebufferResized = false;
 
-	// Refactoring
-	ValidationLayer validationLayer;
-	DescriptorSet descriptorSet;
-	Framebuffer framebuffer;
-	Format format;
-
 	// RAII
 	Debug* debug;
 	Instance* instance;

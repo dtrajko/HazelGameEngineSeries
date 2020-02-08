@@ -1,7 +1,13 @@
 #include "ValidationLayer.h"
 
 
-bool ValidationLayer::checkValidationLayerSupport(const std::vector<const char*> validationLayers)
+
+const std::vector<const char*> ValidationLayer::validationLayers =
+{
+	"VK_LAYER_KHRONOS_validation"
+};
+
+bool ValidationLayer::checkValidationLayerSupport()
 {
 	uint32_t layerCount;
 	vkEnumerateInstanceLayerProperties(&layerCount, nullptr);

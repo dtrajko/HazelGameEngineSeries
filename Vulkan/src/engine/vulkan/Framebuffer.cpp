@@ -9,6 +9,10 @@
 #include <stdexcept>
 
 
+
+std::vector<VkFramebuffer> Framebuffer::swapChainFramebuffers = std::vector<VkFramebuffer>();
+
+
 void Framebuffer::createFramebuffers(VkDevice device, SwapChain* swapChain, ImageFactory* imageFactory, VkRenderPass renderPass)
 {
 	swapChainFramebuffers.resize(swapChain->swapChainImageViews.size());

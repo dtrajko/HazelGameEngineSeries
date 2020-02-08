@@ -6,9 +6,9 @@
 #include <stdexcept>
 
 
-Instance::Instance(bool enableValidationLayers, const std::vector<const char*> validationLayers, ValidationLayer validationLayer)
+Instance::Instance(bool enableValidationLayers)
 {
-	if (enableValidationLayers && !validationLayer.checkValidationLayerSupport(validationLayers))
+	if (enableValidationLayers && !ValidationLayer::checkValidationLayerSupport())
 	{
 		throw std::runtime_error("Validation layers requested, but not available!");
 	}
@@ -32,8 +32,8 @@ Instance::Instance(bool enableValidationLayers, const std::vector<const char*> v
 	VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo;
 	if (enableValidationLayers)
 	{
-		createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-		createInfo.ppEnabledLayerNames = validationLayers.data();
+		createInfo.enabledLayerCount = static_cast<uint32_t>(ValidationLayer::validationLayers.size());
+		createInfo.ppEnabledLayerNames = ValidationLayer::validationLayers.data();
 		Debug::populateDebugMessengerCreateInfo(debugCreateInfo);
 		createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
 	}

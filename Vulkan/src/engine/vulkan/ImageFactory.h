@@ -11,7 +11,6 @@ class CommandBuffer;
 class CommandPool;
 class SwapChain;
 class ImageView;
-class Format;
 class Image;
 class Device;
 
@@ -39,17 +38,17 @@ public:
 	void cleanUp(VkDevice device);
 
 	void transitionImageLayout(Device* device, CommandPool* commandPool, VkImage image, VkFormat imageFormat,
-		VkImageLayout oldLayout, VkImageLayout newLayout, uint32_t mipLevels, Format format);
+		VkImageLayout oldLayout, VkImageLayout newLayout, uint32_t mipLevels);
 
 	// Texture mapping
 	void createTextureImage(const char* texFilepath, Device* device, PhysicalDevice* physicalDevice,
-		CommandPool* commandPool, Format format);
+		CommandPool* commandPool);
 
 	// Multisampling (MSAA)
 	void createColorResources(VkDevice device, PhysicalDevice* physicalDevice, SwapChain* swapChain);
 
 	// Depth resources
-	void createDepthResources(Device* device, PhysicalDevice* physicalDevice, SwapChain* swapChain, CommandPool* commandPool, Format format);
+	void createDepthResources(Device* device, PhysicalDevice* physicalDevice, SwapChain* swapChain, CommandPool* commandPool);
 
 	void createTextureImageView(VkDevice device);
 

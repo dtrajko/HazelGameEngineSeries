@@ -8,6 +8,6 @@ class Format
 {
 public:
 
-	bool hasStencilComponent(VkFormat format);
+	static bool hasStencilComponent(VkFormat format);
 
 };

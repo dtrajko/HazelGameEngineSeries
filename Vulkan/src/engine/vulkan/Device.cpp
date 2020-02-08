@@ -40,8 +40,8 @@ Device::Device(PhysicalDevice* physicalDevice, VkSurfaceKHR surfaceKHR, bool ena
 
 	if (enableValidationLayers)
 	{
-		createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
-		createInfo.ppEnabledLayerNames = validationLayers.data();
+		createInfo.enabledLayerCount = static_cast<uint32_t>(ValidationLayer::validationLayers.size());
+		createInfo.ppEnabledLayerNames = ValidationLayer::validationLayers.data();
 	}
 	else
 	{

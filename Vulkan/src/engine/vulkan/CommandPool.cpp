@@ -6,6 +6,7 @@
 #include "DescriptorSet.h"
 #include "SwapChain.h"
 #include "CommandBuffer.h"
+#include "Framebuffer.h"
 
 #include <stdexcept>
 
@@ -29,11 +30,11 @@ CommandPool::~CommandPool()
 	vkDestroyCommandPool(m_device, commandPool, nullptr);
 }
 
-void CommandPool::createCommandBuffers(VkDevice device, Loader* loader, VkRenderPass renderPass, SwapChain* swapChain,
-	std::vector<VkFramebuffer> swapChainFramebuffers, VkPipeline graphicsPipeline, VkPipelineLayout pipelineLayout,
-	VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer, DescriptorSet descriptorSet)
+void CommandPool::createCommandBuffers(VkDevice device, Loader* loader, VkRenderPass renderPass, SwapChain* swapChain, 
+	VkPipeline graphicsPipeline, VkPipelineLayout pipelineLayout,
+	VertexBuffer* vertexBuffer, IndexBuffer* indexBuffer)
 {
-	commandBuffers.resize(swapChainFramebuffers.size());
+	commandBuffers.resize(Framebuffer::swapChainFramebuffers.size());
 
 	VkCommandBufferAllocateInfo allocInfo = {};
 	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -61,7 +62,7 @@ void CommandPool::createCommandBuffers(VkDevice device, Loader* loader, VkRender
 		VkRenderPassBeginInfo renderPassInfo = {};
 		renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
 		renderPassInfo.renderPass = renderPass;
-		renderPassInfo.framebuffer = swapChainFramebuffers[i];
+		renderPassInfo.framebuffer = Framebuffer::swapChainFramebuffers[i];
 		renderPassInfo.renderArea.offset = { 0, 0 };
 		renderPassInfo.renderArea.extent = swapChain->swapChainExtent;
 
@@ -83,7 +84,7 @@ void CommandPool::createCommandBuffers(VkDevice device, Loader* loader, VkRender
 
 		vkCmdBindIndexBuffer(commandBuffers[i], indexBuffer->m_Buffer, 0, VK_INDEX_TYPE_UINT32);
 
-		vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSet.descriptorSets[i], 0, nullptr);
+		vkCmdBindDescriptorSets(commandBuffers[i], VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &DescriptorSet::descriptorSets[i], 0, nullptr);
 
 		// vkCmdDraw(commandBuffers[i], static_cast<uint32_t>(vertices.size()), 1, 0, 0);
 		vkCmdDrawIndexed(commandBuffers[i], static_cast<uint32_t>(loader->indices.size()), 1, 0, 0, 0);

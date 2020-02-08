@@ -6,7 +6,6 @@
 #include <vector>
 
 
-class ValidationLayer;
 class Debug;
 
 
@@ -20,7 +19,7 @@ public:
 
 public:
 
-	Instance(bool enableValidationLayers, const std::vector<const char*> validationLayers, ValidationLayer validationLayer);
+	Instance(bool enableValidationLayers);
 
 	std::vector<const char*> getRequiredExtensions(bool enableValidationLayers);
 

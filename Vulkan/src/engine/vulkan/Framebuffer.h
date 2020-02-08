@@ -14,10 +14,10 @@ class Framebuffer
 {
 public:
 
-	std::vector<VkFramebuffer> swapChainFramebuffers;
+	static std::vector<VkFramebuffer> swapChainFramebuffers;
 
 public:
 
-	void createFramebuffers(VkDevice device, SwapChain* swapChain, ImageFactory* imageFactory, VkRenderPass renderPass);
+	static void createFramebuffers(VkDevice device, SwapChain* swapChain, ImageFactory* imageFactory, VkRenderPass renderPass);
 
 };
