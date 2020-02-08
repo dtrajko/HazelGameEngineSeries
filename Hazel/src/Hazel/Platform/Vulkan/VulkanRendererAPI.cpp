@@ -18,6 +18,11 @@ namespace Hazel
 		// TODO
 	}
 
+	void VulkanRendererAPI::EnableDepthBuffering()
+	{
+		// TODO
+	}
+
 	void VulkanRendererAPI::SetClearColor(const glm::vec4& color)
 	{
 		// TODO

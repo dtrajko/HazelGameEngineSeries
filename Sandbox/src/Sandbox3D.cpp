@@ -98,6 +98,7 @@ void Sandbox3D::OnUpdate(Hazel::Timestep timestep)
 	// Render
 	Hazel::RenderCommand::SetClearColor(m_BackgroundColor);
 	Hazel::RenderCommand::Clear();
+	Hazel::RenderCommand::EnableDepthBuffering();
 
 	Hazel::Renderer::BeginScene(m_CameraController.GetCamera().GetViewProjectionMatrix());
 
