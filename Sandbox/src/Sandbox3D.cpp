@@ -79,7 +79,7 @@ Sandbox3D::Sandbox3D()
 	m_FlatColorShader = Hazel::Shader::Create("assets/shaders/Sandbox3D.glsl");
 	m_Texture = Hazel::Texture2D::Create("assets/textures/statue_512x512.jpg");
 	m_FlatColorShader->Bind();
-	std::dynamic_pointer_cast<Hazel::OpenGLShader>(m_FlatColorShader)->UploadUniformInt("u_Texture", 0);
+	m_FlatColorShader->SetInt("u_Texture", 0);
 }
 
 void Sandbox3D::OnAttach()
@@ -103,11 +103,11 @@ void Sandbox3D::OnUpdate(Hazel::Timestep timestep)
 
 	m_FlatColorShader->Bind();
 	m_FlatColorShader->SetFloat4("u_Color", m_SquareColor1);
-	Hazel::Renderer::Submit(m_FlatColorShader, m_SquareVA, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -8.0f)));
-	m_FlatColorShader->SetFloat4("u_Color", m_SquareColor2);
 	Hazel::Renderer::Submit(m_FlatColorShader, m_SquareVA, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -6.0f)));
-	m_FlatColorShader->SetFloat4("u_Color", m_SquareColor3);
+	m_FlatColorShader->SetFloat4("u_Color", m_SquareColor2);
 	Hazel::Renderer::Submit(m_FlatColorShader, m_SquareVA, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -4.0f)));
+	m_FlatColorShader->SetFloat4("u_Color", m_SquareColor3);
+	Hazel::Renderer::Submit(m_FlatColorShader, m_SquareVA, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f)));
 
 	Hazel::Renderer::EndScene();
 }

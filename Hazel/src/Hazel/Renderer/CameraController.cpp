@@ -68,7 +68,7 @@ namespace Hazel
 
 	bool CameraController::OnMouseScrolled(MouseScrolledEvent& e)
 	{
-		m_CameraPosition.z -= e.GetYOffset();
+		m_CameraPosition.z -= e.GetYOffset() * m_CameraTranslationSpeed * 0.1f;
 		m_Camera.SetPosition(m_CameraPosition);
 		return false;
 	}

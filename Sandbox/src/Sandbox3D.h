@@ -26,9 +26,9 @@ private:
 	Hazel::Ref<Hazel::Texture2D> m_ChaletTexture;
 	Hazel::Ref<Hazel::Shader> m_ChaletShader;
 
-	glm::vec4 m_BackgroundColor = { 0.8f, 0.4f, 0.8f, 0.5f };
-	glm::vec4 m_SquareColor1 = { 0.8f, 0.2f, 0.2f, 1.0f };
-	glm::vec4 m_SquareColor2 = { 0.2f, 0.8f, 0.2f, 1.0f };
-	glm::vec4 m_SquareColor3 = { 0.2f, 0.2f, 0.8f, 1.0f };
+	glm::vec4 m_BackgroundColor = { 1.0f, 1.0f, 0.8f, 1.0f };
+	glm::vec4 m_SquareColor1 = { 1.0f, 0.6f, 0.6f, 0.5f };
+	glm::vec4 m_SquareColor2 = { 0.6f, 1.0f, 0.6f, 0.5f };
+	glm::vec4 m_SquareColor3 = { 0.6f, 0.6f, 1.0f, 0.5f };
 
 };
