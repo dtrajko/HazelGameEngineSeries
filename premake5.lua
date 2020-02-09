@@ -20,6 +20,7 @@ IncludeDir["Glad"]      = "Hazel/vendor/Glad/include"
 IncludeDir["ImGui"]     = "Hazel/vendor/imgui"
 IncludeDir["glm"]       = "Hazel/vendor/glm"
 IncludeDir["stb_image"] = "Hazel/vendor/stb_image"
+IncludeDir["tinyobjloader"] = "Hazel/vendor/tinyobjloader"
 
 
 group "Dependencies"
@@ -66,6 +67,7 @@ project "Hazel"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.tinyobjloader}",
 	}
 
 	links
@@ -124,6 +126,7 @@ project "Sandbox"
 		"Hazel/src",
 		"Hazel/vendor",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.tinyobjloader}",
 	}
 
 	links
@@ -178,10 +181,10 @@ project "Vulkan"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}",
+		"%{IncludeDir.tinyobjloader}",
 		"Hazel/vendor/spdlog/include",
 		"D:/VulkanSDK/1.1.130.0/Include",
-		"Vulkan/vendor/STB",
-		"Vulkan/vendor/tinyobjloader",
 	}
 
 	links
