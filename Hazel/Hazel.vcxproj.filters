@@ -16,6 +16,9 @@
     <Filter Include="src\Hazel\ImGui">
       <UniqueIdentifier>{1AE138B3-866C-A677-8F7D-296CFB870278}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Hazel\Loader">
+      <UniqueIdentifier>{B6A88621-A2A1-A573-CBD3-8AF8B72B857F}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Hazel\Models">
       <UniqueIdentifier>{A37BDD23-8F74-FC75-B8A6-E1FAA4FEDB81}</UniqueIdentifier>
     </Filter>
@@ -113,6 +116,9 @@
     </ClInclude>
     <ClInclude Include="src\Hazel\ImGui\ImGuiLayer.h">
       <Filter>src\Hazel\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Loader\Loader.h">
+      <Filter>src\Hazel\Loader</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Models\Cube.h">
       <Filter>src\Hazel\Models</Filter>
@@ -1321,6 +1327,9 @@
     </ClCompile>
     <ClCompile Include="src\Hazel\ImGui\ImGuiLayer.cpp">
       <Filter>src\Hazel\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Loader\Loader.cpp">
+      <Filter>src\Hazel\Loader</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Platform\DX11\DX11Context.cpp">
       <Filter>src\Hazel\Platform\DX11</Filter>
