@@ -158,6 +158,7 @@
     <ClInclude Include="src\Hazel\Events\MouseEvent.h" />
     <ClInclude Include="src\Hazel\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Hazel\Loader\Loader.h" />
+    <ClInclude Include="src\Hazel\Models\Cube.h" />
     <ClInclude Include="src\Hazel\Platform\DX11\DX11Context.h" />
     <ClInclude Include="src\Hazel\Platform\DX11\DX11RendererAPI.h" />
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.h" />
