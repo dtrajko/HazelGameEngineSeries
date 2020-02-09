@@ -10,6 +10,21 @@ namespace Hazel
 
 
 
+	Ref<Texture2D> Texture2D::Create(const uint32_t width, const uint32_t height)
+	{
+		switch (RendererAPI::GetAPI())
+		{
+		case RendererAPI::API::None:
+			HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
+			return nullptr;
+		case RendererAPI::API::OpenGL:
+			return CreateRef<OpenGLTexture2D>(width, height);
+		default:
+			HZ_CORE_ASSERT(false, "RendererAPI value unknown!");
+			return nullptr;
+		}
+	}
+
 	Ref<Texture2D> Texture2D::Create(const std::string& path)
 	{
 		switch (RendererAPI::GetAPI())
@@ -18,7 +33,7 @@ namespace Hazel
 			HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 			return nullptr;
 		case RendererAPI::API::OpenGL:
-			return std::make_shared<OpenGLTexture2D>(path);
+			return CreateRef<OpenGLTexture2D>(path);
 		default:
 			HZ_CORE_ASSERT(false, "RendererAPI value unknown!");
 			return nullptr;

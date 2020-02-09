@@ -89,6 +89,7 @@ namespace Hazel
 	void Renderer::DrawCube(const glm::vec3& position, const glm::vec3& size, const Ref<Texture2D>& texture)
 	{
 		s_Data->TextureShader->Bind();
+		s_Data->TextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
 
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
 			glm::scale(glm::mat4(1.0f), size);

@@ -22,6 +22,6 @@ private:
 	Hazel::Ref<Hazel::Texture2D> m_BackgroundTexture;
 
 	glm::vec4 m_BackgroundColor = { 0.1f, 0.1f, 0.1f, 1.0f };
-	glm::vec4 m_QuadColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+	glm::vec4 m_QuadColor = { 0.8f, 0.4f, 0.4f, 1.0f };
 
 };
