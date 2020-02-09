@@ -1,8 +1,4 @@
 #include "Sandbox3D.h"
-#include "Hazel/Platform/OpenGL/OpenGLShader.h"
-#include "Hazel/Renderer/OrthographicCamera.h"
-#include "Hazel/Renderer/Texture.h"
-#include "Hazel/Loader/Loader.h"
 
 #include "imgui/imgui.h"
 
@@ -99,7 +95,7 @@ void Sandbox3D::OnUpdate(Hazel::Timestep timestep)
 	Hazel::RenderCommand::SetClearColor(m_BackgroundColor);
 	Hazel::RenderCommand::Clear();
 
-	Hazel::Renderer::BeginScene(m_CameraController.GetCamera().GetViewProjectionMatrix());
+	Hazel::Renderer::BeginScene(m_CameraController.GetCamera());
 
 	m_FlatColorShader->Bind();
 	m_FlatColorShader->SetFloat4("u_Color", m_SquareColor1);

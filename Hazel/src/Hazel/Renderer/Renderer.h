@@ -2,7 +2,7 @@
 
 #include "RendererAPI.h"
 #include "RenderCommand.h"
-#include "Hazel/Renderer/OrthographicCamera.h"
+#include "Hazel/Renderer/Camera.h"
 #include "Hazel/Renderer/Shader.h"
 
 
@@ -16,8 +16,7 @@ namespace Hazel
 
 		static void OnWindowResize(uint32_t width, uint32_t height);
 
-		static void BeginScene(OrthographicCamera& camera);
-		static void BeginScene(glm::mat4 viewProjectionMatrix); // Temporary fix for multiple cameras
+		static void BeginScene(Camera& camera);
 		static void EndScene();
 
 		static void Submit(Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,

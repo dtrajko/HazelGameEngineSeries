@@ -22,11 +22,6 @@ private:
 private:
 	Hazel::OrthographicCameraController m_CameraController;
 
-	Hazel::ShaderLibrary m_ShaderLibrary;
-
-	Hazel::Ref<Hazel::VertexArray> m_VertexArray;
-	Hazel::Ref<Hazel::VertexArray> m_SquareVA;
-
 	Hazel::Ref<Hazel::Texture2D> m_Texture;
 	Hazel::Ref<Hazel::Texture2D> m_ChernoLogoTexture;
 

@@ -1,12 +1,6 @@
 #include <Hazel.h>
 #include <Hazel/Core/EntryPoint.h>
 
-#include "Hazel/Platform/OpenGL/OpenGLShader.h"
-
-#include "imgui/imgui.h"
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
 #include "ExampleLayer.h"
 #include "Sandbox2D.h"
 #include "Sandbox3D.h"
