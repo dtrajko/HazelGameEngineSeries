@@ -27,9 +27,11 @@ void ParticlesLayer::OnAttach()
 	m_Particle.SizeEnd = 0.0f;
 	m_Particle.SizeVariation = 0.3f;
 	m_Particle.LifeTime = 1.0f;
-	m_Particle.Velocity = { 0.0f, 0.0f, 0.0f };
-	m_Particle.VelocityVariation = { 3.0f, 3.0f, 3.0f };
 	m_Particle.Position = { 0.0f, 0.0f, 0.0f };
+	m_Particle.Velocity = { 0.0f, 0.0f, 0.0f };
+	m_Particle.VelocityVariation = glm::vec3(m_Velocity);
+	m_Particle.Rotation = { 0.0f, 0.0f, 0.0f };
+	m_Particle.RotationVelocity = glm::vec3(m_RotationVelocity);
 }
 
 void ParticlesLayer::OnDetach()
@@ -46,6 +48,10 @@ void ParticlesLayer::OnUpdate(Hazel::Timestep timestep)
 {
 	// Update
 	m_CameraController.OnUpdate(timestep);
+
+	// ParticleSystem Edit here
+	m_Particle.VelocityVariation = glm::vec3(m_Velocity);
+	m_Particle.RotationVelocity = glm::vec3(m_RotationVelocity);
 
 	m_FPS = (unsigned int)(1.0f / timestep.GetSeconds());
 
@@ -87,9 +93,12 @@ void ParticlesLayer::OnUpdate(Hazel::Timestep timestep)
 void ParticlesLayer::OnImGuiRender()
 {
 	ImGui::Begin("Settings");
+	ImGui::ColorEdit4("Background Color", glm::value_ptr(m_BackgroundColor));
 	ImGui::ColorEdit4("Birth Color", glm::value_ptr(m_Particle.ColorBegin));
 	ImGui::ColorEdit4("Death Color", glm::value_ptr(m_Particle.ColorEnd));
-	ImGui::DragFloat("Life Time", &m_Particle.LifeTime, 0.1f, 0.0f, 1000.0f);
+	ImGui::DragFloat("Life Time", &m_Particle.LifeTime, 0.1f, 0.0f, 100.0f);
+	ImGui::DragFloat("Velocity", &m_Velocity, 0.1f, 0.0f, 100.0f);
+	ImGui::DragFloat("Rotation Velocity", &m_RotationVelocity, 0.0f, 0.0f, 100.0f);
 	ImGui::Value("FPS", m_FPS);
 	ImGui::End();
 }

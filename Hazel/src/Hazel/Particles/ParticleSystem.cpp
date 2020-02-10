@@ -35,38 +35,15 @@ namespace Hazel
 
 			particle.LifeRemaining -= ts;
 			particle.Position += particle.Velocity * (float)ts;
-			particle.Rotation += particle.Velocity * (float)ts;
+			particle.Rotation = glm::vec3(
+				particle.Rotation.x + Random::Float() * particle.RotationVelocity.x * (float)ts,
+				particle.Rotation.y + Random::Float() * particle.RotationVelocity.y * (float)ts,
+				particle.Rotation.z + Random::Float() * particle.RotationVelocity.z * (float)ts);
 		}
 	}
 
 	void ParticleSystem::OnRender(Hazel::Camera& camera)
 	{
-		if (!m_QuadVA)
-		{
-			glCreateVertexArrays(1, &m_QuadVA);
-			glBindVertexArray(m_QuadVA);
-
-			GLuint quadVB, quadIB;
-			glCreateBuffers(1, &quadVB);
-			glBindBuffer(GL_ARRAY_BUFFER, quadVB);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(Cube::vertices), Cube::vertices, GL_STATIC_DRAW);
-
-			glEnableVertexArrayAttrib(quadVB, 0);
-			glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
-
-			glCreateBuffers(1, &quadIB);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, quadIB);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Cube::indices), Cube::indices, GL_STATIC_DRAW);
-
-			m_ParticleShader = Hazel::Ref<Hazel::Shader>(Hazel::Shader::Create("assets/shaders/Particles.glsl"));
-			m_ParticleShaderViewProj = glGetUniformLocation(m_ParticleShader->GetRendererID(), "u_ViewProj");
-			m_ParticleShaderTransform = glGetUniformLocation(m_ParticleShader->GetRendererID(), "u_Transform");
-			m_ParticleShaderColor = glGetUniformLocation(m_ParticleShader->GetRendererID(), "u_Color");
-		}
-
-		glUseProgram(m_ParticleShader->GetRendererID());
-		glUniformMatrix4fv(m_ParticleShaderViewProj, 1, GL_FALSE, glm::value_ptr(camera.GetViewProjectionMatrix()));
-
 		for (auto& particle : m_ParticlePool)
 		{
 			if (!particle.Active)
@@ -85,13 +62,7 @@ namespace Hazel
 				* glm::rotate(glm::mat4(1.0f), particle.Rotation.y, { 0.0f, 1.0f, 0.0f })
 				* glm::rotate(glm::mat4(1.0f), particle.Rotation.z, { 0.0f, 0.0f, 1.0f })
 				* glm::scale(glm::mat4(1.0f), { size, size, size });
-			glUniformMatrix4fv(m_ParticleShaderTransform, 1, GL_FALSE, glm::value_ptr(transform));
-			glUniform4fv(m_ParticleShaderColor, 1, glm::value_ptr(color));
-			glBindVertexArray(m_QuadVA);
 
-			glDrawElements(GL_TRIANGLES, sizeof(Cube::indices), GL_UNSIGNED_INT, nullptr);
-
-			// Hazel::Renderer::DrawCube(particle.Position, { size, size, size }, color);
 			Hazel::Renderer::DrawCube(transform, color);
 		}
 	}
@@ -102,15 +73,21 @@ namespace Hazel
 		particle.Active = true;
 		particle.Position = particleProps.Position;
 		particle.Rotation = glm::vec3(
-			Random::Float() * 2.0f * glm::pi<float>(),
-			Random::Float() * 2.0f * glm::pi<float>(),
-			Random::Float() * 2.0f * glm::pi<float>());
+			particleProps.RotationVelocity.x * Random::Float() * 2.0f * glm::pi<float>(),
+			particleProps.RotationVelocity.y * Random::Float() * 2.0f * glm::pi<float>(),
+			particleProps.RotationVelocity.z * Random::Float() * 2.0f * glm::pi<float>());
 
 		// Velocity
 		particle.Velocity = particleProps.Velocity;
 		particle.Velocity.x += particleProps.VelocityVariation.x * (Random::Float() - 0.5f);
 		particle.Velocity.y += particleProps.VelocityVariation.y * (Random::Float() - 0.5f);
 		particle.Velocity.z += particleProps.VelocityVariation.z * (Random::Float() - 0.5f);
+
+		// Rotation velocity
+		particle.RotationVelocity = particleProps.RotationVelocity;
+		particle.RotationVelocity.x += particleProps.RotationVelocity.x * (Random::Float() - 0.5f);
+		particle.RotationVelocity.y += particleProps.RotationVelocity.y * (Random::Float() - 0.5f);
+		particle.RotationVelocity.z += particleProps.RotationVelocity.z * (Random::Float() - 0.5f);
 
 		// Color
 		particle.ColorBegin = particleProps.ColorBegin;

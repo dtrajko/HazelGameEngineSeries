@@ -22,6 +22,8 @@ private:
 
 	Hazel::ParticleProps m_Particle;
 	Hazel::ParticleSystem m_ParticleSystem;
+	float m_Velocity = 3.0f;
+	float m_RotationVelocity = 0.0f;
 
 	glm::vec4 m_BackgroundColor = { 0.1f, 0.1f, 0.2f, 1.0f };
 

@@ -12,6 +12,8 @@ namespace Hazel
 		glm::vec3 Position;
 		glm::vec3 Velocity;
 		glm::vec3 VelocityVariation;
+		glm::vec3 Rotation;
+		glm::vec3 RotationVelocity;
 		glm::vec4 ColorBegin;
 		glm::vec4 ColorEnd;
 		float SizeBegin;
@@ -37,6 +39,7 @@ namespace Hazel
 			glm::vec4 ColorBegin;
 			glm::vec4 ColorEnd;
 			glm::vec3 Rotation;
+			glm::vec3 RotationVelocity;
 			float SizeBegin;
 			float SizeEnd;
 
