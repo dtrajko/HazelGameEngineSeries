@@ -34,8 +34,6 @@ namespace Hazel
 		virtual void SetMat3(const std::string& name, const glm::mat3& value) override;
 		virtual void SetMat4(const std::string& name, const glm::mat4& value) override;
 
-		virtual const std::string& GetName() const override { return m_Name; };
-
 		void UploadUniformBool(const std::string& name, bool value);
 		void UploadUniformInt(const std::string& name, int value);
 		void UploadUniformFloat(const std::string& name, float value);
@@ -44,6 +42,9 @@ namespace Hazel
 		void UploadUniformFloat4(const std::string& name, const glm::vec4& values);
 		void UploadUniformMat3(const std::string& name, const glm::mat3& matrix);
 		void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
+
+		virtual const std::string& GetName() const override { return m_Name; };
+		virtual const uint32_t GetRendererID() const override { return m_RendererID; };
 
 	private:
 		std::string ReadFile(const std::string& filepath);

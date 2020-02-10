@@ -159,6 +159,8 @@
     <ClInclude Include="src\Hazel\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Hazel\Loader\Loader.h" />
     <ClInclude Include="src\Hazel\Models\Cube.h" />
+    <ClInclude Include="src\Hazel\Particles\ParticleSystem.h" />
+    <ClInclude Include="src\Hazel\Particles\Random.h" />
     <ClInclude Include="src\Hazel\Platform\DX11\DX11Context.h" />
     <ClInclude Include="src\Hazel\Platform\DX11\DX11RendererAPI.h" />
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.h" />
@@ -563,6 +565,7 @@
     <ClCompile Include="src\Hazel\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Hazel\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Hazel\Loader\Loader.cpp" />
+    <ClCompile Include="src\Hazel\Particles\ParticleSystem.cpp" />
     <ClCompile Include="src\Hazel\Platform\DX11\DX11Context.cpp" />
     <ClCompile Include="src\Hazel\Platform\DX11\DX11RendererAPI.cpp" />
     <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.cpp" />

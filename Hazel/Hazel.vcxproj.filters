@@ -22,6 +22,9 @@
     <Filter Include="src\Hazel\Models">
       <UniqueIdentifier>{A37BDD23-8F74-FC75-B8A6-E1FAA4FEDB81}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Hazel\Particles">
+      <UniqueIdentifier>{C628D480-328A-B18E-BBF7-F7402758E84D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Hazel\Platform">
       <UniqueIdentifier>{44620E69-3046-CFBE-99A6-C91185A9B940}</UniqueIdentifier>
     </Filter>
@@ -122,6 +125,12 @@
     </ClInclude>
     <ClInclude Include="src\Hazel\Models\Cube.h">
       <Filter>src\Hazel\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Particles\ParticleSystem.h">
+      <Filter>src\Hazel\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Particles\Random.h">
+      <Filter>src\Hazel\Particles</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Platform\DX11\DX11Context.h">
       <Filter>src\Hazel\Platform\DX11</Filter>
@@ -1330,6 +1339,9 @@
     </ClCompile>
     <ClCompile Include="src\Hazel\Loader\Loader.cpp">
       <Filter>src\Hazel\Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Particles\ParticleSystem.cpp">
+      <Filter>src\Hazel\Particles</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Platform\DX11\DX11Context.cpp">
       <Filter>src\Hazel\Platform\DX11</Filter>

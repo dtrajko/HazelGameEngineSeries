@@ -86,6 +86,15 @@ namespace Hazel
 		RenderCommand::DrawIndexed(s_Data->CubeVertexArray);
 	}
 
+	void Renderer::DrawCube(const glm::mat4& transform, const glm::vec4& color)
+	{
+		s_Data->FlatColorShader->Bind();
+		s_Data->FlatColorShader->SetFloat4("u_Color", color);
+		s_Data->FlatColorShader->SetMat4("u_Transform", transform);
+		s_Data->CubeVertexArray->Bind();
+		RenderCommand::DrawIndexed(s_Data->CubeVertexArray);
+	}
+
 	void Renderer::DrawCube(const glm::vec3& position, const glm::vec3& size, const Ref<Texture2D>& texture)
 	{
 		s_Data->TextureShader->Bind();

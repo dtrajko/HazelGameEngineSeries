@@ -31,6 +31,8 @@ void ExampleLayer::OnUpdate(Hazel::Timestep timestep)
 {
 	if (Hazel::RendererAPI::GetAPI() != Hazel::RendererAPI::API::OpenGL) return;
 
+	m_FPS = (unsigned int)(1.0f / timestep.GetSeconds());
+
 	// Update
 	m_CameraController.OnUpdate(timestep);
 
@@ -38,7 +40,6 @@ void ExampleLayer::OnUpdate(Hazel::Timestep timestep)
 	Hazel::RenderCommand::SetClearColor(m_BackgroundColor);
 	Hazel::RenderCommand::Clear();
 
-	m_FPS = (unsigned int)(1.0f / timestep.GetSeconds());
 
 	UpdateInputPolling(timestep);
 
