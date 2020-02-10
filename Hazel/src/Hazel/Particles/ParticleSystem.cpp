@@ -20,6 +20,11 @@ namespace Hazel
 		m_ParticlePool.resize(1000);
 	}
 
+	void ParticleSystem::SetEnabled3D(bool enabled3D)
+	{
+		m_Enabled3D = enabled3D;
+	}
+
 	void ParticleSystem::OnUpdate(Hazel::Timestep ts)
 	{
 		for (auto& particle : m_ParticlePool)
@@ -63,7 +68,10 @@ namespace Hazel
 				* glm::rotate(glm::mat4(1.0f), particle.Rotation.z, { 0.0f, 0.0f, 1.0f })
 				* glm::scale(glm::mat4(1.0f), { size, size, size });
 
-			Hazel::Renderer::DrawCube(transform, color);
+			if (m_Enabled3D)
+				Hazel::Renderer::DrawCube(transform, color);
+			else
+				Hazel::Renderer::DrawQuad(transform, color);
 		}
 	}
 

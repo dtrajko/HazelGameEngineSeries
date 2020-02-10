@@ -27,6 +27,7 @@ namespace Hazel
 	public:
 		ParticleSystem();
 
+		void SetEnabled3D(bool enabled3D);
 		void OnUpdate(Hazel::Timestep ts);
 		void OnRender(Hazel::Camera& camera);
 		void Emit(const ParticleProps& particleProps);
@@ -51,13 +52,6 @@ namespace Hazel
 
 		std::vector<Particle> m_ParticlePool;
 		uint32_t m_PoolIndex = 999;
-
-		uint32_t m_QuadVA = 0;
-		Hazel::Ref<Hazel::Shader> m_ParticleShader;
-
-		uint32_t m_ParticleShaderViewProj;
-		uint32_t m_ParticleShaderTransform;
-		uint32_t m_ParticleShaderColor;
-
+		bool m_Enabled3D = false;
 	};
 }

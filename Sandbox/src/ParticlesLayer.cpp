@@ -26,12 +26,14 @@ void ParticlesLayer::OnAttach()
 	m_Particle.SizeBegin = 0.5f;
 	m_Particle.SizeEnd = 0.0f;
 	m_Particle.SizeVariation = 0.3f;
-	m_Particle.LifeTime = 1.0f;
+	m_Particle.LifeTime = 4.0f;
 	m_Particle.Position = { 0.0f, 0.0f, 0.0f };
 	m_Particle.Velocity = { 0.0f, 0.0f, 0.0f };
 	m_Particle.VelocityVariation = glm::vec3(m_Velocity);
 	m_Particle.Rotation = { 0.0f, 0.0f, 0.0f };
 	m_Particle.RotationVelocity = glm::vec3(m_RotationVelocity);
+
+	m_ParticleSystem.SetEnabled3D(m_Enabled3D);
 }
 
 void ParticlesLayer::OnDetach()
@@ -52,6 +54,7 @@ void ParticlesLayer::OnUpdate(Hazel::Timestep timestep)
 	// ParticleSystem Edit here
 	m_Particle.VelocityVariation = glm::vec3(m_Velocity);
 	m_Particle.RotationVelocity = glm::vec3(m_RotationVelocity);
+	m_ParticleSystem.SetEnabled3D(m_Enabled3D);
 
 	m_FPS = (unsigned int)(1.0f / timestep.GetSeconds());
 
@@ -99,6 +102,7 @@ void ParticlesLayer::OnImGuiRender()
 	ImGui::DragFloat("Life Time", &m_Particle.LifeTime, 0.1f, 0.0f, 100.0f);
 	ImGui::DragFloat("Velocity", &m_Velocity, 0.1f, 0.0f, 100.0f);
 	ImGui::DragFloat("Rotation Velocity", &m_RotationVelocity, 0.0f, 0.0f, 100.0f);
+	ImGui::Checkbox("Enabled 3D", &m_Enabled3D);
 	ImGui::Value("FPS", m_FPS);
 	ImGui::End();
 }
