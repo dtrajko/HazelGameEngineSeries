@@ -4,6 +4,7 @@
 
 #include "Hazel/Particles/Random.h"
 #include "Hazel/Models/Cube.h"
+#include "Hazel/Core/Timer.h"
 
 #include <glm/gtc/constants.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
@@ -17,7 +18,7 @@ namespace Hazel
 {
 	ParticleSystem::ParticleSystem()
 	{
-		m_ParticlePool.resize(1000);
+		m_ParticlePool.resize(m_PoolIndex + 1);
 	}
 
 	void ParticleSystem::SetEnabled3D(bool enabled3D)

@@ -150,6 +150,7 @@
     <ClInclude Include="src\Hazel\Core\LayerStack.h" />
     <ClInclude Include="src\Hazel\Core\Log.h" />
     <ClInclude Include="src\Hazel\Core\MouseButtonCodes.h" />
+    <ClInclude Include="src\Hazel\Core\Timer.h" />
     <ClInclude Include="src\Hazel\Core\Timestep.h" />
     <ClInclude Include="src\Hazel\Core\Window.h" />
     <ClInclude Include="src\Hazel\Events\ApplicationEvent.h" />

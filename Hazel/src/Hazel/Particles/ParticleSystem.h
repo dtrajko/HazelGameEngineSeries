@@ -51,7 +51,7 @@ namespace Hazel
 		};
 
 		std::vector<Particle> m_ParticlePool;
-		uint32_t m_PoolIndex = 999;
+		uint32_t m_PoolIndex = 1499;
 		bool m_Enabled3D = false;
 	};
 }

@@ -1,5 +1,9 @@
 #include "ParticlesLayer.h"
 
+#include "Hazel/Models/Cube.h"
+#include "Hazel/Renderer/CameraController.h"
+#include "Hazel/Core/Timer.h"
+
 #include "imgui/imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -7,9 +11,8 @@
 
 #include <Glad/include/glad/glad.h>
 
-#include "Hazel/Models/Cube.h"
-#include "Hazel/Renderer/CameraController.h"
 
+#define PROFILE_SCOPE(name) Hazel::Timer timer##__LINE__(name, [&](ParticlesLayer::ProfileResult profileResult) { m_ProfileResults.push_back(profileResult); })
 
 ParticlesLayer::ParticlesLayer()
 	: Layer("Particles Layer"), m_CameraController(16.f / 9.f, true)
@@ -48,6 +51,8 @@ void ParticlesLayer::OnEvent(Hazel::Event& event)
 
 void ParticlesLayer::OnUpdate(Hazel::Timestep timestep)
 {
+	PROFILE_SCOPE("ParticlesLayer::OnUpdate");
+
 	// Update
 	m_CameraController.OnUpdate(timestep);
 
@@ -59,8 +64,11 @@ void ParticlesLayer::OnUpdate(Hazel::Timestep timestep)
 	m_FPS = (unsigned int)(1.0f / timestep.GetSeconds());
 
 	// Render
-	Hazel::RenderCommand::SetClearColor(m_BackgroundColor);
-	Hazel::RenderCommand::Clear();
+	{
+		PROFILE_SCOPE("RenderCommand::SetClearColor");
+		Hazel::RenderCommand::SetClearColor(m_BackgroundColor);
+		Hazel::RenderCommand::Clear();	
+	}
 
 	Hazel::Renderer::BeginScene(m_CameraController.GetCamera());
 
@@ -87,8 +95,14 @@ void ParticlesLayer::OnUpdate(Hazel::Timestep timestep)
 		}
 	}
 
-	m_ParticleSystem.OnUpdate(timestep);
-	m_ParticleSystem.OnRender(m_CameraController.GetCamera());
+	{
+		PROFILE_SCOPE("ParticleSystem::OnUpdate");
+		m_ParticleSystem.OnUpdate(timestep);
+	}
+	{
+		PROFILE_SCOPE("ParticleSystem.OnRender");
+		m_ParticleSystem.OnRender(m_CameraController.GetCamera());
+	}
 
 	Hazel::Renderer::EndScene();
 }
@@ -104,5 +118,17 @@ void ParticlesLayer::OnImGuiRender()
 	ImGui::DragFloat("Rotation Velocity", &m_RotationVelocity, 0.0f, 0.0f, 100.0f);
 	ImGui::Checkbox("Enabled 3D", &m_Enabled3D);
 	ImGui::Value("FPS", m_FPS);
+
+	// Profiler section
+	ImGui::Text("Profiler:");
+	for (auto& result : m_ProfileResults)
+	{
+		char label[50];
+		strcpy_s(label, "%.3f ms  ");
+		strcat_s(label, result.Name);
+		ImGui::Text(label, result.Time);
+	}
+	m_ProfileResults.clear();
+
 	ImGui::End();
 }

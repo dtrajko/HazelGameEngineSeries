@@ -28,4 +28,12 @@ private:
 	unsigned int m_FPS = 0;
 	bool m_Enabled3D = true;
 
+	struct ProfileResult
+	{
+		const char* Name;
+		float Time;
+	};
+
+	std::vector<ProfileResult> m_ProfileResults;
+
 };

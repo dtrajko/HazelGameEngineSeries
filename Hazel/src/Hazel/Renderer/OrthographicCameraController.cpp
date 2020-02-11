@@ -82,7 +82,7 @@ namespace Hazel
 	{
 		if (Input::IsMouseButtonPressed(HZ_MOUSE_BUTTON_1))
 		{
-			HZ_INFO("Mouse position X = {0}, Y = {1}", e.GetX(), e.GetY());
+			// HZ_INFO("Mouse position X = {0}, Y = {1}", e.GetX(), e.GetY());
 		}
 
 		return false;
