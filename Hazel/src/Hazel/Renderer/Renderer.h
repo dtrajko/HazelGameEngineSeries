@@ -26,7 +26,7 @@ namespace Hazel
 		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color);
 
 		static void Submit(Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,
-			const glm::mat4& transform = glm::mat4(1.0f));
+			const glm::mat4& viewProjectionMatrix, const glm::mat4& transform = glm::mat4(1.0f));
 
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 

@@ -158,8 +158,9 @@
     <ClInclude Include="src\Hazel\Events\KeyEvent.h" />
     <ClInclude Include="src\Hazel\Events\MouseEvent.h" />
     <ClInclude Include="src\Hazel\ImGui\ImGuiLayer.h" />
-    <ClInclude Include="src\Hazel\Loader\Loader.h" />
+    <ClInclude Include="src\Hazel\Loader\OBJLoader.h" />
     <ClInclude Include="src\Hazel\Models\Cube.h" />
+    <ClInclude Include="src\Hazel\Models\Quad.h" />
     <ClInclude Include="src\Hazel\Particles\ParticleSystem.h" />
     <ClInclude Include="src\Hazel\Particles\Random.h" />
     <ClInclude Include="src\Hazel\Platform\DX11\DX11Context.h" />
@@ -565,7 +566,7 @@
     <ClCompile Include="src\Hazel\Core\Log.cpp" />
     <ClCompile Include="src\Hazel\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Hazel\ImGui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\Hazel\Loader\Loader.cpp" />
+    <ClCompile Include="src\Hazel\Loader\OBJLoader.cpp" />
     <ClCompile Include="src\Hazel\Particles\ParticleSystem.cpp" />
     <ClCompile Include="src\Hazel\Platform\DX11\DX11Context.cpp" />
     <ClCompile Include="src\Hazel\Platform\DX11\DX11RendererAPI.cpp" />

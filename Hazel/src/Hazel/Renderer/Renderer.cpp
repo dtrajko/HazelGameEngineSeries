@@ -148,10 +148,10 @@ namespace Hazel
 	}
 
 	void Renderer::Submit(Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,
-		const glm::mat4& transform)
+		const glm::mat4& viewProjectionMatrix, const glm::mat4& transform)
 	{
 		shader->Bind();
-		shader->SetMat4("u_ViewProjection", m_SceneData->ViewProjectionMatrix);
+		shader->SetMat4("u_ViewProjection", viewProjectionMatrix);
 		shader->SetMat4("u_Transform", transform);
 
 		vertexArray->Bind();

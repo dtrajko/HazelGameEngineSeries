@@ -5,6 +5,7 @@
 #include "Sandbox2D.h"
 #include "Sandbox3D.h"
 #include "ParticlesLayer.h"
+#include "OBJLayer.h"
 
 
 class Sandbox : public Hazel::Application
@@ -16,6 +17,7 @@ public:
 		// PushLayer(new Sandbox2D());
 		// PushLayer(new Sandbox3D());
 		PushLayer(new ParticlesLayer());
+		// PushLayer(new OBJLayer());
 	}
 
 	~Sandbox()

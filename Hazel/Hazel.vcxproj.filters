@@ -99,6 +99,9 @@
     <ClInclude Include="src\Hazel\Core\MouseButtonCodes.h">
       <Filter>src\Hazel\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Core\Timer.h">
+      <Filter>src\Hazel\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Hazel\Core\Timestep.h">
       <Filter>src\Hazel\Core</Filter>
     </ClInclude>
@@ -120,10 +123,13 @@
     <ClInclude Include="src\Hazel\ImGui\ImGuiLayer.h">
       <Filter>src\Hazel\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Loader\Loader.h">
+    <ClInclude Include="src\Hazel\Loader\OBJLoader.h">
       <Filter>src\Hazel\Loader</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Models\Cube.h">
+      <Filter>src\Hazel\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Models\Quad.h">
       <Filter>src\Hazel\Models</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Particles\ParticleSystem.h">
@@ -1317,9 +1323,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Core\Timer.h">
-      <Filter>src\Hazel\Core</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Core\Application.cpp">
@@ -1340,7 +1343,7 @@
     <ClCompile Include="src\Hazel\ImGui\ImGuiLayer.cpp">
       <Filter>src\Hazel\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="src\Hazel\Loader\Loader.cpp">
+    <ClCompile Include="src\Hazel\Loader\OBJLoader.cpp">
       <Filter>src\Hazel\Loader</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Particles\ParticleSystem.cpp">

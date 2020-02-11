@@ -53,11 +53,14 @@ void Sandbox3D::OnUpdate(Hazel::Timestep timestep)
 
 	m_FlatColorShader->Bind();
 	m_FlatColorShader->SetFloat4("u_Color", m_CubeColor1);
-	Hazel::Renderer::Submit(m_FlatColorShader, m_CubeVA, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -6.0f)));
+	Hazel::Renderer::Submit(m_FlatColorShader, m_CubeVA, m_CameraController.GetCamera().GetViewProjectionMatrix(),
+		glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -6.0f)));
 	m_FlatColorShader->SetFloat4("u_Color", m_CubeColor2);
-	Hazel::Renderer::Submit(m_FlatColorShader, m_CubeVA, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -4.0f)));
+	Hazel::Renderer::Submit(m_FlatColorShader, m_CubeVA, m_CameraController.GetCamera().GetViewProjectionMatrix(),
+		glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -4.0f)));
 	m_FlatColorShader->SetFloat4("u_Color", m_CubeColor3);
-	Hazel::Renderer::Submit(m_FlatColorShader, m_CubeVA, glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f)));
+	Hazel::Renderer::Submit(m_FlatColorShader, m_CubeVA, m_CameraController.GetCamera().GetViewProjectionMatrix(),
+		glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f)));
 
 	Hazel::Renderer::DrawCube({ 2.0f, 0.0f, -2.0f }, { 1.0f, 1.0f, 1.0f }, m_Texture);
 	Hazel::Renderer::DrawCube({ 2.0f, 0.0f, -4.0f }, { 1.0f, 1.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 0.6f });
