@@ -31,4 +31,5 @@ private:
 	glm::vec4 m_CubeColor2 = { 0.6f, 1.0f, 0.6f, 0.5f };
 	glm::vec4 m_CubeColor3 = { 0.6f, 0.6f, 1.0f, 0.5f };
 
+	float m_FOV = glm::radians(45.0f);
 };

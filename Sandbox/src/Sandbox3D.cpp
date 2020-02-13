@@ -44,6 +44,9 @@ void Sandbox3D::OnUpdate(Hazel::Timestep timestep)
 {
 	// Update
 	m_CameraController.OnUpdate(timestep);
+	m_CameraController.GetCamera().SetFOV(m_FOV);
+
+	HZ_TRACE("FOV: {0}", m_FOV);
 
 	// Render
 	Hazel::RenderCommand::SetClearColor(m_BackgroundColor);
@@ -77,6 +80,7 @@ void Sandbox3D::OnImGuiRender()
 	ImGui::ColorEdit4("Cube Color 1", glm::value_ptr(m_CubeColor1));
 	ImGui::ColorEdit4("Cube Color 2", glm::value_ptr(m_CubeColor2));
 	ImGui::ColorEdit4("Cube Color 3", glm::value_ptr(m_CubeColor3));
+	ImGui::DragFloat("FOV", &m_FOV, 0.001f, glm::radians(4.0f), glm::radians(160.0f));
 	ImGui::End();
 }
 
