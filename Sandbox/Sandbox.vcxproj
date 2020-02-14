@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\BatchRenderingLayer.h" />
     <ClInclude Include="src\ExampleLayer.h" />
     <ClInclude Include="src\OBJLayer.h" />
     <ClInclude Include="src\ParticlesLayer.h" />
@@ -138,6 +139,7 @@
     <ClInclude Include="src\Sandbox3D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\BatchRenderingLayer.cpp" />
     <ClCompile Include="src\ExampleLayer.cpp" />
     <ClCompile Include="src\OBJLayer.cpp" />
     <ClCompile Include="src\ParticlesLayer.cpp" />

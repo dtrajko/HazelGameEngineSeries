@@ -8,8 +8,6 @@
 namespace Hazel
 {
 
-
-
 	Ref<Texture2D> Texture2D::Create(const uint32_t width, const uint32_t height)
 	{
 		switch (RendererAPI::GetAPI())

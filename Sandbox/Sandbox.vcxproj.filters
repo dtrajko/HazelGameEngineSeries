@@ -6,6 +6,7 @@
     <ClInclude Include="src\Sandbox2D.h" />
     <ClInclude Include="src\Sandbox3D.h" />
     <ClInclude Include="src\OBJLayer.h" />
+    <ClInclude Include="src\BatchRenderingLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ExampleLayer.cpp" />
@@ -14,5 +15,6 @@
     <ClCompile Include="src\Sandbox3D.cpp" />
     <ClCompile Include="src\SandboxApp.cpp" />
     <ClCompile Include="src\OBJLayer.cpp" />
+    <ClCompile Include="src\BatchRenderingLayer.cpp" />
   </ItemGroup>
 </Project>

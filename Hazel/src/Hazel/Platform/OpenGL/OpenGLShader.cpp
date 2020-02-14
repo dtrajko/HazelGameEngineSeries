@@ -9,26 +9,29 @@
 
 namespace Hazel
 {
-
-	static GLenum ShaderTypeFromString(const std::string& type)
+	OpenGLShader::OpenGLShader(const std::string& vertexFilepath, const std::string& fragmentFilepath)
 	{
-		if (type == "vertex")
-		{
-			return GL_VERTEX_SHADER;
-		}
-		else if (type == "fragment" || type == "pixel")
-		{
-			return GL_FRAGMENT_SHADER;
-		}
+		std::string fileContentVertex = ReadFile(vertexFilepath);
+		std::string fileContentFragment = ReadFile(fragmentFilepath);
 
-		HZ_CORE_ASSERT(false, "Unknown shader type!");
-		return 0;
+		std::string shaderSource = fileContentVertex + "\n\n" + fileContentFragment;
+
+		auto shaderSources = PreProcess(shaderSource);
+		Compile(shaderSources);
+
+		// Extract name from filepath (e.g. 'assets/shaders/Texture.glsl' => 'Texture')
+		auto lastSlash = vertexFilepath.find_last_of("/\\");
+		lastSlash = (lastSlash == std::string::npos) ? 0 : lastSlash + 1;
+		auto lastDot = vertexFilepath.rfind(".");
+		auto count = (lastDot == std::string::npos) ? vertexFilepath.size() - lastSlash : lastDot - lastSlash;
+		m_Name = vertexFilepath.substr(lastSlash, count);
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& filepath)
 	{
 		std::string shaderSource = ReadFile(filepath);
 		auto shaderSources = PreProcess(shaderSource);
+		HZ_CORE_TRACE("Compile shader '{0}'", filepath);
 		Compile(shaderSources);
 
 		// Extract name from filepath (e.g. 'assets/shaders/Texture.glsl' => 'Texture')
@@ -45,7 +48,35 @@ namespace Hazel
 		std::unordered_map<GLenum, std::string> shaderSources;
 		shaderSources[GL_VERTEX_SHADER] = vertexSrc;
 		shaderSources[GL_FRAGMENT_SHADER] = fragmentSrc;
+		HZ_CORE_TRACE("Compile shader '{0}'", name);
 		Compile(shaderSources);
+	}
+
+	static GLenum ShaderTypeFromString(const std::string& type)
+	{
+		if (type == "vertex")
+		{
+			return GL_VERTEX_SHADER;
+		}
+		else if (type == "fragment" || type == "pixel")
+		{
+			return GL_FRAGMENT_SHADER;
+		}
+
+		HZ_CORE_ASSERT(false, "Unknown shader type!");
+		return 0;
+	}
+
+	std::string OpenGLShader::GetShaderTypeNameFromEnum(const GLenum shaderType)
+	{
+		std::string shaderTypeName = "Unknown";
+		if (shaderType == GL_VERTEX_SHADER)               shaderTypeName = "Vertex";
+		else if (shaderType == GL_FRAGMENT_SHADER)        shaderTypeName = "Fragment";
+		else if (shaderType == GL_TESS_CONTROL_SHADER)    shaderTypeName = "Tessellation Control";
+		else if (shaderType == GL_TESS_EVALUATION_SHADER) shaderTypeName = "Tessellation Evaluation";
+		else if (shaderType == GL_GEOMETRY_SHADER)        shaderTypeName = "Geometry";
+		else if (shaderType == GL_COMPUTE_SHADER)         shaderTypeName = "Compute";
+		return shaderTypeName;
 	}
 
 	std::string OpenGLShader::ReadFile(const std::string& filepath)
@@ -132,6 +163,8 @@ namespace Hazel
 				HZ_CORE_ASSERT(false, "Shader compilation failure!");
 				break;
 			}
+
+			HZ_CORE_TRACE("{0} Shader compilation done.", GetShaderTypeNameFromEnum(type));
 
 			glAttachShader(program, shader);
 			glShaderIDs[glShaderIDIndex++] = shader;

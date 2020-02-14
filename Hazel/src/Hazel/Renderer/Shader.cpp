@@ -38,6 +38,21 @@ namespace Hazel
 		}
 	}
 
+	Ref<Shader> Shader::Create(const std::string& vertexFilepath, const std::string& fragmentFilepath)
+	{
+		switch (RendererAPI::GetAPI())
+		{
+		case RendererAPI::API::None:
+			HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
+			return nullptr;
+		case RendererAPI::API::OpenGL:
+			return std::make_shared<OpenGLShader>(vertexFilepath, fragmentFilepath);
+		default:
+			HZ_CORE_ASSERT(false, "RendererAPI value unknown!");
+			return nullptr;
+		}
+	}
+
 	void ShaderLibrary::Add(const Ref<Shader>& shader)
 	{
 		auto& name = shader->GetName();
