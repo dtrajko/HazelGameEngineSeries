@@ -21,6 +21,9 @@ void VulkanLayer::OnAttach()
 	window = &(Hazel::Application::Get().GetWindow());
 	windowHandler = (GLFWwindow*)window->GetNativeWindow();
 
+	m_CameraController.SetTranslationSpeed(2.0f);
+	m_CameraController.SetRotationSpeed(1.0f);
+
 	InitVulkan();
 }
 
@@ -94,7 +97,18 @@ void VulkanLayer::RecreateSwapChain()
 
 void VulkanLayer::OnUpdate(Hazel::Timestep timestep)
 {
-	// Update
+	if (Hazel::Input::IsMouseButtonPressed(HZ_MOUSE_BUTTON_MIDDLE))
+	{
+		bool cursorEnabled = false;
+		Hazel::Application::Get().GetWindow().SetInputMode(cursorEnabled);
+	}
+
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_ESCAPE))
+	{
+		bool cursorEnabled = true;
+		Hazel::Application::Get().GetWindow().SetInputMode(cursorEnabled);
+	}
+
 	m_CameraController.OnUpdate(timestep);
 
 	m_FPS = (unsigned int)(1.0f / timestep.GetSeconds());

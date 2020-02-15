@@ -153,6 +153,18 @@ void DX11Layer::Create()
 
 void DX11Layer::OnUpdate(Hazel::Timestep timestep)
 {
+	if (Hazel::Input::IsMouseButtonPressed(HZ_MOUSE_BUTTON_MIDDLE))
+	{
+		bool cursorEnabled = false;
+		Hazel::Application::Get().GetWindow().SetInputMode(cursorEnabled);
+	}
+
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_ESCAPE))
+	{
+		bool cursorEnabled = true;
+		Hazel::Application::Get().GetWindow().SetInputMode(cursorEnabled);
+	}
+
 	// Update
 	m_CameraController.OnUpdate(timestep);
 
@@ -196,14 +208,11 @@ void DX11Layer::UpdateScene()
 
 	Matrix4x4 temp;
 	temp.setIdentity();
-	temp.setTranslation(Vector3D(0.0f, 0.0f, -10.0f));
+	temp.setTranslation(Vector3D(0.0f, 0.0f, -5.0f));
 	cc.m_world *= temp;
 
 	cc.m_view = Matrix4x4(m_CameraController.GetCamera().GetViewMatrix());
 	cc.m_proj = Matrix4x4(m_CameraController.GetCamera().GetProjectionMatrix());
-
-	glm::vec3 camPos = m_CameraController.GetCamera().GetRight();
-	HZ_TRACE("Camera Right Vector X: {0}, Y: {1}, Z: {2}", camPos.x, camPos.y, camPos.z);
 
 	m_cb->update(m_render_system->getImmediateDeviceContext(), &cc);
 }

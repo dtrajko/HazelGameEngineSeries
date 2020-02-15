@@ -23,6 +23,9 @@ namespace Hazel
 		void SetZoomLevel(float zoomLevel) { m_ZoomLevel = zoomLevel; }
 		float GetZoomLevel() const { return m_ZoomLevel; }
 
+		void SetTranslationSpeed(float cameraTranslationSpeed) { m_CameraTranslationSpeed = cameraTranslationSpeed; };
+		void SetRotationSpeed(float cameraRotationSpeed) { m_CameraRotationSpeed = cameraRotationSpeed; };
+
 	private:
 		bool OnMouseScrolled(MouseScrolledEvent& e);
 		bool OnMouseMoved(MouseMovedEvent& e);
