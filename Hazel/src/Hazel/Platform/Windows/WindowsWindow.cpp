@@ -172,6 +172,13 @@ namespace Hazel {
 				MouseMovedEvent event((float)xPos, (float)yPos);
 				data.EventCallback(event);
 			});
+
+		glfwSetCursorEnterCallback(m_Window, [](GLFWwindow* window, int entered)
+			{
+				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+				// TODO
+			});
 	}
 	void WindowsWindow::Shutdown()
 	{
@@ -201,5 +208,13 @@ namespace Hazel {
 	bool WindowsWindow::IsVSync() const
 	{
 		return m_Data.VSync;
+	}
+
+	void WindowsWindow::SetInputMode(bool cursorEnabled)
+	{
+		if (cursorEnabled)
+			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		else
+			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	}
 }

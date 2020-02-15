@@ -35,8 +35,14 @@ namespace Hazel
 
 		bool m_Rotation;
 
-		glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
-		float m_CameraRotation = 0.0f;
+		float m_CursorOffsetX = 0.0f; // Yaw
+		float m_CursorOffsetY = 0.0f; // Pitch
+		float m_LastMousePositionX = 0.0f;
+		float m_LastMousePositionY = 0.0f;
+		bool m_MouseFirstMoved = true;
+
+		glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 4.0f };
+		glm::vec3 m_CameraRotation = { 0.0f, 180.0f, 0.0f };
 		float m_CameraTranslationSpeed = 5.0f;
 		float m_CameraRotationSpeed = 1.0f;
 		float m_ShiftSpeedMultiplier = 10.f;

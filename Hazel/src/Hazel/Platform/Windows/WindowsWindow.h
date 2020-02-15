@@ -27,6 +27,7 @@ namespace Hazel {
 		inline void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
+		void SetInputMode(bool cursorEnabled) override;
 
 		inline virtual void* GetNativeWindow() const override { return m_Window; };
 

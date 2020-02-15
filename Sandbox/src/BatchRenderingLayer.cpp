@@ -16,7 +16,7 @@
 #define PROFILE_SCOPE(name) Hazel::Timer timer##__LINE__(name, [&](BatchRenderingLayer::ProfileResult profileResult) { m_ProfileResults.push_back(profileResult); })
 
 BatchRenderingLayer::BatchRenderingLayer()
-	: Layer("Batch Rendering Layer"), m_CameraController(16.f / 9.f, true)
+	: Layer("Batch Rendering Layer"), m_CameraController(16.f / 9.f, false)
 {
 }
 

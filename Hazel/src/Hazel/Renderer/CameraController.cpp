@@ -5,6 +5,7 @@
 #include "Hazel/Core/Input.h"
 #include "Hazel/Core/KeyCodes.h"
 #include "Hazel/Core/MouseButtonCodes.h"
+#include "Hazel/Core/Application.h"
 
 
 namespace Hazel
@@ -20,42 +21,60 @@ namespace Hazel
 
 	void CameraController::OnUpdate(Timestep timestep)
 	{
-		/* Camera movement Begin */
-		if (Input::IsKeyPressed(HZ_KEY_LEFT) || Input::IsKeyPressed(HZ_KEY_A))
-		{
-			m_CameraPosition.x -= m_CameraTranslationSpeed * timestep.GetSeconds();
-		}
-		else if (Input::IsKeyPressed(HZ_KEY_RIGHT) || Input::IsKeyPressed(HZ_KEY_D))
-		{
-			m_CameraPosition.x += m_CameraTranslationSpeed * timestep.GetSeconds();
-		}
-
 		if (Input::IsKeyPressed(HZ_KEY_UP) || Input::IsKeyPressed(HZ_KEY_W))
 		{
-			m_CameraPosition.z -= m_CameraTranslationSpeed * timestep.GetSeconds();
+			m_CameraPosition += m_Camera.GetFront() * m_CameraTranslationSpeed * timestep.GetSeconds();
 		}
 		else if (Input::IsKeyPressed(HZ_KEY_DOWN) || Input::IsKeyPressed(HZ_KEY_S))
 		{
-			m_CameraPosition.z += m_CameraTranslationSpeed * timestep.GetSeconds();
+			m_CameraPosition -= m_Camera.GetFront() * m_CameraTranslationSpeed * timestep.GetSeconds();
+		}
+
+		if (Input::IsKeyPressed(HZ_KEY_LEFT) || Input::IsKeyPressed(HZ_KEY_A))
+		{
+			m_CameraPosition -= m_Camera.GetRight() * m_CameraTranslationSpeed * timestep.GetSeconds();
+		}
+		else if (Input::IsKeyPressed(HZ_KEY_RIGHT) || Input::IsKeyPressed(HZ_KEY_D))
+		{
+			m_CameraPosition += m_Camera.GetRight() * m_CameraTranslationSpeed * timestep.GetSeconds();
 		}
 
 		if (Input::IsKeyPressed(HZ_KEY_Q))
 		{
-			m_CameraPosition.y -= m_CameraTranslationSpeed * timestep.GetSeconds();
+			m_CameraPosition -= m_Camera.GetUp() * m_CameraTranslationSpeed * timestep.GetSeconds();
 		}
 		else if (Input::IsKeyPressed(HZ_KEY_E))
 		{
-			m_CameraPosition.y += m_CameraTranslationSpeed * timestep.GetSeconds();
+			m_CameraPosition += m_Camera.GetUp() * m_CameraTranslationSpeed * timestep.GetSeconds();
 		}
 
 		if (m_Rotation)
 		{
-			// TODO
-			m_Camera.SetRotation(m_CameraRotation);
+			if (m_MouseFirstMoved)
+			{
+				m_LastMousePositionX = Input::GetMouseX();
+				m_LastMousePositionY = Input::GetMouseY();
+				m_MouseFirstMoved = false;
+			}
+
+			m_CursorOffsetX = Input::GetMouseX() - m_LastMousePositionX;
+			m_CursorOffsetY = m_LastMousePositionY - Input::GetMouseY();
+
+			m_LastMousePositionX = Input::GetMouseX();
+			m_LastMousePositionY = Input::GetMouseY();
+
+			m_CameraRotation.x += m_CursorOffsetY; // Pitch
+			m_CameraRotation.y -= m_CursorOffsetX; // Yaw
+
+			// Pitch limit from -90 to 90 degrees
+			if (m_CameraRotation.x > 89.0f)
+				m_CameraRotation.x = 89.0f;
+			if (m_CameraRotation.x < -89.0f)
+				m_CameraRotation.x = -89.0f;
 		}
-		/* Camera movement End */
 
 		m_Camera.SetPosition(m_CameraPosition);
+		m_Camera.SetRotation(m_CameraRotation);
 	}
 
 	void CameraController::OnEvent(Event& e)

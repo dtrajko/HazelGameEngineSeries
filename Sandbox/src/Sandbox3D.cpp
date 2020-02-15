@@ -42,11 +42,21 @@ void Sandbox3D::OnDetach()
 
 void Sandbox3D::OnUpdate(Hazel::Timestep timestep)
 {
+	if (Hazel::Input::IsMouseButtonPressed(HZ_MOUSE_BUTTON_MIDDLE))
+	{
+		bool cursorEnabled = false;
+		Hazel::Application::Get().GetWindow().SetInputMode(cursorEnabled);
+	}
+
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_ESCAPE))
+	{
+		bool cursorEnabled = true;
+		Hazel::Application::Get().GetWindow().SetInputMode(cursorEnabled);
+	}
+
 	// Update
 	m_CameraController.OnUpdate(timestep);
 	m_CameraController.GetCamera().SetFOV(m_FOV);
-
-	HZ_TRACE("FOV: {0}", m_FOV);
 
 	// Render
 	Hazel::RenderCommand::SetClearColor(m_BackgroundColor);

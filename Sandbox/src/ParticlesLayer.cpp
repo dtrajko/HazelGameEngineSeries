@@ -37,6 +37,9 @@ void ParticlesLayer::OnAttach()
 	m_Particle.RotationVelocity = glm::vec3(m_RotationVelocity);
 
 	m_ParticleSystem.SetEnabled3D(m_Enabled3D);
+
+	m_CameraController.GetCamera().SetFOV(45.0f);
+	m_CameraController.SetZoomLevel(2.0f);
 }
 
 void ParticlesLayer::OnDetach()
@@ -52,6 +55,18 @@ void ParticlesLayer::OnEvent(Hazel::Event& event)
 void ParticlesLayer::OnUpdate(Hazel::Timestep timestep)
 {
 	PROFILE_SCOPE("ParticlesLayer::OnUpdate");
+
+	if (Hazel::Input::IsMouseButtonPressed(HZ_MOUSE_BUTTON_MIDDLE))
+	{
+		bool cursorEnabled = false;
+		Hazel::Application::Get().GetWindow().SetInputMode(cursorEnabled);
+	}
+
+	if (Hazel::Input::IsKeyPressed(HZ_KEY_ESCAPE))
+	{
+		bool cursorEnabled = true;
+		Hazel::Application::Get().GetWindow().SetInputMode(cursorEnabled);
+	}
 
 	// Update
 	m_CameraController.OnUpdate(timestep);
@@ -84,7 +99,7 @@ void ParticlesLayer::OnUpdate(Hazel::Timestep timestep)
 		float boundsWidth = 16.0f; // bounds.GetWidth();
 		float boundsHeight = 9.0f; // bounds.GetHeight();
 		float boundsDepth = -16.0f;
-		auto pos = m_CameraController.GetCamera().GetPosition();
+		auto pos = m_CameraController.GetCamera().GetPosition() + m_CameraController.GetCamera().GetFront() * 6.0f;
 		x = (x / width) * boundsWidth - boundsWidth * 0.5f;
 		y = boundsHeight * 0.5f - (y / height) * boundsHeight;
 		z = boundsDepth * 0.5f - (y / height) * boundsDepth;
