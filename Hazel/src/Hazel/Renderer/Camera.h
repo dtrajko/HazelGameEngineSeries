@@ -47,7 +47,7 @@ namespace Hazel
 
 		float m_FOV = glm::radians(45.0f);
 		float m_Aspect = 1280.0f / 720.0f;
-		float m_Near = 1.0f;
+		float m_Near = 0.1f;
 		float m_Far = 150.0f;
 
 	};

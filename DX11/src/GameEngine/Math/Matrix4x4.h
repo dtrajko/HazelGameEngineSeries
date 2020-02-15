@@ -25,6 +25,19 @@ public:
 		m_mat[3][3] = 1;
 	}
 
+	Matrix4x4(const glm::mat4& matrix)
+	{
+		setIdentity();
+
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				m_mat[i][j] = matrix[i][j];
+			}
+		}
+	}
+
 	void setTranslation(const Vector3D& translation)
 	{
 		Matrix4x4 mat_in;

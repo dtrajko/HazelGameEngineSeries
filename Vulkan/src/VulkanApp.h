@@ -93,15 +93,14 @@ private:
 	RenderPass* renderPass;
 	GraphicsPipeline* graphicsPipeline;
 
+	Hazel::CameraController m_CameraController;
+
 	// Model movement
 	float positionX = 0.0f;
 	float positionZ = 0.0f;
 	float movementSpeed = 0.02f;
 
 	unsigned int m_FPS;
-
-	Hazel::CameraController m_CameraController;
-
 
 public:
 

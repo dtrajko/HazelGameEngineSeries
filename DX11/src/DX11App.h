@@ -47,17 +47,13 @@ private:
 	VertexShader* m_vs;
 	PixelShader* m_ps;
 
-	// Camera
-	Hazel::OrthographicCamera m_Camera;
-	glm::vec3 m_CameraPosition;
-	float m_CameraMoveSpeed = 2.0f;
-
-	float m_CameraRotation = 0.0f;
-	float m_CameraRotationSpeed = 20.0f;
+	Hazel::CameraController m_CameraController;
 
 public:
 
 	DX11Layer();
+	virtual void OnAttach() override;
+	virtual void OnDetach() override;
 	void OnUpdate(Hazel::Timestep timestep) override;
 	void OnEvent(Hazel::Event& event) override;
 	~DX11Layer();
@@ -65,10 +61,7 @@ public:
 private:
 
 	void Create();
-	void UpdateInputPolling(Hazel::Timestep timestep);
 	bool OnWindowResizeEvent(Hazel::WindowResizeEvent& event);
-	bool OnMouseScrolled(Hazel::MouseScrolledEvent& e);
-	bool OnMouseMoved(Hazel::MouseMovedEvent& e);
 	void UpdateScene();
 
 };

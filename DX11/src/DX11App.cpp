@@ -33,7 +33,11 @@ struct constant
 
 
 DX11Layer::DX11Layer()
-	: Layer("DirectX 11 Layer"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f, 0.0f, -10.0f)
+	: Layer("DirectX 11 Layer"), m_CameraController(16.f / 9.f, true)
+{
+}
+
+void DX11Layer::OnAttach()
 {
 	window = &(Hazel::Application::Get().GetWindow());
 	windowHandler = (GLFWwindow*)window->GetNativeWindow();
@@ -42,12 +46,16 @@ DX11Layer::DX11Layer()
 	Create();
 }
 
+void DX11Layer::OnDetach()
+{
+}
+
 void DX11Layer::OnEvent(Hazel::Event& event)
 {
+	m_CameraController.OnEvent(event);
+
 	Hazel::EventDispatcher dispatcher(event);
 	dispatcher.Dispatch<Hazel::WindowResizeEvent>(HZ_BIND_EVENT_FN(DX11Layer::OnWindowResizeEvent));
-	dispatcher.Dispatch<Hazel::MouseScrolledEvent>(HZ_BIND_EVENT_FN(DX11Layer::OnMouseScrolled));
-	dispatcher.Dispatch<Hazel::MouseMovedEvent>(HZ_BIND_EVENT_FN(DX11Layer::OnMouseMoved));
 }
 
 bool DX11Layer::OnWindowResizeEvent(Hazel::WindowResizeEvent& event)
@@ -59,17 +67,6 @@ bool DX11Layer::OnWindowResizeEvent(Hazel::WindowResizeEvent& event)
 	width = (float)event.GetWidth();
 	height = (float)event.GetHeight();
 
-	return false;
-}
-
-bool DX11Layer::OnMouseScrolled(Hazel::MouseScrolledEvent& e)
-{
-	m_CameraPosition.z += e.GetYOffset() * 0.5f;
-	return false;
-}
-
-bool DX11Layer::OnMouseMoved(Hazel::MouseMovedEvent& e)
-{
 	return false;
 }
 
@@ -86,8 +83,8 @@ void DX11Layer::Create()
 	width = (float)Hazel::Application::Get().GetWindow().GetWidth();
 	height = (float)Hazel::Application::Get().GetWindow().GetHeight();
 
-	HZ_INFO("Create Display width: {0}", Hazel::Application::Get().GetWindow().GetWidth());
-	HZ_INFO("Create Display height: {0}", Hazel::Application::Get().GetWindow().GetHeight());
+	HZ_INFO("Display width: {0}", Hazel::Application::Get().GetWindow().GetWidth());
+	HZ_INFO("Display height: {0}", Hazel::Application::Get().GetWindow().GetHeight());
 
 	vertex vertex_list[] =
 	{
@@ -156,23 +153,16 @@ void DX11Layer::Create()
 
 void DX11Layer::OnUpdate(Hazel::Timestep timestep)
 {
-	// HZ_TRACE("Delta time: {0} sec, {1} ms", timestep.GetSeconds(), timestep.GetMilliseconds());
-
-	UpdateInputPolling(timestep);
-
-	m_Camera.SetPosition(m_CameraPosition);
-	m_Camera.SetRotation(m_CameraRotation);
+	// Update
+	m_CameraController.OnUpdate(timestep);
 
 	// Clear the render target
-	m_render_system->getImmediateDeviceContext()->clearRenderTargetColor(m_swap_chain, 0.2f, 0.4f, 0.8f, 1);
+	m_render_system->getImmediateDeviceContext()->clearRenderTargetColor(m_swap_chain, 0.2f, 0.0f, 0.2f, 1);
 
 	// Set Viewport of render target in which we have to draw
 	m_render_system->getImmediateDeviceContext()->setViewportSize(
 		Hazel::Application::Get().GetWindow().GetWidth(),
 		Hazel::Application::Get().GetWindow().GetHeight());
-
-	// HZ_INFO("OnUpdate Display width: {0}", Hazel::Application::Get().GetWindow().GetWidth());
-	// HZ_INFO("OnUpdate Display height: {0}", Hazel::Application::Get().GetWindow().GetHeight());
 
 	this->UpdateScene();
 
@@ -190,49 +180,9 @@ void DX11Layer::OnUpdate(Hazel::Timestep timestep)
 	m_render_system->getImmediateDeviceContext()->setIndexBuffer(m_ib);
 
 	// Finally draw the triangle
-	// GraphicsEngine::get()->getImmediateDeviceContext()->drawTriangleStrip(m_vb->getSizeVertexList(), 0);
 	m_render_system->getImmediateDeviceContext()->drawIndexedTriangleList(m_ib->getSizeIndexList(), 0, 0);
 
 	m_swap_chain->present(true);
-}
-
-void DX11Layer::UpdateInputPolling(Hazel::Timestep timestep)
-{
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_LEFT) || Hazel::Input::IsKeyPressed(HZ_KEY_A))
-	{
-		m_CameraPosition.x -= m_CameraMoveSpeed * timestep.GetSeconds();
-	}
-	else if (Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT) || Hazel::Input::IsKeyPressed(HZ_KEY_D))
-	{
-		m_CameraPosition.x += m_CameraMoveSpeed * timestep.GetSeconds();
-	}
-
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_UP) || Hazel::Input::IsKeyPressed(HZ_KEY_W))
-	{
-		m_CameraPosition.z += m_CameraMoveSpeed * timestep.GetSeconds(); // opposite direction in DirectX 11 project?
-	}
-	else if (Hazel::Input::IsKeyPressed(HZ_KEY_DOWN) || Hazel::Input::IsKeyPressed(HZ_KEY_S))
-	{
-		m_CameraPosition.z -= m_CameraMoveSpeed * timestep.GetSeconds(); // opposite direction in DirectX 11 project?
-	}
-
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_Q))
-	{
-		m_CameraPosition.y += m_CameraMoveSpeed * timestep.GetSeconds();
-	}
-	else if (Hazel::Input::IsKeyPressed(HZ_KEY_E))
-	{
-		m_CameraPosition.y -= m_CameraMoveSpeed * timestep.GetSeconds();
-	}
-
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_1))
-	{
-		m_CameraRotation += m_CameraRotationSpeed * timestep.GetSeconds();
-	}
-	else if (Hazel::Input::IsKeyPressed(HZ_KEY_2))
-	{
-		m_CameraRotation -= m_CameraRotationSpeed * timestep.GetSeconds();
-	}
 }
 
 void DX11Layer::UpdateScene()
@@ -240,37 +190,20 @@ void DX11Layer::UpdateScene()
 	constant cc;
 	cc.m_time = (unsigned int)::GetTickCount64();
 
-	Matrix4x4 m_world_cam;
-
 	cc.m_world.setIdentity();
 	cc.m_view.setIdentity();
 	cc.m_proj.setIdentity();
-	m_world_cam.setIdentity();
 
 	Matrix4x4 temp;
-	Matrix4x4 world_cam;
 	temp.setIdentity();
-	world_cam.setIdentity();
-
-	Vector3D new_pos =
-		m_world_cam.getTranslation() +
-		world_cam.getXDirection() * m_CameraPosition.x +
-		world_cam.getYDirection() * m_CameraPosition.y +
-		world_cam.getZDirection() * m_CameraPosition.z;
-	world_cam.setTranslation(new_pos);
-	m_world_cam = world_cam;
-	world_cam.inverse();
-	cc.m_view = world_cam;
-
-	temp.setRotationY((float)cc.m_time * 0.001f);
-	temp.setRotationX((float)cc.m_time * 0.001f);
+	temp.setTranslation(Vector3D(0.0f, 0.0f, -10.0f));
 	cc.m_world *= temp;
 
-	float fov = 0.5f;
-	float aspect = width / height;
-	float znear = 0.1f;
-	float zfar = 100.0f;
-	cc.m_proj.setPerspectiveFovLH(fov, aspect, znear, zfar);
+	cc.m_view = Matrix4x4(m_CameraController.GetCamera().GetViewMatrix());
+	cc.m_proj = Matrix4x4(m_CameraController.GetCamera().GetProjectionMatrix());
+
+	glm::vec3 camPos = m_CameraController.GetCamera().GetRight();
+	HZ_TRACE("Camera Right Vector X: {0}, Y: {1}, Z: {2}", camPos.x, camPos.y, camPos.z);
 
 	m_cb->update(m_render_system->getImmediateDeviceContext(), &cc);
 }

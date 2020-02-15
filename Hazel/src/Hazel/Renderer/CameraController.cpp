@@ -14,8 +14,7 @@ namespace Hazel
 	CameraController::CameraController(float aspectRatio, bool rotation)
 		: m_AspectRatio(aspectRatio),
 		m_Rotation(rotation),
-		m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel),
-		m_CameraPosition(0.0f)
+		m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel)
 	{
 	}
 
