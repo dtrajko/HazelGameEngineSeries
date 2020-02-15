@@ -44,6 +44,7 @@
 
 #include "Hazel/Core/Window.h"
 #include "Hazel/Renderer/RendererAPI.h"
+#include "Hazel/Renderer/CameraController.h"
 
 
 const int MAX_FRAMES_IN_FLIGHT = 2;
@@ -97,19 +98,16 @@ private:
 	float positionZ = 0.0f;
 	float movementSpeed = 0.02f;
 
-	// Camera
-	Hazel::OrthographicCamera m_Camera;
-	glm::vec3 m_CameraPosition;
-	float m_CameraMoveSpeed = 2.0f;
-
-	float m_CameraRotation = 0.0f;
-	float m_CameraRotationSpeed = 20.0f;
-
 	unsigned int m_FPS;
+
+	Hazel::CameraController m_CameraController;
+
 
 public:
 
 	VulkanLayer();
+	virtual void OnAttach() override;
+	virtual void OnDetach() override;
 	void OnUpdate(Hazel::Timestep timestep) override;
 	void OnEvent(Hazel::Event& event) override;
 	~VulkanLayer();
@@ -130,11 +128,7 @@ private:
 	// Uniform buffers
 	void UpdateUniformBuffer(uint32_t currentImage, UniformBuffer uniformBuffer);
 
-	void UpdateInputPolling(Hazel::Timestep timestep);
-
 	bool OnWindowResizeEvent(Hazel::WindowResizeEvent& event);
-	bool OnMouseScrolled(Hazel::MouseScrolledEvent& e);
-	bool OnMouseMoved(Hazel::MouseMovedEvent& e);
 
 	void DrawFrame(Device* device);
 
@@ -159,4 +153,5 @@ Hazel::Application* Hazel::CreateApplication()
 	RendererAPI::SetAPI(RendererAPI::API::Vulkan);
 
 	return new VulkanApp();
-}
+};
+

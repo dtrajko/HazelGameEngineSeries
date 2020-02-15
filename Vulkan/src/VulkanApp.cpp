@@ -12,12 +12,21 @@
 
 
 VulkanLayer::VulkanLayer()
-	: Layer("VulkanLayer"), m_Camera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f, 0.0f, 10.0f)
+	: Layer("VulkanLayer"), m_CameraController(16.f / 9.f, true)
+{
+}
+
+void VulkanLayer::OnAttach()
 {
 	window = &(Hazel::Application::Get().GetWindow());
 	windowHandler = (GLFWwindow*)window->GetNativeWindow();
 
 	InitVulkan();
+}
+
+void VulkanLayer::OnDetach()
+{
+	// Shutdown here
 }
 
 void VulkanLayer::InitVulkan()
@@ -85,81 +94,27 @@ void VulkanLayer::RecreateSwapChain()
 
 void VulkanLayer::OnUpdate(Hazel::Timestep timestep)
 {
-	// HZ_TRACE("Delta time: {0} sec, {1} ms", timestep.GetSeconds(), timestep.GetMilliseconds());
+	// Update
+	m_CameraController.OnUpdate(timestep);
 
 	m_FPS = (unsigned int)(1.0f / timestep.GetSeconds());
-
-	UpdateInputPolling(timestep);
-
-	m_Camera.SetPosition(m_CameraPosition);
-	m_Camera.SetRotation(m_CameraRotation);
 
 	DrawFrame(device);
 	vkDeviceWaitIdle(device->m_Device);
 }
 
-void VulkanLayer::UpdateInputPolling(Hazel::Timestep timestep)
-{
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_LEFT) || Hazel::Input::IsKeyPressed(HZ_KEY_A))
-	{
-		m_CameraPosition.x -= m_CameraMoveSpeed * timestep.GetSeconds();
-	}
-	else if (Hazel::Input::IsKeyPressed(HZ_KEY_RIGHT) || Hazel::Input::IsKeyPressed(HZ_KEY_D))
-	{
-		m_CameraPosition.x += m_CameraMoveSpeed * timestep.GetSeconds();
-	}
-
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_UP) || Hazel::Input::IsKeyPressed(HZ_KEY_W))
-	{
-		m_CameraPosition.z -= m_CameraMoveSpeed * timestep.GetSeconds();
-	}
-	else if (Hazel::Input::IsKeyPressed(HZ_KEY_DOWN) || Hazel::Input::IsKeyPressed(HZ_KEY_S))
-	{
-		m_CameraPosition.z += m_CameraMoveSpeed * timestep.GetSeconds();
-	}
-
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_Q))
-	{
-		m_CameraPosition.y += m_CameraMoveSpeed * timestep.GetSeconds();
-	}
-	else if (Hazel::Input::IsKeyPressed(HZ_KEY_E))
-	{
-		m_CameraPosition.y -= m_CameraMoveSpeed * timestep.GetSeconds();
-	}
-
-	if (Hazel::Input::IsKeyPressed(HZ_KEY_1))
-	{
-		m_CameraRotation += m_CameraRotationSpeed * timestep.GetSeconds();
-	}
-	else if (Hazel::Input::IsKeyPressed(HZ_KEY_2))
-	{
-		m_CameraRotation -= m_CameraRotationSpeed * timestep.GetSeconds();
-	}
-}
-
 void VulkanLayer::OnEvent(Hazel::Event& event)
 {
+	m_CameraController.OnEvent(event);
+
 	Hazel::EventDispatcher dispatcher(event);
 	dispatcher.Dispatch<Hazel::WindowResizeEvent>(HZ_BIND_EVENT_FN(VulkanLayer::OnWindowResizeEvent));
-	dispatcher.Dispatch<Hazel::MouseScrolledEvent>(HZ_BIND_EVENT_FN(VulkanLayer::OnMouseScrolled));
-	dispatcher.Dispatch<Hazel::MouseMovedEvent>(HZ_BIND_EVENT_FN(VulkanLayer::OnMouseMoved));
 }
 
 bool VulkanLayer::OnWindowResizeEvent(Hazel::WindowResizeEvent& event)
 {
 	RecreateSwapChain();
 
-	return false;
-}
-
-bool VulkanLayer::OnMouseScrolled(Hazel::MouseScrolledEvent& e)
-{
-	m_CameraPosition.z -= e.GetYOffset() * 0.5f;
-	return false;
-}
-
-bool VulkanLayer::OnMouseMoved(Hazel::MouseMovedEvent& e)
-{
 	return false;
 }
 
@@ -187,11 +142,10 @@ void VulkanLayer::UpdateUniformBuffer(uint32_t currentImage, UniformBuffer unifo
 	float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
 
 	UniformBufferObject ubo = {};
-	ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	ubo.model = glm::rotate(ubo.model, time * glm::radians(20.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	// ubo.view = glm::lookAt(glm::vec3(0.0f, 0.0f, 5.0f + positionZ), glm::vec3(0.0f + positionX, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	ubo.view = m_Camera.GetViewMatrix();
-	ubo.proj = glm::perspective(glm::radians(45.0f), (float)swapChain->swapChainExtent.width / (float)swapChain->swapChainExtent.height, 0.1f, 20.0f);
+	ubo.model = glm::mat4(1.0f);
+	ubo.model = glm::translate(ubo.model, glm::vec3(0.0f, 0.0f, -5.0f));
+	ubo.view = m_CameraController.GetCamera().GetViewMatrix();
+	ubo.proj = m_CameraController.GetCamera().GetProjectionMatrix();
 	ubo.proj[1][1] *= -1;
 
 	void* data;
@@ -313,8 +267,6 @@ void VulkanLayer::DrawFrame(Device* device)
 
 void VulkanLayer::CleanupSwapChain(UniformBuffer uniformBuffer)
 {
-	// imageFactory->cleanUp(device->m_Device);
-
 	for (auto framebuffer : Framebuffer::swapChainFramebuffers)
 	{
 		vkDestroyFramebuffer(device->m_Device, framebuffer, nullptr);
