@@ -38,7 +38,7 @@ void ParticlesLayer::OnAttach()
 	m_Particle.Rotation = { 0.0f, 0.0f, 0.0f };
 	m_Particle.RotationVelocity = glm::vec3(m_RotationVelocity);
 
-	m_ParticleSystem.SetTexture(Hazel::Texture2D::Create("assets/textures/fire.png"));
+	m_ParticleSystem.SetTexture(Hazel::Texture2D::Create("assets/textures/brick.png"));
 	m_ParticleSystem.SetEnabled3D(m_Enabled3D);
 
 	m_CameraController.GetCamera().SetFOV(glm::radians(45.0f));
