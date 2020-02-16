@@ -30,6 +30,7 @@ namespace Hazel
 		void SetEnabled3D(bool enabled3D) { m_Enabled3D = enabled3D; };
 		void SetEnabledBillboarding(bool enabledBillboarding) { m_EnabledBillboarding = enabledBillboarding; };
 		void SetEnabledTexture(bool enabledTexture) { m_EnabledTexture = enabledTexture; };
+		void SetTexture(Ref<Texture2D> texture) { m_Texture = texture; };
 		void OnUpdate(Hazel::Timestep ts);
 		void OnRender(Hazel::Camera& camera);
 		void Emit(const ParticleProps& particleProps);

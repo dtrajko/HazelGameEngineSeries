@@ -19,8 +19,6 @@ namespace Hazel
 	ParticleSystem::ParticleSystem()
 	{
 		m_ParticlePool.resize(m_PoolIndex + 1);
-
-		m_Texture = Texture2D::Create("assets/textures/smoke.png");
 	}
 
 	void ParticleSystem::OnUpdate(Hazel::Timestep ts)

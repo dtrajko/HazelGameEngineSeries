@@ -32,14 +32,18 @@ void ParticlesLayer::OnAttach()
 	m_Particle.LifeTime = 4.0f;
 	m_Particle.Position = { 0.0f, 0.0f, 0.0f };
 	m_Particle.Velocity = { 0.0f, 0.0f, 0.0f };
-	m_Particle.VelocityVariation = glm::vec3(m_Velocity);
+	m_Particle.VelocityVariation = m_EnabledTexture ?
+		glm::vec3(m_Velocity) * glm::vec3(0.0f, 0.0f, 0.0f) :
+		glm::vec3(m_Velocity);
 	m_Particle.Rotation = { 0.0f, 0.0f, 0.0f };
 	m_Particle.RotationVelocity = glm::vec3(m_RotationVelocity);
 
+	m_ParticleSystem.SetTexture(Hazel::Texture2D::Create("assets/textures/fire.png"));
 	m_ParticleSystem.SetEnabled3D(m_Enabled3D);
 
-	m_CameraController.GetCamera().SetFOV(45.0f);
+	m_CameraController.GetCamera().SetFOV(glm::radians(45.0f));
 	m_CameraController.SetZoomLevel(2.0f);
+	m_CameraController.SetTranslationSpeed(2.0f);
 }
 
 void ParticlesLayer::OnDetach()
@@ -104,7 +108,6 @@ void ParticlesLayer::OnUpdate(Hazel::Timestep timestep)
 		auto pos = m_CameraController.GetCamera().GetPosition() + m_CameraController.GetCamera().GetFront() * 6.0f;
 		x = (x / width) * boundsWidth - boundsWidth * 0.5f;
 		y = boundsHeight * 0.5f - (y / height) * boundsHeight;
-		z = boundsDepth * 0.5f - (y / height) * boundsDepth;
 		m_Particle.Position = { x + pos.x, y + pos.y, z + pos.z };
 		for (int i = 0; i < 5; i++)
 		{
