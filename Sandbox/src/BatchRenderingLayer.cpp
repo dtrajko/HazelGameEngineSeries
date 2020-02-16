@@ -16,7 +16,7 @@
 #define PROFILE_SCOPE(name) Hazel::Timer timer##__LINE__(name, [&](BatchRenderingLayer::ProfileResult profileResult) { m_ProfileResults.push_back(profileResult); })
 
 BatchRenderingLayer::BatchRenderingLayer()
-	: Layer("Batch Rendering Layer"), m_CameraController(16.f / 9.f, false)
+	: Layer("Batch Rendering Layer"), m_CameraController(16.f / 9.f, true)
 {
 }
 
@@ -137,9 +137,17 @@ void BatchRenderingLayer::OnUpdate(Hazel::Timestep timestep)
 	glBindTextureUnit(0, m_Texture1);
 	glBindTextureUnit(1, m_Texture2);
 
-	auto vp = m_CameraController.GetCamera().GetViewProjectionMatrix();
-	SetUniformMat4(m_Shader->GetRendererID(), "u_ViewProj", vp);
-	SetUniformMat4(m_Shader->GetRendererID(), "u_Transform", glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -4.0f)));
+	glm::mat4 transform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -4.0f));
+	if (m_BillboardingEnabled)
+	{
+		transform = glm::rotate(transform, glm::radians(m_CameraController.GetCamera().GetRotation().x), glm::vec3(1.0f, 0.0f, 0.0f));
+		transform = glm::rotate(transform, glm::radians(m_CameraController.GetCamera().GetRotation().y), glm::vec3(0.0f, 1.0f, 0.0f));
+		transform = glm::rotate(transform, glm::radians(m_CameraController.GetCamera().GetRotation().z), glm::vec3(0.0f, 0.0f, 1.0f));
+	}
+
+	auto viewProjection = m_CameraController.GetCamera().GetViewProjectionMatrix();
+	SetUniformMat4(m_Shader->GetRendererID(), "u_ViewProj", viewProjection);
+	SetUniformMat4(m_Shader->GetRendererID(), "u_Transform", transform);
 
 	glBindVertexArray(m_QuadVA);
 	glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, nullptr);
@@ -150,7 +158,8 @@ void BatchRenderingLayer::OnUpdate(Hazel::Timestep timestep)
 void BatchRenderingLayer::OnImGuiRender()
 {
 	ImGui::Begin("Settings");
-	ImGui::ColorEdit4("BgColor", glm::value_ptr(m_BgColor));
+	ImGui::ColorEdit4("BgColor: ", glm::value_ptr(m_BgColor));
+	ImGui::Checkbox("Billboarding: ", &m_BillboardingEnabled);
 	ImGui::Value("FPS", m_FPS);
 
 	// Profiler section

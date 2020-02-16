@@ -22,11 +22,13 @@ private:
 
 	Hazel::ParticleProps m_Particle;
 	Hazel::ParticleSystem m_ParticleSystem;
-	glm::vec4 m_BackgroundColor = { 0.1f, 0.1f, 0.2f, 1.0f };
+	glm::vec4 m_BackgroundColor = { 0.2f, 0.0f, 0.2f, 1.0f };
 	float m_Velocity = 3.0f;
 	float m_RotationVelocity = 0.0f;
 	unsigned int m_FPS = 0;
 	bool m_Enabled3D = true;
+	bool m_EnabledBillboarding = false;
+	bool m_EnabledUpdate = true;
 
 	struct ProfileResult
 	{

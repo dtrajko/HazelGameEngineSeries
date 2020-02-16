@@ -21,11 +21,6 @@ namespace Hazel
 		m_ParticlePool.resize(m_PoolIndex + 1);
 	}
 
-	void ParticleSystem::SetEnabled3D(bool enabled3D)
-	{
-		m_Enabled3D = enabled3D;
-	}
-
 	void ParticleSystem::OnUpdate(Hazel::Timestep ts)
 	{
 		for (auto& particle : m_ParticlePool)
@@ -63,11 +58,24 @@ namespace Hazel
 			float size = glm::lerp(particle.SizeEnd, particle.SizeBegin, life);
 
 			// Render
-			glm::mat4 transform = glm::translate(glm::mat4(1.0f), particle.Position)
-				* glm::rotate(glm::mat4(1.0f), particle.Rotation.x, { 1.0f, 0.0f, 0.0f })
-				* glm::rotate(glm::mat4(1.0f), particle.Rotation.y, { 0.0f, 1.0f, 0.0f })
-				* glm::rotate(glm::mat4(1.0f), particle.Rotation.z, { 0.0f, 0.0f, 1.0f })
-				* glm::scale(glm::mat4(1.0f), { size, size, size });
+			glm::mat4 transform = glm::mat4(1.0f);
+
+			if (m_EnabledBillboarding)
+			{
+				transform = glm::translate(transform, particle.Position);
+				transform = glm::rotate(transform, glm::radians(camera.GetRotation().x), glm::vec3(1.0f, 0.0f, 0.0f));
+				transform = glm::rotate(transform, glm::radians(camera.GetRotation().y), glm::vec3(0.0f, 1.0f, 0.0f));
+				transform = glm::rotate(transform, glm::radians(camera.GetRotation().z), glm::vec3(0.0f, 0.0f, 1.0f));
+				transform = glm::scale(transform, glm::vec3(size));
+			}
+			else
+			{
+				transform = glm::translate(transform, particle.Position);
+				transform = glm::rotate(transform, particle.Rotation.x, glm::vec3(1.0f, 0.0f, 0.0f));
+				transform = glm::rotate(transform, particle.Rotation.y, glm::vec3(0.0f, 1.0f, 0.0f));
+				transform = glm::rotate(transform, particle.Rotation.z, glm::vec3(0.0f, 0.0f, 1.0f));
+				transform = glm::scale(transform, glm::vec3(size));
+			}
 
 			if (m_Enabled3D)
 				Hazel::Renderer::DrawCube(transform, color);

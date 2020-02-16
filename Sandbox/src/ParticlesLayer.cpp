@@ -75,6 +75,7 @@ void ParticlesLayer::OnUpdate(Hazel::Timestep timestep)
 	m_Particle.VelocityVariation = glm::vec3(m_Velocity);
 	m_Particle.RotationVelocity = glm::vec3(m_RotationVelocity);
 	m_ParticleSystem.SetEnabled3D(m_Enabled3D);
+	m_ParticleSystem.SetEnabledBillboarding(m_EnabledBillboarding);
 
 	m_FPS = (unsigned int)(1.0f / timestep.GetSeconds());
 
@@ -112,7 +113,10 @@ void ParticlesLayer::OnUpdate(Hazel::Timestep timestep)
 
 	{
 		PROFILE_SCOPE("ParticleSystem::OnUpdate");
-		m_ParticleSystem.OnUpdate(timestep);
+		if (m_EnabledUpdate)
+		{
+			m_ParticleSystem.OnUpdate(timestep);
+		}
 	}
 	{
 		PROFILE_SCOPE("ParticleSystem.OnRender");
@@ -132,6 +136,8 @@ void ParticlesLayer::OnImGuiRender()
 	ImGui::DragFloat("Velocity", &m_Velocity, 0.1f, 0.0f, 100.0f);
 	ImGui::DragFloat("Rotation Velocity", &m_RotationVelocity, 0.0f, 0.0f, 100.0f);
 	ImGui::Checkbox("Enabled 3D", &m_Enabled3D);
+	ImGui::Checkbox("Enabled Billboarding", &m_EnabledBillboarding);
+	ImGui::Checkbox("Enabled Update", &m_EnabledUpdate);
 	ImGui::Value("FPS", m_FPS);
 
 	// Profiler section

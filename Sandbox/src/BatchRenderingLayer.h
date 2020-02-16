@@ -33,6 +33,8 @@ private:
 	glm::vec4 m_BgColor = { 0.2f, 0.0f, 0.2f, 1.0f };
 	unsigned int m_FPS = 0;
 
+	bool m_BillboardingEnabled = false;
+
 	struct ProfileResult
 	{
 		const char* Name;

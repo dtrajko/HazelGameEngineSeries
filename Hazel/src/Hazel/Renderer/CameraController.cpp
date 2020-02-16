@@ -49,37 +49,45 @@ namespace Hazel
 
 		if (m_Rotation)
 		{
-			if (m_MouseFirstMoved)
+			if (Input::IsMouseButtonPressed(HZ_MOUSE_BUTTON_RIGHT))
 			{
+				if (m_MouseFirstMoved)
+				{
+					m_LastMousePositionX = Input::GetMouseX();
+					m_LastMousePositionY = Input::GetMouseY();
+					m_MouseFirstMoved = false;
+				}
+
+				m_CursorOffsetX = Input::GetMouseX() - m_LastMousePositionX;
+				m_CursorOffsetY = m_LastMousePositionY - Input::GetMouseY();
+
 				m_LastMousePositionX = Input::GetMouseX();
 				m_LastMousePositionY = Input::GetMouseY();
-				m_MouseFirstMoved = false;
+
+				// float cursorMaxOffset = 2;
+				// m_CursorOffsetY = std::clamp(m_CursorOffsetY, -cursorMaxOffset, cursorMaxOffset);
+				// m_CursorOffsetX = std::clamp(m_CursorOffsetX, -cursorMaxOffset, cursorMaxOffset);
+
+				m_CameraRotation.x += m_CursorOffsetY * m_CameraRotationSpeed; // Pitch
+				m_CameraRotation.y -= m_CursorOffsetX * m_CameraRotationSpeed; // Yaw
+
+
+
+				// Pitch limit from -90 to 90 degrees
+				if (m_CameraRotation.x > 89.0f)
+					m_CameraRotation.x = 89.0f;
+				if (m_CameraRotation.x < -89.0f)
+					m_CameraRotation.x = -89.0f;
 			}
 
-			m_CursorOffsetX = Input::GetMouseX() - m_LastMousePositionX;
-			m_CursorOffsetY = m_LastMousePositionY - Input::GetMouseY();
-
-			m_LastMousePositionX = Input::GetMouseX();
-			m_LastMousePositionY = Input::GetMouseY();
-
-			float cursorMaxOffset = 2;
-			m_CursorOffsetY = std::clamp(m_CursorOffsetY, -cursorMaxOffset, cursorMaxOffset);
-			m_CursorOffsetX = std::clamp(m_CursorOffsetX, -cursorMaxOffset, cursorMaxOffset);
-
-			m_CameraRotation.x += m_CursorOffsetY * m_CameraRotationSpeed; // Pitch
-			m_CameraRotation.y -= m_CursorOffsetX * m_CameraRotationSpeed; // Yaw
-
-			
-
-			// Pitch limit from -90 to 90 degrees
-			if (m_CameraRotation.x > 89.0f)
-				m_CameraRotation.x = 89.0f;
-			if (m_CameraRotation.x < -89.0f)
-				m_CameraRotation.x = -89.0f;
+			m_Camera.SetPosition(m_CameraPosition);
+			m_Camera.SetRotation(m_CameraRotation);
 		}
 
-		m_Camera.SetPosition(m_CameraPosition);
-		m_Camera.SetRotation(m_CameraRotation);
+		if (Input::IsMouseButtonReleased(HZ_MOUSE_BUTTON_RIGHT))
+		{
+			m_MouseFirstMoved = true;
+		}
 	}
 
 	void CameraController::OnEvent(Event& e)

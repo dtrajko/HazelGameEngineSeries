@@ -16,7 +16,7 @@ namespace Hazel
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
 
-		glBindTextureUnit(0, m_RendererID); // dirty hack, slot number hardcoded
+		glBindTextureUnit(0, m_RendererID); // dirty hack, slot number hard-coded
 
 		glTextureStorage2D(m_RendererID, 1, m_InternalFormat, m_Width, m_Height);
 

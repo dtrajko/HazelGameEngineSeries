@@ -27,7 +27,8 @@ namespace Hazel
 	public:
 		ParticleSystem();
 
-		void SetEnabled3D(bool enabled3D);
+		void SetEnabled3D(bool enabled3D) { m_Enabled3D = enabled3D; };
+		void SetEnabledBillboarding(bool enabledBillboarding) { m_EnabledBillboarding = enabledBillboarding; };
 		void OnUpdate(Hazel::Timestep ts);
 		void OnRender(Hazel::Camera& camera);
 		void Emit(const ParticleProps& particleProps);
@@ -53,5 +54,6 @@ namespace Hazel
 		std::vector<Particle> m_ParticlePool;
 		uint32_t m_PoolIndex = 1499;
 		bool m_Enabled3D = false;
+		bool m_EnabledBillboarding = false;
 	};
 }
