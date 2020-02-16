@@ -19,6 +19,8 @@ namespace Hazel
 	ParticleSystem::ParticleSystem()
 	{
 		m_ParticlePool.resize(m_PoolIndex + 1);
+
+		m_Texture = Texture2D::Create("assets/textures/smoke.png");
 	}
 
 	void ParticleSystem::OnUpdate(Hazel::Timestep ts)
@@ -78,9 +80,15 @@ namespace Hazel
 			}
 
 			if (m_Enabled3D)
-				Hazel::Renderer::DrawCube(transform, color);
+				if (m_EnabledTexture)
+					Hazel::Renderer::DrawCube(transform, color, m_Texture);
+				else
+					Hazel::Renderer::DrawCube(transform, color);
 			else
-				Hazel::Renderer::DrawQuad(transform, color);
+				if (m_EnabledTexture)
+					Hazel::Renderer::DrawQuad(transform, color, m_Texture);
+				else
+					Hazel::Renderer::DrawQuad(transform, color);
 		}
 	}
 

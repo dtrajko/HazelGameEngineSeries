@@ -22,8 +22,10 @@ namespace Hazel
 		// Primitives
 		static void DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color);
 		static void DrawCube(const glm::vec3& position, const glm::vec3& size, const Ref<Texture2D>& texture);
+		static void DrawCube(const glm::mat4& transform, const glm::vec4& color, const Ref<Texture2D>& texture);
 		static void DrawCube(const glm::mat4& transform, const glm::vec4& color);
 		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color);
+		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color, const Ref<Texture2D>& texture);
 
 		static void Submit(Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,
 			const glm::mat4& viewProjectionMatrix, const glm::mat4& transform = glm::mat4(1.0f));

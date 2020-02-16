@@ -28,6 +28,7 @@ private:
 	unsigned int m_FPS = 0;
 	bool m_Enabled3D = true;
 	bool m_EnabledBillboarding = false;
+	bool m_EnabledTexture = false;
 	bool m_EnabledUpdate = true;
 
 	struct ProfileResult

@@ -122,16 +122,6 @@ namespace Hazel
 		RenderCommand::DrawIndexed(s_Data->CubeVertexArray);
 	}
 
-	void Renderer::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
-	{
-		s_Data->FlatColorShader->Bind();
-		s_Data->TextureShader->SetFloat4("u_Color", color);
-		s_Data->TextureShader->SetMat4("u_Transform", transform);
-		s_Data->WhiteTexture->Bind();
-		s_Data->QuadVertexArray->Bind();
-		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
-	}
-
 	void Renderer::DrawCube(const glm::vec3& position, const glm::vec3& size, const Ref<Texture2D>& texture)
 	{
 		s_Data->TextureShader->Bind();
@@ -140,11 +130,40 @@ namespace Hazel
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
 			glm::scale(glm::mat4(1.0f), size);
 		s_Data->TextureShader->SetMat4("u_Transform", transform);
-
 		texture->Bind();
-
 		s_Data->CubeVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->CubeVertexArray);
+	}
+
+	void Renderer::DrawCube(const glm::mat4& transform, const glm::vec4& color, const Ref<Texture2D>& texture)
+	{
+		s_Data->TextureShader->Bind();
+		s_Data->TextureShader->SetFloat4("u_Color", color);
+		s_Data->TextureShader->SetMat4("u_Transform", transform);
+		texture->Bind();
+		s_Data->CubeVertexArray->Bind();
+		RenderCommand::DrawIndexed(s_Data->CubeVertexArray);
+	}
+
+	void Renderer::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+	{
+		s_Data->FlatColorShader->Bind();
+		s_Data->TextureShader->Bind();
+		s_Data->TextureShader->SetFloat4("u_Color", color);
+		s_Data->TextureShader->SetMat4("u_Transform", transform);
+		s_Data->WhiteTexture->Bind();
+		s_Data->QuadVertexArray->Bind();
+		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
+	}
+
+	void Renderer::DrawQuad(const glm::mat4& transform, const glm::vec4& color, const Ref<Texture2D>& texture)
+	{
+		s_Data->TextureShader->Bind();
+		s_Data->TextureShader->SetFloat4("u_Color", color);
+		s_Data->TextureShader->SetMat4("u_Transform", transform);
+		texture->Bind();
+		s_Data->QuadVertexArray->Bind();
+		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}
 
 	void Renderer::Submit(Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,

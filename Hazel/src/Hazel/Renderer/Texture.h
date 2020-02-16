@@ -28,6 +28,7 @@ namespace Hazel
 	public:
 		static Ref<Texture2D> Create(const uint32_t width, const uint32_t height);
 		static Ref<Texture2D> Create(const std::string& path);
+		static uint32_t LoadTexture(const std::string& path);
 
 	};
 

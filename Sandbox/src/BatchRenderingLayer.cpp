@@ -20,26 +20,6 @@ BatchRenderingLayer::BatchRenderingLayer()
 {
 }
 
-static GLuint LoadTexture(const std::string& path)
-{
-	int w, h, bits;
-
-	stbi_set_flip_vertically_on_load(1);
-	auto* pixels = stbi_load(path.c_str(), &w, &h, &bits, STBI_rgb);
-	GLuint textureID;
-	glCreateTextures(GL_TEXTURE_2D, 1, &textureID);
-	glBindTexture(GL_TEXTURE_2D, textureID);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
-
-	stbi_image_free(pixels);
-
-	return textureID;
-}
-
 void BatchRenderingLayer::OnAttach()
 {
 	Hazel::RenderCommand::Init();
@@ -98,8 +78,8 @@ void BatchRenderingLayer::OnAttach()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_QuadIB);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-	m_Texture1 = LoadTexture("assets/textures/leather.jpg");
-	m_Texture2 = LoadTexture("assets/textures/metal.jpg");
+	m_Texture1 = (GLuint)Hazel::Texture2D::LoadTexture("assets/textures/leather.jpg");
+	m_Texture2 = (GLuint)Hazel::Texture2D::LoadTexture("assets/textures/metal.jpg");
 }
 
 void BatchRenderingLayer::OnDetach()

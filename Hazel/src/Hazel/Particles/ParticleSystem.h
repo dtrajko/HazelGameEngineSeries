@@ -29,6 +29,7 @@ namespace Hazel
 
 		void SetEnabled3D(bool enabled3D) { m_Enabled3D = enabled3D; };
 		void SetEnabledBillboarding(bool enabledBillboarding) { m_EnabledBillboarding = enabledBillboarding; };
+		void SetEnabledTexture(bool enabledTexture) { m_EnabledTexture = enabledTexture; };
 		void OnUpdate(Hazel::Timestep ts);
 		void OnRender(Hazel::Camera& camera);
 		void Emit(const ParticleProps& particleProps);
@@ -55,5 +56,7 @@ namespace Hazel
 		uint32_t m_PoolIndex = 1499;
 		bool m_Enabled3D = false;
 		bool m_EnabledBillboarding = false;
+		bool m_EnabledTexture = false;
+		Ref<Texture2D> m_Texture;
 	};
 }

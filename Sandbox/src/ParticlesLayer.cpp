@@ -76,6 +76,7 @@ void ParticlesLayer::OnUpdate(Hazel::Timestep timestep)
 	m_Particle.RotationVelocity = glm::vec3(m_RotationVelocity);
 	m_ParticleSystem.SetEnabled3D(m_Enabled3D);
 	m_ParticleSystem.SetEnabledBillboarding(m_EnabledBillboarding);
+	m_ParticleSystem.SetEnabledTexture(m_EnabledTexture);
 
 	m_FPS = (unsigned int)(1.0f / timestep.GetSeconds());
 
@@ -137,6 +138,7 @@ void ParticlesLayer::OnImGuiRender()
 	ImGui::DragFloat("Rotation Velocity", &m_RotationVelocity, 0.0f, 0.0f, 100.0f);
 	ImGui::Checkbox("Enabled 3D", &m_Enabled3D);
 	ImGui::Checkbox("Enabled Billboarding", &m_EnabledBillboarding);
+	ImGui::Checkbox("Enabled Texture", &m_EnabledTexture);
 	ImGui::Checkbox("Enabled Update", &m_EnabledUpdate);
 	ImGui::Value("FPS", m_FPS);
 
