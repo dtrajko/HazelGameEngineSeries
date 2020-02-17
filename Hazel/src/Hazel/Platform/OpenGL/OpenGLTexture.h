@@ -23,6 +23,8 @@ namespace Hazel
 		virtual void Bind(uint32_t slot = 0) const override;
 		virtual void Unbind(uint32_t slot = 0) const override;
 
+		static uint32_t LoadTexture(const std::string& path);
+
 	private:
 		std::string m_Path;
 		uint32_t m_Width;
