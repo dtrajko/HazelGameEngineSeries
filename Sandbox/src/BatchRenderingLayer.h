@@ -30,6 +30,11 @@ private:
 	GLuint m_Texture1;
 	GLuint m_Texture2;
 
+	float m_QuadPosition0[2] = { -1.5f,  0.5f };
+	float m_QuadPosition1[2] = {  0.5f,  0.5f };
+	float m_QuadPosition2[2] = { -1.5f, -1.5f };
+	float m_QuadPosition3[2] = {  0.5f, -1.5f };
+
 	glm::vec4 m_BgColor = { 0.2f, 0.0f, 0.2f, 1.0f };
 	unsigned int m_FPS = 0;
 
