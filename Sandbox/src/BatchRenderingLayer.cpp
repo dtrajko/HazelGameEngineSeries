@@ -29,35 +29,35 @@ struct Vertex
 };
 
 
-static std::array<Vertex, 4> CreateQuad(float x, float y, float textureID)
+static Vertex* CreateQuad(Vertex* target, float x, float y, float textureID)
 {
 	float size = 1.0f;
 
-	Vertex v0;
-	v0.Position = { x, y, 0.0f };
-	v0.Color = { 0.18f, 0.6f, 0.96f, 1.0f };
-	v0.TexCoords = { 0.0f, 0.0f };
-	v0.TexID = textureID;
+	target->Position = { x, y, 0.0f };
+	target->Color = { 0.18f, 0.6f, 0.96f, 1.0f };
+	target->TexCoords = { 0.0f, 0.0f };
+	target->TexID = textureID;
+	target++;
 
-	Vertex v1;
-	v1.Position = { x + size, y, 0.0f };
-	v1.Color = { 0.18f, 0.6f, 0.96f, 1.0f };
-	v1.TexCoords = { 1.0f, 0.0f };
-	v1.TexID = textureID;
+	target->Position = { x + size, y, 0.0f };
+	target->Color = { 0.18f, 0.6f, 0.96f, 1.0f };
+	target->TexCoords = { 1.0f, 0.0f };
+	target->TexID = textureID;
+	target++;
 
-	Vertex v2;
-	v2.Position = { x + size, y + size, 0.0f };
-	v2.Color = { 0.18f, 0.6f, 0.96f, 1.0f };
-	v2.TexCoords = { 1.0f, 1.0f };
-	v2.TexID = textureID;
+	target->Position = { x + size, y + size, 0.0f };
+	target->Color = { 0.18f, 0.6f, 0.96f, 1.0f };
+	target->TexCoords = { 1.0f, 1.0f };
+	target->TexID = textureID;
+	target++;
 
-	Vertex v3;
-	v3.Position = { x, y + size, 0.0f };
-	v3.Color = { 0.18f, 0.6f, 0.96f, 1.0f };
-	v3.TexCoords = { 0.0f, 1.0f };
-	v3.TexID = textureID;
+	target->Position = { x, y + size, 0.0f };
+	target->Color = { 0.18f, 0.6f, 0.96f, 1.0f };
+	target->TexCoords = { 0.0f, 1.0f };
+	target->TexID = textureID;
+	target++;
 
-	return { v0, v1, v2, v3 };
+	return target;
 }
 
 BatchRenderingLayer::BatchRenderingLayer()
@@ -82,12 +82,16 @@ void BatchRenderingLayer::OnAttach()
 
 	glClearColor(0.2f, 0.0f, 0.2f, 1.0f);
 
+	const size_t MaxQuadCount = 1000;
+	const size_t MaxVertexCount = MaxQuadCount * 4;
+	const size_t MaxIndexCount = MaxQuadCount * 6;
+
 	glCreateVertexArrays(1, &m_QuadVA);
 	glBindVertexArray(m_QuadVA);
 
 	glCreateBuffers(1, &m_QuadVB);
 	glBindBuffer(GL_ARRAY_BUFFER, m_QuadVB);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * 1000, nullptr, GL_DYNAMIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, MaxVertexCount * sizeof(Vertex), nullptr, GL_DYNAMIC_DRAW);
 
 	glEnableVertexArrayAttrib(m_QuadVA, 0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, Position));
@@ -101,13 +105,22 @@ void BatchRenderingLayer::OnAttach()
 	glEnableVertexArrayAttrib(m_QuadVA, 3);
 	glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void*)offsetof(Vertex, TexID));
 
-	uint32_t indices[] =
+	uint32_t indices[MaxIndexCount];
+	uint32_t offset = 0;
+	for (size_t i = 0; i < MaxIndexCount; i += 6)
 	{
-		 0,  1,  2,  2,  3,  0,
-		 4,  5,  6,  6,  7,  4,
-		 8,  9, 10, 10, 11,  8,
-		12, 13, 14, 14, 15, 12,
-	};
+		indices[i + 0] = 0 + offset;
+		indices[i + 1] = 1 + offset;
+		indices[i + 2] = 2 + offset;
+
+		indices[i + 3] = 2 + offset;
+		indices[i + 4] = 3 + offset;
+		indices[i + 5] = 0 + offset;
+
+		offset += 4;
+	}
+
+	HZ_TRACE("indices: {0}", sizeof(indices));
 
 	glCreateBuffers(1, &m_QuadIB);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_QuadIB);
@@ -143,19 +156,24 @@ void BatchRenderingLayer::OnUpdate(Hazel::Timestep timestep)
 	m_FPS = (unsigned int)(1.0f / timestep.GetSeconds());
 
 	// Set dynamic vertex buffer
-	auto q0 = CreateQuad(m_QuadPosition0[0], m_QuadPosition0[1], 1.0f);
-	auto q1 = CreateQuad(m_QuadPosition1[0], m_QuadPosition1[1], 0.0f);
-	auto q2 = CreateQuad(m_QuadPosition2[0], m_QuadPosition2[1], 1.0f);
-	auto q3 = CreateQuad(m_QuadPosition3[0], m_QuadPosition3[1], 0.0f);
 
-	Vertex vertices[16];
-	memcpy(vertices + q0.size() * 0, q0.data(), q0.size() * sizeof(Vertex));
-	memcpy(vertices + q0.size() * 1, q1.data(), q1.size() * sizeof(Vertex));
-	memcpy(vertices + q0.size() * 2, q2.data(), q2.size() * sizeof(Vertex));
-	memcpy(vertices + q0.size() * 3, q3.data(), q3.size() * sizeof(Vertex));
+	uint32_t indexCount = 0;
+	std::array<Vertex, 1000> vertices;
+	Vertex* buffer = vertices.data();
+	for (int y = 0; y < 5; y++)
+	{
+		for (int x = 0; x < 5; x++)
+		{
+			buffer = CreateQuad(buffer, x, y, (x + y) % 2);
+			indexCount += 6;
+		}
+	}
+
+	buffer = CreateQuad(buffer, m_QuadPosition[0], m_QuadPosition[1], 1.0f);
+	indexCount += 6;
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_QuadVB);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(Vertex), vertices.data());
 
 	Hazel::RenderCommand::SetClearColor(m_BgColor);
 	Hazel::RenderCommand::Clear();
@@ -182,7 +200,7 @@ void BatchRenderingLayer::OnUpdate(Hazel::Timestep timestep)
 	SetUniformMat4(m_Shader->GetRendererID(), "u_Transform", transform);
 
 	glBindVertexArray(m_QuadVA);
-	glDrawElements(GL_TRIANGLES, 24, GL_UNSIGNED_INT, nullptr);
+	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
 
 	Hazel::Renderer::EndScene();
 }
@@ -193,10 +211,7 @@ void BatchRenderingLayer::OnImGuiRender()
 	ImGui::ColorEdit4("BgColor: ", glm::value_ptr(m_BgColor));
 	ImGui::Checkbox("Billboarding: ", &m_BillboardingEnabled);
 	ImGui::Value("FPS", m_FPS);
-	ImGui::DragFloat2("Quad0 Position", m_QuadPosition0, 0.1f);
-	ImGui::DragFloat2("Quad1 Position", m_QuadPosition1, 0.1f);
-	ImGui::DragFloat2("Quad2 Position", m_QuadPosition2, 0.1f);
-	ImGui::DragFloat2("Quad3 Position", m_QuadPosition3, 0.1f);
+	ImGui::DragFloat2("Quad Position", m_QuadPosition, 0.1f);
 
 	// Profiler section
 	ImGui::Text("Profiler:");
