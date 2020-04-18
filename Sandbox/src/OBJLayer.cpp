@@ -1,16 +1,17 @@
 #include "OBJLayer.h"
 
-#include "Hazel/Renderer/CameraController.h"
-#include "Hazel/Core/Timer.h"
-#include "Hazel/Models/Cube.h"
-#include "Hazel/Loader/OBJLoader.h"
-
 #include "imgui/imgui.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 #include <Glad/include/glad/glad.h>
+
+#include "Hazel/Core/Timer.h"
+#include "Hazel/Models/Cube.h"
+#include "Hazel/Loader/OBJLoader.h"
+#include "Hazel/Renderer/CameraController.h"
+#include "Hazel/Renderer/Renderer3D.h"
 
 
 #define PROFILE_SCOPE(name) Hazel::Timer timer##__LINE__(name, [&](OBJLayer::ProfileResult profileResult) { m_ProfileResults.push_back(profileResult); })
@@ -85,20 +86,20 @@ void OBJLayer::OnUpdate(Hazel::Timestep timestep)
 		Hazel::RenderCommand::Clear();	
 	}
 
-	Hazel::Renderer::BeginScene(m_CameraController.GetCamera());
+	Hazel::Renderer3D::BeginScene(m_CameraController.GetCamera());
 
 	// Render here
 	m_ModelShader->Bind();
 	m_ModelTexture->Bind();
 
-	Hazel::Renderer::Submit(m_ModelShader, m_ModelVA, m_CameraController.GetCamera().GetViewProjectionMatrix(),
+	Hazel::Renderer3D::Submit(m_ModelShader, m_ModelVA, m_CameraController.GetCamera().GetViewProjectionMatrix(),
 		glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -10.0f)) *
 		glm::rotate(glm::mat4(1.0f), m_ModelRotation.y, { 0.0f, 1.0f, 0.0f }) *
 		glm::scale(glm::mat4(1.0f), glm::vec3(1.0f)));
 
 	m_ModelTexture->Unbind();
 
-	Hazel::Renderer::EndScene();
+	Hazel::Renderer3D::EndScene();
 }
 
 void OBJLayer::OnImGuiRender()

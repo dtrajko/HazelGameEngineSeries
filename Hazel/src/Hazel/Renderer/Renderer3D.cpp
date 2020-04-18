@@ -1,6 +1,6 @@
 #include "hzpch.h"
-#include "Renderer.h"
 #include "Renderer2D.h"
+#include "Renderer3D.h"
 #include "RenderCommand.h"
 #include "Hazel/Models/Quad.h"
 #include "Hazel/Models/Cube.h"
@@ -10,7 +10,7 @@
 
 namespace Hazel
 {
-	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
+	Renderer3D::SceneData* Renderer3D::m_SceneData = new Renderer3D::SceneData;
 
 	struct RendererStorage
 	{
@@ -22,7 +22,7 @@ namespace Hazel
 
 	static RendererStorage* s_Data;
 
-	void Renderer::Init()
+	void Renderer3D::Init()
 	{
 		RenderCommand::Init();
 		Renderer2D::Init();
@@ -37,7 +37,7 @@ namespace Hazel
 		cubeVB->SetLayout({
 			{ ShaderDataType::Float3, "a_Position" },
 			{ ShaderDataType::Float2, "a_TexCoord" },
-			});
+		});
 
 		s_Data->CubeVertexArray->AddVertexBuffer(cubeVB);
 
@@ -56,26 +56,26 @@ namespace Hazel
 			{ ShaderDataType::Float2, "a_TexCoord" },
 			});
 
-		s_Data->QuadVertexArray->AddVertexBuffer(quadVB);
+		// s_Data->QuadVertexArray->AddVertexBuffer(quadVB);
 
 		Ref<IndexBuffer> quadIB;
 		quadIB = IndexBuffer::Create(Quad::indices, sizeof(Quad::indices) / sizeof(uint32_t));
 		s_Data->QuadVertexArray->SetIndexBuffer(quadIB);
 		/* End Quad vertex array */
 
-		s_Data->WhiteTexture = Texture2D::Create(1, 1);
+		// s_Data->WhiteTexture = Texture2D::Create(1, 1);
 		uint32_t whiteTextureData = 0xffffffff;
 		s_Data->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
 		s_Data->TextureShader = Shader::Create("assets/shaders/Renderer2D_Texture.glsl");
 	}
 
-	void Renderer::OnWindowResize(uint32_t width, uint32_t height)
+	void Renderer3D::OnWindowResize(uint32_t width, uint32_t height)
 	{
 		RenderCommand::SetViewport(0, 0, width, height);
 	}
 
-	void Renderer::BeginScene(Camera& camera)
+	void Renderer3D::BeginScene(Camera& camera)
 	{
 		m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 
@@ -83,31 +83,31 @@ namespace Hazel
 		s_Data->TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 	}
 
-	void Renderer::Shutdown()
+	void Renderer3D::Shutdown()
 	{
 		delete s_Data;
 	}
 
-	void Renderer::EndScene()
+	void Renderer3D::EndScene()
 	{
 
 	}
 
-	void Renderer::DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color)
+	void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color)
 	{
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetFloat4("u_Color", color);
-
+		
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
 			glm::scale(glm::mat4(1.0f), size);
 		s_Data->TextureShader->SetMat4("u_Transform", transform);
 		s_Data->WhiteTexture->Bind();
-
+		
 		s_Data->CubeVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->CubeVertexArray);
 	}
 
-	void Renderer::DrawCube(const glm::mat4& transform, const glm::vec4& color)
+	void Renderer3D::DrawCube(const glm::mat4& transform, const glm::vec4& color)
 	{
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetFloat4("u_Color", color);
@@ -117,11 +117,11 @@ namespace Hazel
 		RenderCommand::DrawIndexed(s_Data->CubeVertexArray);
 	}
 
-	void Renderer::DrawCube(const glm::vec3& position, const glm::vec3& size, const Ref<Texture2D>& texture)
+	void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const Ref<Texture2D>& texture)
 	{
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
-
+		
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
 			glm::scale(glm::mat4(1.0f), size);
 		s_Data->TextureShader->SetMat4("u_Transform", transform);
@@ -130,7 +130,7 @@ namespace Hazel
 		RenderCommand::DrawIndexed(s_Data->CubeVertexArray);
 	}
 
-	void Renderer::DrawCube(const glm::mat4& transform, const glm::vec4& color, const Ref<Texture2D>& texture)
+	void Renderer3D::DrawCube(const glm::mat4& transform, const glm::vec4& color, const Ref<Texture2D>& texture)
 	{
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetFloat4("u_Color", color);
@@ -140,7 +140,7 @@ namespace Hazel
 		RenderCommand::DrawIndexed(s_Data->CubeVertexArray);
 	}
 
-	void Renderer::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+	void Renderer3D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
 	{
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetFloat4("u_Color", color);
@@ -150,7 +150,7 @@ namespace Hazel
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}
 
-	void Renderer::DrawQuad(const glm::mat4& transform, const glm::vec4& color, const Ref<Texture2D>& texture)
+	void Renderer3D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, const Ref<Texture2D>& texture)
 	{
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetFloat4("u_Color", color);
@@ -160,7 +160,7 @@ namespace Hazel
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}
 
-	void Renderer::Submit(Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,
+	void Renderer3D::Submit(Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,
 		const glm::mat4& viewProjectionMatrix, const glm::mat4& transform)
 	{
 		shader->Bind();

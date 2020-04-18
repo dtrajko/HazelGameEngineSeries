@@ -8,7 +8,7 @@
 ExampleLayer::ExampleLayer()
 	: Layer("Example"), m_CameraController(16.0f / 9.0f, true)
 {
-	if (Hazel::Renderer::GetAPI() != Hazel::RendererAPI::API::OpenGL) return;
+	if (Hazel::Renderer2D::GetAPI() != Hazel::RendererAPI::API::OpenGL) return;
 
 	DrawOpenGLTriangle();
 }
@@ -57,7 +57,7 @@ void ExampleLayer::OnUpdate(Hazel::Timestep timestep)
 	Hazel::Renderer2D::DrawQuad({m_TrianglePosition.x, m_TrianglePosition.y, 0.1f }, glm::vec3(1.5f), m_Texture);
 	Hazel::Renderer2D::DrawQuad({ m_TrianglePosition.x, m_TrianglePosition.y, 0.2f }, glm::vec3(1.5f), m_ChernoLogoTexture);
 
-	Hazel::Renderer::EndScene();
+	Hazel::Renderer2D::EndScene();
 }
 
 void ExampleLayer::OnImGuiRender()

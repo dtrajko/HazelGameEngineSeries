@@ -6,7 +6,7 @@
 #include "Hazel/Events/MouseEvent.h"
 #include "Hazel/Events/KeyEvent.h"
 
-#include "Hazel/Renderer/Renderer.h"
+#include "Hazel/Renderer/Renderer2D.h"
 
 #include "Hazel/Platform/OpenGL/OpenGLContext.h"
 #include "Hazel/Platform/Vulkan/VulkanContext.h"

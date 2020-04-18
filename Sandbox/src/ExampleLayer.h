@@ -2,6 +2,8 @@
 
 #include "Hazel.h"
 
+#include "Hazel/Renderer/Renderer2D.h"
+
 
 class ExampleLayer : public Hazel::Layer
 {

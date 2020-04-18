@@ -2,6 +2,7 @@
 
 #include "Hazel/Models/Cube.h"
 #include "Hazel/Renderer/CameraController.h"
+#include "Hazel/Renderer/Renderer3D.h"
 #include "Hazel/Core/Timer.h"
 
 #include "imgui/imgui.h"
@@ -91,7 +92,7 @@ void ParticlesLayer::OnUpdate(Hazel::Timestep timestep)
 		Hazel::RenderCommand::Clear();	
 	}
 
-	Hazel::Renderer::BeginScene(m_CameraController.GetCamera());
+	Hazel::Renderer3D::BeginScene(m_CameraController.GetCamera());
 
 	// Render here
 	if (Hazel::Input::IsMouseButtonPressed(HZ_MOUSE_BUTTON_LEFT))
@@ -127,7 +128,7 @@ void ParticlesLayer::OnUpdate(Hazel::Timestep timestep)
 		m_ParticleSystem.OnRender(m_CameraController.GetCamera());
 	}
 
-	Hazel::Renderer::EndScene();
+	Hazel::Renderer3D::EndScene();
 }
 
 void ParticlesLayer::OnImGuiRender()

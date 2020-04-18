@@ -3,7 +3,7 @@
 #include "Application.h"
 #include "Hazel/Core/Log.h"
 #include "Hazel/Core/Input.h"
-#include "Hazel/Renderer/Renderer.h"
+#include "Hazel/Renderer/Renderer2D.h"
 #include "Hazel/Core/KeyCodes.h"
 
 #include <GLFW/glfw3.h>
@@ -25,7 +25,7 @@ namespace Hazel {
 
 		if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
 		{
-			Renderer::Init();
+			Renderer2D::Init();
 		}
 
 		if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
@@ -111,7 +111,7 @@ namespace Hazel {
 
 		if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
 		{
-			Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+			Renderer2D::OnWindowResize(e.GetWidth(), e.GetHeight());
 		}
 
 		return false;

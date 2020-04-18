@@ -1,7 +1,8 @@
 #include "BatchRenderingLayer.h"
 
-#include "Hazel/Renderer/CameraController.h"
 #include "Hazel/Core/Timer.h"
+#include "Hazel/Renderer/CameraController.h"
+#include "Hazel/Renderer/Renderer3D.h"
 
 #include "imgui/imgui.h"
 
@@ -180,7 +181,7 @@ void BatchRenderingLayer::OnUpdate(Hazel::Timestep timestep)
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	Hazel::Renderer::BeginScene(m_CameraController.GetCamera());
+	Hazel::Renderer3D::BeginScene(m_CameraController.GetCamera());
 
 	// Render here
 	glUseProgram(m_Shader->GetRendererID());
@@ -202,7 +203,7 @@ void BatchRenderingLayer::OnUpdate(Hazel::Timestep timestep)
 	glBindVertexArray(m_QuadVA);
 	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
 
-	Hazel::Renderer::EndScene();
+	Hazel::Renderer2D::EndScene();
 }
 
 void BatchRenderingLayer::OnImGuiRender()

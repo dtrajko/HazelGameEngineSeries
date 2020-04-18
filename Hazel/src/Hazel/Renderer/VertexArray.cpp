@@ -1,7 +1,7 @@
 #include "hzpch.h"
 
 #include "VertexArray.h"
-#include "Renderer.h"
+#include "Renderer2D.h"
 #include "Hazel/Platform/OpenGL/OpenGLVertexArray.h"
 
 

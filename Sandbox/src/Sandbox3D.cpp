@@ -6,6 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Hazel/Models/Cube.h"
+#include "Hazel/Renderer/Renderer3D.h"
 
 
 Sandbox3D::Sandbox3D()
@@ -62,25 +63,25 @@ void Sandbox3D::OnUpdate(Hazel::Timestep timestep)
 	Hazel::RenderCommand::SetClearColor(m_BackgroundColor);
 	Hazel::RenderCommand::Clear();
 
-	Hazel::Renderer::BeginScene(m_CameraController.GetCamera());
+	Hazel::Renderer3D::BeginScene(m_CameraController.GetCamera());
 
 	m_FlatColorShader->Bind();
 	m_FlatColorShader->SetFloat4("u_Color", m_CubeColor1);
-	Hazel::Renderer::Submit(m_FlatColorShader, m_CubeVA, m_CameraController.GetCamera().GetViewProjectionMatrix(),
+	Hazel::Renderer3D::Submit(m_FlatColorShader, m_CubeVA, m_CameraController.GetCamera().GetViewProjectionMatrix(),
 		glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -6.0f)));
 	m_FlatColorShader->SetFloat4("u_Color", m_CubeColor2);
-	Hazel::Renderer::Submit(m_FlatColorShader, m_CubeVA, m_CameraController.GetCamera().GetViewProjectionMatrix(),
+	Hazel::Renderer3D::Submit(m_FlatColorShader, m_CubeVA, m_CameraController.GetCamera().GetViewProjectionMatrix(),
 		glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -4.0f)));
 	m_FlatColorShader->SetFloat4("u_Color", m_CubeColor3);
-	Hazel::Renderer::Submit(m_FlatColorShader, m_CubeVA, m_CameraController.GetCamera().GetViewProjectionMatrix(),
+	Hazel::Renderer3D::Submit(m_FlatColorShader, m_CubeVA, m_CameraController.GetCamera().GetViewProjectionMatrix(),
 		glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -2.0f)));
 
-	Hazel::Renderer::DrawCube({ 2.0f, 0.0f, -2.0f }, { 1.0f, 1.0f, 1.0f }, m_Texture);
-	Hazel::Renderer::DrawCube({ 2.0f, 0.0f, -4.0f }, { 1.0f, 1.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 0.6f });
-	Hazel::Renderer::DrawCube({ 2.0f, 1.0f, -4.0f }, { 1.0f, 1.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 0.6f });
-	Hazel::Renderer::DrawCube({ 2.0f, 2.0f, -4.0f }, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f, 0.6f });
+	Hazel::Renderer3D::DrawCube({ 2.0f, 0.0f, -2.0f }, { 1.0f, 1.0f, 1.0f }, m_Texture);
+	Hazel::Renderer3D::DrawCube({ 2.0f, 0.0f, -4.0f }, { 1.0f, 1.0f, 1.0f }, { 1.0f, 0.0f, 0.0f, 0.6f });
+	Hazel::Renderer3D::DrawCube({ 2.0f, 1.0f, -4.0f }, { 1.0f, 1.0f, 1.0f }, { 0.0f, 1.0f, 0.0f, 0.6f });
+	Hazel::Renderer3D::DrawCube({ 2.0f, 2.0f, -4.0f }, { 1.0f, 1.0f, 1.0f }, { 0.0f, 0.0f, 1.0f, 0.6f });
 
-	Hazel::Renderer::EndScene();
+	Hazel::Renderer3D::EndScene();
 }
 
 void Sandbox3D::OnImGuiRender()
