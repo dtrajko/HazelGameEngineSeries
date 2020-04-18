@@ -4,6 +4,7 @@
 #include "Hazel/Core/Log.h"
 #include "Hazel/Core/Input.h"
 #include "Hazel/Renderer/Renderer2D.h"
+#include "Hazel/Renderer/Renderer3D.h"
 #include "Hazel/Core/KeyCodes.h"
 
 #include <GLFW/glfw3.h>
@@ -22,11 +23,6 @@ namespace Hazel {
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
-
-		if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
-		{
-			Renderer2D::Init();
-		}
 
 		if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
 		{
@@ -63,6 +59,11 @@ namespace Hazel {
 
 	void Application::Run()
 	{
+		if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer2D)
+			Renderer2D::Init();
+		if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer3D)
+			Renderer3D::Init();
+
 		while (m_Running)
 		{
 			float time = (float)glfwGetTime(); // Platform::GetTime()
@@ -112,6 +113,7 @@ namespace Hazel {
 		if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
 		{
 			Renderer2D::OnWindowResize(e.GetWidth(), e.GetHeight());
+			Renderer3D::OnWindowResize(e.GetWidth(), e.GetHeight());
 		}
 
 		return false;

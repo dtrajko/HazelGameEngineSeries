@@ -10,6 +10,8 @@ ExampleLayer::ExampleLayer()
 {
 	if (Hazel::Renderer2D::GetAPI() != Hazel::RendererAPI::API::OpenGL) return;
 
+	Hazel::RendererAPI::SetMode(Hazel::RendererAPI::Mode::Renderer2D);
+
 	DrawOpenGLTriangle();
 }
 

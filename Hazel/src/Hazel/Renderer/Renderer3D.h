@@ -2,9 +2,9 @@
 
 #include "RendererAPI.h"
 #include "RenderCommand.h"
-#include "Hazel/Renderer/Camera.h"
 #include "Hazel/Renderer/Shader.h"
 #include "Texture.h"
+#include "Hazel/Renderer/Camera.h"
 
 
 namespace Hazel
@@ -39,7 +39,6 @@ namespace Hazel
 		};
 
 		static SceneData* m_SceneData;
-
 	};
 
 }

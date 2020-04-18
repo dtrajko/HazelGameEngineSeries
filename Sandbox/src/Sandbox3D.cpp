@@ -12,12 +12,15 @@
 Sandbox3D::Sandbox3D()
 	: Layer("Sandbox3D"), m_CameraController(16.f / 9.f, true)
 {
+	Hazel::RendererAPI::SetMode(Hazel::RendererAPI::Mode::Renderer3D);
+
 	m_CubeVA = Hazel::VertexArray::Create();
 
 	Hazel::Ref<Hazel::VertexBuffer> cubeVB;
 	cubeVB = Hazel::VertexBuffer::Create(Hazel::Cube::vertices , sizeof(Hazel::Cube::vertices));
 	cubeVB->SetLayout({
 		{ Hazel::ShaderDataType::Float3, "a_Position" },
+		{ Hazel::ShaderDataType::Float4, "a_Color" },
 		{ Hazel::ShaderDataType::Float2, "a_TexCoord" },
 	});
 

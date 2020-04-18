@@ -24,8 +24,11 @@ namespace Hazel
 
 	void Renderer3D::Init()
 	{
-		RenderCommand::Init();
-		Renderer2D::Init();
+		HZ_PROFILE_FUNCTION();
+
+		HZ_INFO("Renderer3D Init");
+
+		// RenderCommand::Init();
 
 		s_Data = new RendererStorage();
 
@@ -36,6 +39,7 @@ namespace Hazel
 		cubeVB = VertexBuffer::Create(Cube::vertices, sizeof(Cube::vertices));
 		cubeVB->SetLayout({
 			{ ShaderDataType::Float3, "a_Position" },
+			{ ShaderDataType::Float4, "a_Color" },
 			{ ShaderDataType::Float2, "a_TexCoord" },
 		});
 
@@ -53,21 +57,22 @@ namespace Hazel
 		quadVB = VertexBuffer::Create(Quad::vertices, sizeof(Quad::vertices));
 		quadVB->SetLayout({
 			{ ShaderDataType::Float3, "a_Position" },
+			{ ShaderDataType::Float4, "a_Color" },
 			{ ShaderDataType::Float2, "a_TexCoord" },
 			});
 
-		// s_Data->QuadVertexArray->AddVertexBuffer(quadVB);
+		s_Data->QuadVertexArray->AddVertexBuffer(quadVB);
 
 		Ref<IndexBuffer> quadIB;
 		quadIB = IndexBuffer::Create(Quad::indices, sizeof(Quad::indices) / sizeof(uint32_t));
 		s_Data->QuadVertexArray->SetIndexBuffer(quadIB);
 		/* End Quad vertex array */
 
-		// s_Data->WhiteTexture = Texture2D::Create(1, 1);
+		s_Data->WhiteTexture = Texture2D::Create(1, 1);
 		uint32_t whiteTextureData = 0xffffffff;
 		s_Data->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
-		s_Data->TextureShader = Shader::Create("assets/shaders/Renderer2D_Texture.glsl");
+		s_Data->TextureShader = Shader::Create("assets/shaders/Renderer3D_Texture.glsl");
 	}
 
 	void Renderer3D::OnWindowResize(uint32_t width, uint32_t height)

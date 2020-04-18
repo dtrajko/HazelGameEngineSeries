@@ -19,6 +19,7 @@
 OBJLayer::OBJLayer()
 	: Layer("OBJ Layer"), m_CameraController(16.f / 9.f, true)
 {
+	Hazel::RendererAPI::SetMode(Hazel::RendererAPI::Mode::Renderer3D);
 }
 
 void OBJLayer::OnAttach()

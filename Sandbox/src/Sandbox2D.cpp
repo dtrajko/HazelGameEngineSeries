@@ -10,6 +10,7 @@
 Sandbox2D::Sandbox2D()
 	: Layer("Sandbox2D"), m_CameraController(16.f / 9.f, true)
 {
+	Hazel::RendererAPI::SetMode(Hazel::RendererAPI::Mode::Renderer2D);
 }
 
 void Sandbox2D::OnAttach()

@@ -51,6 +51,10 @@ namespace Hazel
 	{
 		HZ_PROFILE_FUNCTION();
 
+		HZ_INFO("Renderer2D Init");
+
+		// RenderCommand::Init();
+
 		s_Data.QuadVertexArray = VertexArray::Create();
 
 		s_Data.QuadVertexBuffer = VertexBuffer::Create(s_Data.MaxVertices * sizeof(QuadVertex));
@@ -416,5 +420,15 @@ namespace Hazel
 		s_Data.QuadIndexCount += 6;
 
 		s_Data.Stats.QuadCount++;
+	}
+
+	void Renderer2D::Submit(Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& viewProjectionMatrix, const glm::mat4& transform)
+	{
+		shader->Bind();
+		shader->SetMat4("u_ViewProjection", viewProjectionMatrix);
+		shader->SetMat4("u_Transform", transform);
+
+		vertexArray->Bind();
+		RenderCommand::DrawIndexed(vertexArray);
 	}
 }

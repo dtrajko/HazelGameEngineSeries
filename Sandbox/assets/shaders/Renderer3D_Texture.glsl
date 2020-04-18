@@ -8,8 +8,8 @@ layout(location = 2) in vec2 a_TexCoord;
 uniform mat4 u_ViewProjection;
 uniform mat4 u_Transform;
 
-out vec4 v_Color;
 out vec2 v_TexCoord;
+out vec4 v_Color;
 
 void main()
 {
@@ -24,13 +24,15 @@ void main()
 
 layout(location = 0) out vec4 color;
 
-uniform vec4 u_Color;
-uniform sampler2D u_Texture;
-
 in vec4 v_Color;
 in vec2 v_TexCoord;
 
+uniform vec4 u_Color;
+uniform float u_TilingFactor;
+uniform sampler2D u_Texture;
+
 void main()
 {
-	color = u_Color * texture(u_Texture, v_TexCoord);
+	// color = texture(u_Texture, v_TexCoord * u_TilingFactor) * u_Color;
+	color = v_Color;
 }

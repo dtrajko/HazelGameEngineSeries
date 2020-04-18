@@ -64,6 +64,7 @@ static Vertex* CreateQuad(Vertex* target, float x, float y, float textureID)
 BatchRenderingLayer::BatchRenderingLayer()
 	: Layer("Batch Rendering Layer"), m_CameraController(16.f / 9.f, true)
 {
+	Hazel::RendererAPI::SetMode(Hazel::RendererAPI::Mode::Renderer2D);
 }
 
 void BatchRenderingLayer::OnAttach()

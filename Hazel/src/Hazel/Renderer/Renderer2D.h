@@ -2,9 +2,9 @@
 
 #include "RendererAPI.h"
 #include "RenderCommand.h"
-
-#include "OrthographicCamera.h"
+#include "Hazel/Renderer/Shader.h"
 #include "Texture.h"
+#include "OrthographicCamera.h"
 
 
 namespace Hazel
@@ -35,6 +35,9 @@ namespace Hazel
 			float tilingFactor = 1.0f, const glm::vec4& tintColor = glm::vec4(1.0f));
 		static void DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture,
 			float tilingFactor = 1.0f, const glm::vec4& tintColor = glm::vec4(1.0f));
+
+		static void Submit(Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,
+			const glm::mat4& viewProjectionMatrix, const glm::mat4& transform = glm::mat4(1.0f));
 
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
