@@ -164,7 +164,7 @@ void BatchRenderingLayer::OnUpdate(Hazel::Timestep timestep)
 	{
 		for (int x = 0; x < 5; x++)
 		{
-			buffer = CreateQuad(buffer, x, y, (x + y) % 2);
+			buffer = CreateQuad(buffer, (float)x, (float)y, (float)((x + y) % 2));
 			indexCount += 6;
 		}
 	}

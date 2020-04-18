@@ -17,6 +17,7 @@
 #include <unordered_set>
 
 #include "Hazel/Core/Log.h"
+#include "Hazel/Debug/Instrumentor.h"
 
 #ifdef HZ_PLATFORM_WINDOW
 	#include <Windows.h>

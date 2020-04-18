@@ -28,7 +28,7 @@ namespace Hazel
 		// TODO
 	}
 
-	void DX11RendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray)
+	void DX11RendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount)
 	{
 		// TODO
 	}

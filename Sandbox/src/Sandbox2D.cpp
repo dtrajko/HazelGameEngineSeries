@@ -24,20 +24,31 @@ void Sandbox2D::OnDetach()
 
 void Sandbox2D::OnUpdate(Hazel::Timestep timestep)
 {
+	HZ_PROFILE_FUNCTION();
+
 	// Update
 	m_CameraController.OnUpdate(timestep);
 
 	// Render
-	Hazel::RenderCommand::SetClearColor(m_BackgroundColor);
-	Hazel::RenderCommand::Clear();
+	{
+		HZ_PROFILE_SCOPE("Renderer Prep");
+		Hazel::RenderCommand::SetClearColor(m_BackgroundColor);
+		Hazel::RenderCommand::Clear();
+	}
 
-	Hazel::Renderer2D::BeginScene(m_CameraController.GetCamera());
+	{
+		HZ_PROFILE_SCOPE("Renderer Draw");
+		Hazel::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-	Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 10.0f, 10.0f }, m_BackgroundTexture);
-	Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.1f }, { 2.0f, 1.0f }, m_QuadColor);
-	Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.2f }, { 1.0f, 2.0f }, m_QuadTexture);
+		Hazel::Renderer2D::DrawQuad({ -1.0f,  0.0f, 0.0f }, { 0.8f, 0.8f  }, { 0.8f, 0.2f, 0.3f, 1.0f });
+		Hazel::Renderer2D::DrawQuad({  0.5f, -0.5f, 0.0f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
 
-	Hazel::Renderer2D::EndScene();
+		// Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 10.0f, 10.0f }, m_BackgroundTexture);
+		// Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.1f }, { 2.0f, 1.0f }, m_QuadColor);
+		// Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.2f }, { 1.0f, 2.0f }, m_QuadTexture);
+
+		Hazel::Renderer2D::EndScene();
+	}
 }
 
 void Sandbox2D::OnImGuiRender()
