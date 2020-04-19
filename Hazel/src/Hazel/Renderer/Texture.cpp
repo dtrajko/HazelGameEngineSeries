@@ -2,7 +2,7 @@
 
 #include "Texture.h"
 #include "RendererAPI.h"
-#include "Hazel/Platform/OpenGL/OpenGLTexture.h"
+#include "Platform/OpenGL/OpenGLTexture.h"
 
 #include <stb_image.h>
 

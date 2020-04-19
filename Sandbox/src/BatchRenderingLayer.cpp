@@ -64,7 +64,7 @@ static Vertex* CreateQuad(Vertex* target, float x, float y, float textureID)
 BatchRenderingLayer::BatchRenderingLayer()
 	: Layer("Batch Rendering Layer"), m_CameraController(16.f / 9.f, true)
 {
-	Hazel::RendererAPI::SetMode(Hazel::RendererAPI::Mode::Renderer2D);
+	Hazel::RendererAPI::SetMode(Hazel::RendererAPI::Mode::Renderer3D);
 }
 
 void BatchRenderingLayer::OnAttach()
@@ -204,7 +204,7 @@ void BatchRenderingLayer::OnUpdate(Hazel::Timestep timestep)
 	glBindVertexArray(m_QuadVA);
 	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
 
-	Hazel::Renderer2D::EndScene();
+	Hazel::Renderer3D::EndScene();
 }
 
 void BatchRenderingLayer::OnImGuiRender()

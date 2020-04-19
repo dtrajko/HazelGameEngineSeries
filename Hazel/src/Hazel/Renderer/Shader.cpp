@@ -2,7 +2,7 @@
 #include "Shader.h"
 
 #include "Hazel/Renderer/RendererAPI.h"
-#include "Hazel/Platform/OpenGL/OpenGLShader.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 
 
 namespace Hazel

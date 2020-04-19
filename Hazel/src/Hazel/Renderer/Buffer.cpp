@@ -2,7 +2,7 @@
 #include "Buffer.h"
 
 #include "Renderer2D.h"
-#include "Hazel/Platform/OpenGL/OpenGLBuffer.h"
+#include "Platform/OpenGL/OpenGLBuffer.h"
 
 
 namespace Hazel

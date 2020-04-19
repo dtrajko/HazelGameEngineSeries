@@ -112,8 +112,10 @@ namespace Hazel {
 
 		if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
 		{
-			Renderer2D::OnWindowResize(e.GetWidth(), e.GetHeight());
-			Renderer3D::OnWindowResize(e.GetWidth(), e.GetHeight());
+			if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer2D)
+				Renderer2D::OnWindowResize(e.GetWidth(), e.GetHeight());
+			if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer3D)
+				Renderer3D::OnWindowResize(e.GetWidth(), e.GetHeight());
 		}
 
 		return false;

@@ -8,9 +8,9 @@
 
 #include "Hazel/Renderer/Renderer2D.h"
 
-#include "Hazel/Platform/OpenGL/OpenGLContext.h"
-#include "Hazel/Platform/Vulkan/VulkanContext.h"
-#include "Hazel/Platform/DX11/DX11Context.h"
+#include "Platform/OpenGL/OpenGLContext.h"
+#include "Platform/Vulkan/VulkanContext.h"
+#include "Platform/DX11/DX11Context.h"
 
 #include <GLFW/glfw3.h>
 

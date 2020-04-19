@@ -2,7 +2,7 @@
 
 #include "VertexArray.h"
 #include "Renderer2D.h"
-#include "Hazel/Platform/OpenGL/OpenGLVertexArray.h"
+#include "Platform/OpenGL/OpenGLVertexArray.h"
 
 
 namespace Hazel

@@ -163,18 +163,6 @@
     <ClInclude Include="src\Hazel\Models\Quad.h" />
     <ClInclude Include="src\Hazel\Particles\ParticleSystem.h" />
     <ClInclude Include="src\Hazel\Particles\Random.h" />
-    <ClInclude Include="src\Hazel\Platform\DX11\DX11Context.h" />
-    <ClInclude Include="src\Hazel\Platform\DX11\DX11RendererAPI.h" />
-    <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.h" />
-    <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLContext.h" />
-    <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLRendererAPI.h" />
-    <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLShader.h" />
-    <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLTexture.h" />
-    <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLVertexArray.h" />
-    <ClInclude Include="src\Hazel\Platform\Vulkan\VulkanContext.h" />
-    <ClInclude Include="src\Hazel\Platform\Vulkan\VulkanRendererAPI.h" />
-    <ClInclude Include="src\Hazel\Platform\Windows\WindowsInput.h" />
-    <ClInclude Include="src\Hazel\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Hazel\Renderer\Buffer.h" />
     <ClInclude Include="src\Hazel\Renderer\Camera.h" />
     <ClInclude Include="src\Hazel\Renderer\CameraController.h" />
@@ -189,6 +177,18 @@
     <ClInclude Include="src\Hazel\Renderer\Texture.h" />
     <ClInclude Include="src\Hazel\Renderer\VertexArray.h" />
     <ClInclude Include="src\hzpch.h" />
+    <ClInclude Include="src\Platform\DX11\DX11Context.h" />
+    <ClInclude Include="src\Platform\DX11\DX11RendererAPI.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
+    <ClInclude Include="src\Platform\Vulkan\VulkanContext.h" />
+    <ClInclude Include="src\Platform\Vulkan\VulkanRendererAPI.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_fixes.hpp" />
@@ -568,18 +568,6 @@
     <ClCompile Include="src\Hazel\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Hazel\Loader\OBJLoader.cpp" />
     <ClCompile Include="src\Hazel\Particles\ParticleSystem.cpp" />
-    <ClCompile Include="src\Hazel\Platform\DX11\DX11Context.cpp" />
-    <ClCompile Include="src\Hazel\Platform\DX11\DX11RendererAPI.cpp" />
-    <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.cpp" />
-    <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLContext.cpp" />
-    <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLRendererAPI.cpp" />
-    <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLShader.cpp" />
-    <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLTexture.cpp" />
-    <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLVertexArray.cpp" />
-    <ClCompile Include="src\Hazel\Platform\Vulkan\VulkanContext.cpp" />
-    <ClCompile Include="src\Hazel\Platform\Vulkan\VulkanRendererAPI.cpp" />
-    <ClCompile Include="src\Hazel\Platform\Windows\WindowsInput.cpp" />
-    <ClCompile Include="src\Hazel\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Camera.cpp" />
     <ClCompile Include="src\Hazel\Renderer\CameraController.cpp" />
@@ -595,6 +583,18 @@
     <ClCompile Include="src\hzpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\Platform\DX11\DX11Context.cpp" />
+    <ClCompile Include="src\Platform\DX11\DX11RendererAPI.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
+    <ClCompile Include="src\Platform\Vulkan\VulkanContext.cpp" />
+    <ClCompile Include="src\Platform\Vulkan\VulkanRendererAPI.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="vendor\stb_image\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>

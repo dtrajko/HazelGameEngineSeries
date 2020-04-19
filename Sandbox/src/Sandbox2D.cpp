@@ -1,5 +1,5 @@
 #include "Sandbox2D.h"
-#include "Hazel/Platform/OpenGL/OpenGLShader.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 
 #include "imgui/imgui.h"
 

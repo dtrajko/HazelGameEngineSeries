@@ -1,9 +1,9 @@
 #include "hzpch.h"
 
 #include "RendererAPI.h"
-#include "Hazel/Platform/OpenGL/OpenGLRendererAPI.h"
-#include "Hazel/Platform/Vulkan/VulkanRendererAPI.h"
-#include "Hazel/Platform/DX11/DX11RendererAPI.h"
+#include "Platform/OpenGL/OpenGLRendererAPI.h"
+#include "Platform/Vulkan/VulkanRendererAPI.h"
+#include "Platform/DX11/DX11RendererAPI.h"
 
 
 namespace Hazel
