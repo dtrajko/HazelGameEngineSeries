@@ -50,8 +50,9 @@ namespace Hazel
 			uint32_t GetTotalVertexCount() { return QuadCount * 4; }
 			uint32_t GetTotalIndexCount() { return QuadCount * 6; }
 		};
+
 		static void ResetStats();
-		// static Statistics GetStats();
+		static Statistics GetStats();
 
 	private:
 		static void FlushAndReset();
