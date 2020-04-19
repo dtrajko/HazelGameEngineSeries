@@ -23,6 +23,11 @@ namespace Hazel
 		virtual void Bind(uint32_t slot = 0) const override;
 		virtual void Unbind(uint32_t slot = 0) const override;
 
+		virtual bool operator==(const Texture& other) const override
+		{
+			return m_RendererID == ((OpenGLTexture2D&)other).m_RendererID;
+		}
+
 		static uint32_t LoadTexture(const std::string& path);
 
 	private:

@@ -28,7 +28,7 @@ namespace Hazel
 
 		HZ_INFO("Renderer3D Init");
 
-		// RenderCommand::Init();
+		RenderCommand::Init();
 
 		s_Data = new RendererStorage();
 

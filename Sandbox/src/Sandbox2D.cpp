@@ -17,7 +17,7 @@ void Sandbox2D::OnAttach()
 {
 	HZ_PROFILE_FUNCTION();
 
-	m_BackgroundTexture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
+	m_CheckerboardTexture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
 	m_QuadTexture = Hazel::Texture2D::Create("assets/textures/statue_512x512.jpg");
 }
 
@@ -49,8 +49,9 @@ void Sandbox2D::OnUpdate(Hazel::Timestep timestep)
 		Hazel::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
 		Hazel::Renderer2D::DrawQuad({ 0.8f,  0.4f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
 		Hazel::Renderer2D::DrawQuad({ 0.0f, -0.3f }, { 0.5f, 0.5f }, { 1.0f, 1.0f, 0.0f, 1.0f });
+		Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, m_CheckerboardTexture, 10.0f);
+		Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f,  0.0f }, { 2.0f, 2.0f }, m_CheckerboardTexture, 20.0f);
 
-		// Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 10.0f, 10.0f }, m_BackgroundTexture);
 		// Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.1f }, { 2.0f, 1.0f }, m_QuadColor);
 		// Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.2f }, { 1.0f, 2.0f }, m_QuadTexture);
 
