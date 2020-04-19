@@ -61,12 +61,12 @@ void Sandbox2D::OnUpdate(Hazel::Timestep timestep)
 
 		// Hazel::Renderer2D::BeginScene(m_CameraController.GetCamera());
 
-		for (float y = -5.0f; y <= 5.0f; y += 0.5f)
+		for (float y = -5.0f; y <= 5.0f; y += 0.25f)
 		{
-			for (float x = -5.0f; x <= 5.0f; x += 0.5f)
+			for (float x = -5.0f; x <= 5.0f; x += 0.25f)
 			{
-				glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.8f };
-				Hazel::Renderer2D::DrawRotatedQuad({ x, y }, { 0.45f, 0.45f }, rotation, color);
+				glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 1.0f };
+				Hazel::Renderer2D::DrawQuad({ x, y }, { 0.23f, 0.23f }, color);
 			}
 		}
 
