@@ -130,6 +130,7 @@ namespace Hazel
 		glm::mat4 transform = glm::translate(glm::mat4(1.0f), position) *
 			glm::scale(glm::mat4(1.0f), size);
 		s_Data->TextureShader->SetMat4("u_Transform", transform);
+		s_Data->TextureShader->SetFloat("u_TilingFactor", 1.0f);
 		texture->Bind();
 		s_Data->CubeVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->CubeVertexArray);
@@ -140,6 +141,7 @@ namespace Hazel
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetFloat4("u_Color", color);
 		s_Data->TextureShader->SetMat4("u_Transform", transform);
+		s_Data->TextureShader->SetFloat("u_TilingFactor", 1.0f);
 		texture->Bind();
 		s_Data->CubeVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->CubeVertexArray);
@@ -160,6 +162,7 @@ namespace Hazel
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetFloat4("u_Color", color);
 		s_Data->TextureShader->SetMat4("u_Transform", transform);
+		s_Data->TextureShader->SetFloat("u_TilingFactor", 1.0f);
 		texture->Bind();
 		s_Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
@@ -171,6 +174,7 @@ namespace Hazel
 		shader->Bind();
 		shader->SetMat4("u_ViewProjection", viewProjectionMatrix);
 		shader->SetMat4("u_Transform", transform);
+		shader->SetFloat("u_TilingFactor", 1.0f);
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);

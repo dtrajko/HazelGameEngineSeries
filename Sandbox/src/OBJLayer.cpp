@@ -26,7 +26,7 @@ void OBJLayer::OnAttach()
 {
 	Hazel::RenderCommand::Init();
 
-	OBJLoader::loadOBJModel("assets/models/player_model.obj");
+	OBJLoader::loadOBJModel("assets/models/monkey3.obj");
 
 	m_ModelVA = Hazel::VertexArray::Create();
 	Hazel::Ref<Hazel::VertexBuffer> modelVB;
