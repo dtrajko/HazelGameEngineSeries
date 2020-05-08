@@ -16,6 +16,7 @@ class ParticleSystem
 {
 public:
 	ParticleSystem();
+	ParticleSystem(uint32_t maxParticles);
 
 	void OnUpdate(Hazel::Timestep ts);
 	void OnRender(Hazel::OrthographicCamera& camera);
@@ -36,5 +37,5 @@ private:
 		bool Active = false;
 	};
 	std::vector<Particle> m_ParticlePool;
-	uint32_t m_PoolIndex = 999;
+	uint32_t m_PoolIndex;
 };
