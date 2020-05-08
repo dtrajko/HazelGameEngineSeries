@@ -2,7 +2,7 @@
 
 #include "Hazel.h"
 
-#include "Hazel/Particles/ParticleSystem.h"
+#include "Hazel/Particles/ParticleSystemDT.h"
 
 
 class ParticlesLayer : public Hazel::Layer
@@ -20,8 +20,8 @@ public:
 private:
 	Hazel::CameraController m_CameraController;
 
-	Hazel::ParticleProps m_Particle;
-	Hazel::ParticleSystem m_ParticleSystem;
+	Hazel::ParticlePropsDT m_Particle;
+	Hazel::ParticleSystemDT m_ParticleSystem;
 	glm::vec4 m_BackgroundColor = { 0.2f, 0.0f, 0.2f, 1.0f };
 	float m_Velocity = 3.0f;
 	float m_RotationVelocity = 0.0f;

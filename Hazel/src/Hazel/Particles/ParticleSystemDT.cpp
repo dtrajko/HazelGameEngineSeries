@@ -1,6 +1,6 @@
 #include <hzpch.h>
 
-#include "ParticleSystem.h"
+#include "ParticleSystemDT.h"
 
 #include "Hazel/Particles/Random.h"
 #include "Hazel/Models/Cube.h"
@@ -17,12 +17,12 @@
 
 namespace Hazel
 {
-	ParticleSystem::ParticleSystem()
+	ParticleSystemDT::ParticleSystemDT()
 	{
 		m_ParticlePool.resize(m_PoolIndex + 1);
 	}
 
-	void ParticleSystem::OnUpdate(Hazel::Timestep ts)
+	void ParticleSystemDT::OnUpdate(Hazel::Timestep ts)
 	{
 		for (auto& particle : m_ParticlePool)
 		{
@@ -44,7 +44,7 @@ namespace Hazel
 		}
 	}
 
-	void ParticleSystem::OnRender(Hazel::Camera& camera)
+	void ParticleSystemDT::OnRender(Hazel::Camera& camera)
 	{
 		for (auto& particle : m_ParticlePool)
 		{
@@ -91,7 +91,7 @@ namespace Hazel
 		}
 	}
 
-	void ParticleSystem::Emit(const ParticleProps& particleProps)
+	void ParticleSystemDT::Emit(const ParticlePropsDT& particleProps)
 	{
 		Particle& particle = m_ParticlePool[m_PoolIndex];
 		particle.Active = true;

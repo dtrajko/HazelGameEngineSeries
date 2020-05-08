@@ -161,7 +161,7 @@
     <ClInclude Include="src\Hazel\Loader\OBJLoader.h" />
     <ClInclude Include="src\Hazel\Models\Cube.h" />
     <ClInclude Include="src\Hazel\Models\Quad.h" />
-    <ClInclude Include="src\Hazel\Particles\ParticleSystem.h" />
+    <ClInclude Include="src\Hazel\Particles\ParticleSystemDT.h" />
     <ClInclude Include="src\Hazel\Particles\Random.h" />
     <ClInclude Include="src\Hazel\Renderer\Buffer.h" />
     <ClInclude Include="src\Hazel\Renderer\Camera.h" />
@@ -567,7 +567,7 @@
     <ClCompile Include="src\Hazel\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Hazel\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Hazel\Loader\OBJLoader.cpp" />
-    <ClCompile Include="src\Hazel\Particles\ParticleSystem.cpp" />
+    <ClCompile Include="src\Hazel\Particles\ParticleSystemDT.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Camera.cpp" />
     <ClCompile Include="src\Hazel\Renderer\CameraController.cpp" />

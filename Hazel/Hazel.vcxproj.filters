@@ -132,9 +132,6 @@
     <ClInclude Include="src\Hazel\Models\Quad.h">
       <Filter>src\Hazel\Models</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Particles\ParticleSystem.h">
-      <Filter>src\Hazel\Particles</Filter>
-    </ClInclude>
     <ClInclude Include="src\Hazel\Particles\Random.h">
       <Filter>src\Hazel\Particles</Filter>
     </ClInclude>
@@ -1323,6 +1320,9 @@
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>src\Platform\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Particles\ParticleSystemDT.h">
+      <Filter>src\Hazel\Particles</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Core\Application.cpp">
@@ -1345,9 +1345,6 @@
     </ClCompile>
     <ClCompile Include="src\Hazel\Loader\OBJLoader.cpp">
       <Filter>src\Hazel\Loader</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Hazel\Particles\ParticleSystem.cpp">
-      <Filter>src\Hazel\Particles</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\Buffer.cpp">
       <Filter>src\Hazel\Renderer</Filter>
@@ -1426,6 +1423,9 @@
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>src\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Particles\ParticleSystemDT.cpp">
+      <Filter>src\Hazel\Particles</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

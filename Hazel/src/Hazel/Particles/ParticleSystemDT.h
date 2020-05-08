@@ -7,7 +7,7 @@
 
 namespace Hazel
 {
-	struct ParticleProps
+	struct ParticlePropsDT
 	{
 		glm::vec3 Position;
 		glm::vec3 Velocity;
@@ -22,10 +22,10 @@ namespace Hazel
 		float LifeTime = 1.0f;
 	};
 
-	class ParticleSystem
+	class ParticleSystemDT
 	{
 	public:
-		ParticleSystem();
+		ParticleSystemDT();
 
 		void SetEnabled3D(bool enabled3D) { m_Enabled3D = enabled3D; };
 		void SetEnabledBillboarding(bool enabledBillboarding) { m_EnabledBillboarding = enabledBillboarding; };
@@ -33,7 +33,7 @@ namespace Hazel
 		void SetTexture(Ref<Texture2D> texture) { m_Texture = texture; };
 		void OnUpdate(Hazel::Timestep ts);
 		void OnRender(Hazel::Camera& camera);
-		void Emit(const ParticleProps& particleProps);
+		void Emit(const ParticlePropsDT& particleProps);
 
 	private:
 		struct Particle
