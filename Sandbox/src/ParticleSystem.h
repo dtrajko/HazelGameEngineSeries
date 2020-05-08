@@ -37,8 +37,4 @@ private:
 	};
 	std::vector<Particle> m_ParticlePool;
 	uint32_t m_PoolIndex = 999;
-
-	GLuint m_QuadVA = 0;
-	std::unique_ptr<GLCore::Utils::Shader> m_ParticleShader;
-	GLint m_ParticleShaderViewProj, m_ParticleShaderTransform, m_ParticleShaderColor;
 };

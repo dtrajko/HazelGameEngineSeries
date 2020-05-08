@@ -132,9 +132,6 @@
     <ClInclude Include="src\Hazel\Models\Quad.h">
       <Filter>src\Hazel\Models</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Particles\Random.h">
-      <Filter>src\Hazel\Particles</Filter>
-    </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\Buffer.h">
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
@@ -1321,6 +1318,9 @@
       <Filter>src\Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Particles\ParticleSystemDT.h">
+      <Filter>src\Hazel\Particles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Particles\RandomDT.h">
       <Filter>src\Hazel\Particles</Filter>
     </ClInclude>
   </ItemGroup>

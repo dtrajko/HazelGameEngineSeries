@@ -4,7 +4,7 @@
 
 
 
-class Random
+class RandomDT
 {
 public:
 	static void Init()

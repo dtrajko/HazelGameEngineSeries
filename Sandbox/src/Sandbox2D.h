@@ -2,6 +2,8 @@
 
 #include "Hazel.h"
 
+#include "ParticleSystem.h"
+
 
 class Sandbox2D : public Hazel::Layer
 {
@@ -24,4 +26,6 @@ private:
 	glm::vec4 m_BackgroundColor = { 0.1f, 0.1f, 0.1f, 1.0f };
 	glm::vec4 m_QuadColor = { 0.8f, 0.4f, 0.4f, 1.0f };
 
+	ParticleSystem m_ParticleSystem;
+	ParticleProps m_Particle;
 };

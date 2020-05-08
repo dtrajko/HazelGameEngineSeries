@@ -1,10 +1,32 @@
 #include "ParticleSystem.h"
 
-#include "Random.h"
-
 #include <glm/gtc/constants.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/compatibility.hpp>
+
+#include <random>
+
+
+class Random
+{
+public:
+	static void Init()
+	{
+		s_RandomEngine.seed(std::random_device()());
+	}
+
+	static float Float()
+	{
+		return (float)s_Distribution(s_RandomEngine) / (float)std::numeric_limits<uint32_t>::max();
+	}
+
+private:
+	static std::mt19937 s_RandomEngine;
+	static std::uniform_int_distribution<std::mt19937::result_type> s_Distribution;
+};
+
+std::mt19937 Random::s_RandomEngine;
+std::uniform_int_distribution<std::mt19937::result_type> Random::s_Distribution;
 
 
 ParticleSystem::ParticleSystem()
@@ -12,7 +34,7 @@ ParticleSystem::ParticleSystem()
 	m_ParticlePool.resize(1000);
 }
 
-void ParticleSystem::OnUpdate(GLCore::Timestep ts)
+void ParticleSystem::OnUpdate(Hazel::Timestep ts)
 {
 	for (auto& particle : m_ParticlePool)
 	{
@@ -31,45 +53,9 @@ void ParticleSystem::OnUpdate(GLCore::Timestep ts)
 	}
 }
 
-void ParticleSystem::OnRender(GLCore::Utils::OrthographicCamera& camera)
+void ParticleSystem::OnRender(Hazel::OrthographicCamera& camera)
 {
-	if (!m_QuadVA)
-	{
-		float vertices[] = {
-			 -0.5f, -0.5f, 0.0f,
-			  0.5f, -0.5f, 0.0f,
-			  0.5f,  0.5f, 0.0f,
-			 -0.5f,  0.5f, 0.0f
-		};
-
-		glCreateVertexArrays(1, &m_QuadVA);
-		glBindVertexArray(m_QuadVA);
-
-		GLuint quadVB, quadIB;
-		glCreateBuffers(1, &quadVB);
-		glBindBuffer(GL_ARRAY_BUFFER, quadVB);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-		glEnableVertexArrayAttrib(quadVB, 0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
-
-		uint32_t indices[] = {
-			0, 1, 2, 2, 3, 0
-		};
-
-		glCreateBuffers(1, &quadIB);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, quadIB);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-		m_ParticleShader = std::unique_ptr<GLCore::Utils::Shader>(GLCore::Utils::Shader::FromGLSLTextFiles("assets/shader.glsl.vert", "assets/shader.glsl.frag"));
-		m_ParticleShaderViewProj = glGetUniformLocation(m_ParticleShader->GetRendererID(), "u_ViewProj");
-		m_ParticleShaderTransform = glGetUniformLocation(m_ParticleShader->GetRendererID(), "u_Transform");
-		m_ParticleShaderColor = glGetUniformLocation(m_ParticleShader->GetRendererID(), "u_Color");
-	}
-
-	glUseProgram(m_ParticleShader->GetRendererID());
-	glUniformMatrix4fv(m_ParticleShaderViewProj, 1, GL_FALSE, glm::value_ptr(camera.GetViewProjectionMatrix()));
-
+	Hazel::Renderer2D::BeginScene(camera);
 	for (auto& particle : m_ParticlePool)
 	{
 		if (!particle.Active)
@@ -78,19 +64,13 @@ void ParticleSystem::OnRender(GLCore::Utils::OrthographicCamera& camera)
 		// Fade away particles
 		float life = particle.LifeRemaining / particle.LifeTime;
 		glm::vec4 color = glm::lerp(particle.ColorEnd, particle.ColorBegin, life);
-		//color.a = color.a * life;
+		// color.a = color.a * life;
 
 		float size = glm::lerp(particle.SizeEnd, particle.SizeBegin, life);
 
-		// Render
-		glm::mat4 transform = glm::translate(glm::mat4(1.0f), { particle.Position.x, particle.Position.y, 0.0f })
-			* glm::rotate(glm::mat4(1.0f), particle.Rotation, { 0.0f, 0.0f, 1.0f })
-			* glm::scale(glm::mat4(1.0f), { size, size, 1.0f });
-		glUniformMatrix4fv(m_ParticleShaderTransform, 1, GL_FALSE, glm::value_ptr(transform));
-		glUniform4fv(m_ParticleShaderColor, 1, glm::value_ptr(color));
-		glBindVertexArray(m_QuadVA);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		Hazel::Renderer2D::DrawRotatedQuad(particle.Position, { size, size }, particle.Rotation, color);
 	}
+	Hazel::Renderer2D::EndScene();
 }
 
 void ParticleSystem::Emit(const ParticleProps& particleProps)

@@ -162,7 +162,7 @@
     <ClInclude Include="src\Hazel\Models\Cube.h" />
     <ClInclude Include="src\Hazel\Models\Quad.h" />
     <ClInclude Include="src\Hazel\Particles\ParticleSystemDT.h" />
-    <ClInclude Include="src\Hazel\Particles\Random.h" />
+    <ClInclude Include="src\Hazel\Particles\RandomDT.h" />
     <ClInclude Include="src\Hazel\Renderer\Buffer.h" />
     <ClInclude Include="src\Hazel\Renderer\Camera.h" />
     <ClInclude Include="src\Hazel\Renderer\CameraController.h" />

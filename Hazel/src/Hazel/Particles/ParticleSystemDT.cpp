@@ -2,7 +2,7 @@
 
 #include "ParticleSystemDT.h"
 
-#include "Hazel/Particles/Random.h"
+#include "Hazel/Particles/RandomDT.h"
 #include "Hazel/Models/Cube.h"
 #include "Hazel/Core/Timer.h"
 #include "Hazel/Renderer/Renderer3D.h"
@@ -38,9 +38,9 @@ namespace Hazel
 			particle.LifeRemaining -= ts;
 			particle.Position += particle.Velocity * (float)ts;
 			particle.Rotation = glm::vec3(
-				particle.Rotation.x + Random::Float() * particle.RotationVelocity.x * (float)ts,
-				particle.Rotation.y + Random::Float() * particle.RotationVelocity.y * (float)ts,
-				particle.Rotation.z + Random::Float() * particle.RotationVelocity.z * (float)ts);
+				particle.Rotation.x + RandomDT::Float() * particle.RotationVelocity.x * (float)ts,
+				particle.Rotation.y + RandomDT::Float() * particle.RotationVelocity.y * (float)ts,
+				particle.Rotation.z + RandomDT::Float() * particle.RotationVelocity.z * (float)ts);
 		}
 	}
 
@@ -97,21 +97,21 @@ namespace Hazel
 		particle.Active = true;
 		particle.Position = particleProps.Position;
 		particle.Rotation = glm::vec3(
-			particleProps.RotationVelocity.x * Random::Float() * 2.0f * glm::pi<float>(),
-			particleProps.RotationVelocity.y * Random::Float() * 2.0f * glm::pi<float>(),
-			particleProps.RotationVelocity.z * Random::Float() * 2.0f * glm::pi<float>());
+			particleProps.RotationVelocity.x * RandomDT::Float() * 2.0f * glm::pi<float>(),
+			particleProps.RotationVelocity.y * RandomDT::Float() * 2.0f * glm::pi<float>(),
+			particleProps.RotationVelocity.z * RandomDT::Float() * 2.0f * glm::pi<float>());
 
 		// Velocity
 		particle.Velocity = particleProps.Velocity;
-		particle.Velocity.x += particleProps.VelocityVariation.x * (Random::Float() - 0.5f);
-		particle.Velocity.y += particleProps.VelocityVariation.y * (Random::Float() - 0.5f);
-		particle.Velocity.z += particleProps.VelocityVariation.z * (Random::Float() - 0.5f);
+		particle.Velocity.x += particleProps.VelocityVariation.x * (RandomDT::Float() - 0.5f);
+		particle.Velocity.y += particleProps.VelocityVariation.y * (RandomDT::Float() - 0.5f);
+		particle.Velocity.z += particleProps.VelocityVariation.z * (RandomDT::Float() - 0.5f);
 
 		// Rotation velocity
 		particle.RotationVelocity = particleProps.RotationVelocity;
-		particle.RotationVelocity.x += particleProps.RotationVelocity.x * (Random::Float() - 0.5f);
-		particle.RotationVelocity.y += particleProps.RotationVelocity.y * (Random::Float() - 0.5f);
-		particle.RotationVelocity.z += particleProps.RotationVelocity.z * (Random::Float() - 0.5f);
+		particle.RotationVelocity.x += particleProps.RotationVelocity.x * (RandomDT::Float() - 0.5f);
+		particle.RotationVelocity.y += particleProps.RotationVelocity.y * (RandomDT::Float() - 0.5f);
+		particle.RotationVelocity.z += particleProps.RotationVelocity.z * (RandomDT::Float() - 0.5f);
 
 		// Color
 		particle.ColorBegin = particleProps.ColorBegin;
@@ -122,7 +122,7 @@ namespace Hazel
 		particle.LifeRemaining = particleProps.LifeTime;
 
 		// Size
-		particle.SizeBegin = particleProps.SizeBegin + particleProps.SizeVariation * (Random::Float() - 0.5f);
+		particle.SizeBegin = particleProps.SizeBegin + particleProps.SizeVariation * (RandomDT::Float() - 0.5f);
 		particle.SizeEnd = particleProps.SizeEnd;
 
 		m_PoolIndex = --m_PoolIndex % m_ParticlePool.size();
