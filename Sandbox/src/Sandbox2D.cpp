@@ -17,8 +17,11 @@ void Sandbox2D::OnAttach()
 {
 	HZ_PROFILE_FUNCTION();
 
+	m_CameraController.SetZoomLevel(3.0f);
+
 	m_CheckerboardTexture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
 	m_QuadTexture = Hazel::Texture2D::Create("assets/textures/statue_512x512.jpg");
+	m_SpriteSheet = Hazel::Texture2D::Create("assets/game/textures/RPGpack_sheet_2X.png");
 
 	// Init here
 	m_Particle.ColorBegin = { 254 / 255.0f, 212 / 255.0f, 123 / 255.0f, 1.0f };
@@ -51,6 +54,7 @@ void Sandbox2D::OnUpdate(Hazel::Timestep timestep)
 		Hazel::RenderCommand::Clear();
 	}
 
+#if 0
 	{
 		static float rotation = 0.0f;
 		rotation += timestep = 10.0f;
@@ -77,6 +81,7 @@ void Sandbox2D::OnUpdate(Hazel::Timestep timestep)
 		
 		Hazel::Renderer2D::EndScene();
 	}
+#endif
 
 	if (Hazel::Input::IsMouseButtonPressed(HZ_MOUSE_BUTTON_LEFT))
 	{
@@ -93,8 +98,14 @@ void Sandbox2D::OnUpdate(Hazel::Timestep timestep)
 			m_ParticleSystem.Emit(m_Particle);
 	}
 
-	m_ParticleSystem.OnUpdate(timestep * 0.01f);
+	// ParticleSystem Update & Render
+	m_ParticleSystem.OnUpdate(timestep); // 0.01f
 	m_ParticleSystem.OnRender(m_CameraController.GetCamera());
+
+	// Load a Sprite sheet
+	Hazel::Renderer2D::BeginScene(m_CameraController.GetCamera());
+	Hazel::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_SpriteSheet);
+	Hazel::Renderer2D::EndScene();
 }
 
 void Sandbox2D::OnImGuiRender()

@@ -67,6 +67,8 @@ namespace Hazel
 		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
 
 		stbi_image_free(data);
+
+		HZ_INFO("OpenGLTexture2D::OpenGLTexture2D '{0}'", path);
 	}
 
 	OpenGLTexture2D::~OpenGLTexture2D()
@@ -106,6 +108,8 @@ namespace Hazel
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, pixels);
 
 		stbi_image_free(pixels);
+
+		HZ_INFO("OpenGLTexture2D::LoadTexture '{0}'", path);
 
 		return textureID;
 	}
