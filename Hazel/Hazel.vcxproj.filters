@@ -1323,6 +1323,9 @@
     <ClInclude Include="src\Hazel\Particles\RandomDT.h">
       <Filter>src\Hazel\Particles</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\SubTexture2D.h">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Core\Application.cpp">
@@ -1426,6 +1429,9 @@
     </ClCompile>
     <ClCompile Include="src\Hazel\Particles\ParticleSystemDT.cpp">
       <Filter>src\Hazel\Particles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\SubTexture2D.cpp">
+      <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
