@@ -35,11 +35,13 @@ namespace Hazel
 		const OrthographicCameraBounds& GetBounds() const { return m_Bounds; }
 
 	private:
+		void CalculateView();
+
+	private:
 		bool OnMouseScrolled(MouseScrolledEvent& e);
 		bool OnMouseMoved(MouseMovedEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);
 
-	private:
 		float m_AspectRatio;
 		float m_ZoomLevel = 1.0f;
 		OrthographicCameraBounds m_Bounds;
