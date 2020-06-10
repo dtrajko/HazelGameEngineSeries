@@ -1,6 +1,6 @@
 #include "DX11App.h"
 
-#include "Hazel/Core/Core.h"
+#include "Hazel/Core/Base.h"
 #include "Hazel/Core/Input.h"
 
 #include "GameEngine/Math/Vector3D.h"
