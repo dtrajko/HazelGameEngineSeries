@@ -11,8 +11,10 @@ class ExampleLayer : public Hazel::Layer
 public:
 	ExampleLayer();
 	virtual ~ExampleLayer() = default;
+
 	virtual void OnAttach() override;
 	virtual void OnDetach() override;
+
 	void OnUpdate(Hazel::Timestep timestep) override;
 	virtual void OnImGuiRender() override;
 	void OnEvent(Hazel::Event& e) override;

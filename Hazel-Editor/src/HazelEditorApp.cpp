@@ -6,11 +6,11 @@
 
 namespace Hazel {
 
-	class HazelEditor : public Hazel::Application
+	class HazelEditor : public Application
 	{
 	public:
-
 		HazelEditor()
+			: Application("Hazel Editor")
 		{
 			PushLayer(new EditorLayer());
 		}
@@ -20,7 +20,7 @@ namespace Hazel {
 		}
 	};
 
-	Application* Hazel::CreateApplication()
+	Application* CreateApplication()
 	{
 		RendererAPI::SetAPI(RendererAPI::API::OpenGL);
 

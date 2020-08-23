@@ -17,10 +17,6 @@ public:
 	Sandbox()
 	{
 		// PushLayer(new ExampleLayer());
-		// PushLayer(new Sandbox3D());
-		// PushLayer(new ParticlesLayer());
-		// PushLayer(new OBJLayer());
-		// PushLayer(new BatchRenderingLayer());
 		PushLayer(new Sandbox2D());
 	}
 
