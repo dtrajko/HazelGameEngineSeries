@@ -6,16 +6,16 @@
 
 namespace Hazel {
 
-	class HazelEditor : public Application
+	class HazelnutApp : public Application
 	{
 	public:
-		HazelEditor()
-			: Application("Hazel Editor")
+		HazelnutApp()
+			: Application("Hazelnut")
 		{
 			PushLayer(new EditorLayer());
 		}
 
-		~HazelEditor()
+		~HazelnutApp()
 		{
 		}
 	};
@@ -24,7 +24,7 @@ namespace Hazel {
 	{
 		RendererAPI::SetAPI(RendererAPI::API::OpenGL);
 
-		return new HazelEditor();
+		return new HazelnutApp();
 	}
 
 }

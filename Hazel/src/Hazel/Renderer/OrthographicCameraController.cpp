@@ -13,10 +13,13 @@ namespace Hazel
 	OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation)
 		: m_AspectRatio(aspectRatio), m_Bounds({ -m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel }), m_Camera(m_Bounds.Left, m_Bounds.Right, m_Bounds.Bottom,  m_Bounds.Top), m_Rotation(rotation)
 	{
+		HZ_PROFILE_FUNCTION();
 	}
 
 	void OrthographicCameraController::OnUpdate(Timestep timestep)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		/* Camera movement Begin */
 		if (Input::IsKeyPressed(HZ_KEY_LEFT) || Input::IsKeyPressed(HZ_KEY_A))
 		{
@@ -56,19 +59,30 @@ namespace Hazel
 		m_Camera.SetPosition(m_CameraPosition);
 
 		m_CameraTranslationSpeed = m_ZoomLevel;
-
 	}
 
 	void OrthographicCameraController::OnEvent(Event& e)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		Hazel::EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<Hazel::MouseScrolledEvent>(HZ_BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolled));
 		dispatcher.Dispatch<Hazel::MouseMovedEvent>(HZ_BIND_EVENT_FN(OrthographicCameraController::OnMouseMoved));
 		dispatcher.Dispatch<Hazel::WindowResizeEvent>(HZ_BIND_EVENT_FN(OrthographicCameraController::OnWindowResize));
 	}
 
+	void OrthographicCameraController::OnResize(float width, float height)
+	{
+		HZ_PROFILE_FUNCTION();
+
+		m_AspectRatio = width / height;
+		m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
+	}
+
 	void OrthographicCameraController::SetZoomLevel(float zoomLevel)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		m_ZoomLevel = zoomLevel;
 		m_ZoomLevel = std::max(m_ZoomLevel, 0.1f);
 		CalculateView();
@@ -76,12 +90,16 @@ namespace Hazel
 
 	void OrthographicCameraController::CalculateView()
 	{
+		HZ_PROFILE_FUNCTION();
+
 		m_Bounds = { -m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel };
 		m_Camera.SetProjection(m_Bounds.Left, m_Bounds.Right, m_Bounds.Bottom, m_Bounds.Top);
 	}
 
 	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		m_ZoomLevel -= e.GetYOffset() * 0.1f;
 		m_ZoomLevel = std::max(m_ZoomLevel, 0.1f);
 		CalculateView();
@@ -90,6 +108,8 @@ namespace Hazel
 
 	bool OrthographicCameraController::OnMouseMoved(MouseMovedEvent& e)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		if (Input::IsMouseButtonPressed(HZ_MOUSE_BUTTON_1))
 		{
 			// HZ_INFO("Mouse position X = {0}, Y = {1}", e.GetX(), e.GetY());
@@ -100,9 +120,9 @@ namespace Hazel
 
 	bool OrthographicCameraController::OnWindowResize(WindowResizeEvent& e)
 	{
-		m_AspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
-		m_Bounds = { -m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel };
-		m_Camera.SetProjection(m_Bounds.Left, m_Bounds.Right, m_Bounds.Bottom, m_Bounds.Top);
+		HZ_PROFILE_FUNCTION();
+
+		OnResize((float)e.GetWidth(), (float)e.GetHeight());
 		return false;
 	}
 }
