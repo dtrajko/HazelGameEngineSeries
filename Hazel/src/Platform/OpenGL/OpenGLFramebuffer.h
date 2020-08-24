@@ -9,7 +9,7 @@ namespace Hazel {
 	{
 	public:
 		OpenGLFramebuffer(const FramebufferSpecification& spec);
-		virtual ~OpenGLFramebuffer();
+		virtual ~OpenGLFramebuffer() override;
 
 		void Invalidate();
 

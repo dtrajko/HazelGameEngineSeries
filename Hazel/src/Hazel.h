@@ -7,7 +7,7 @@
 #include "Hazel/Core/Log.h"
 #include "Hazel/Core/Timestep.h"
 #include "Hazel/Core/KeyCodes.h"
-#include "Hazel/Core/MouseButtonCodes.h"
+#include "Hazel/Core/MouseCodes.h"
 
 #include "Hazel/Core/Input.h"
 #include "Hazel/Renderer/OrthographicCameraController.h"
