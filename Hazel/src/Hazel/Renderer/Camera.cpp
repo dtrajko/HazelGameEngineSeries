@@ -38,4 +38,8 @@ namespace Hazel
 		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
 	}
 
+	void Camera::Update(Timestep ts)
+	{
+	}
+
 }

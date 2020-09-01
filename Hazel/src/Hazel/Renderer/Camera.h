@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Hazel/Core/Timestep.h"
+
 #include <glm/glm.hpp>
 
 
@@ -28,6 +30,8 @@ namespace Hazel
 		const glm::mat4& GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; };
 
 		void RecalculateViewMatrix();
+
+		void Update(Timestep ts);
 
 	public:
 		glm::vec3 m_Front = glm::vec3(0.0f, 0.0f, -1.0f);
