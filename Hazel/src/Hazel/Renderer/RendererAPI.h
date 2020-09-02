@@ -24,7 +24,7 @@ namespace Hazel
 		enum class Mode
 		{
 			Renderer2D = 0,
-			Renderer3D = 1,
+			Renderer = 1,
 		};
 
 	public:

@@ -4,7 +4,7 @@
 #include "Hazel/Core/Log.h"
 #include "Hazel/Core/Input.h"
 #include "Hazel/Renderer/Renderer2D.h"
-#include "Hazel/Renderer/Renderer3D.h"
+#include "Hazel/Renderer/Renderer.h"
 #include "Hazel/Core/KeyCodes.h"
 
 #include <GLFW/glfw3.h>
@@ -66,8 +66,8 @@ namespace Hazel {
 	{
 		if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer2D)
 			Renderer2D::Init();
-		if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer3D)
-			Renderer3D::Init();
+		if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer)
+			Renderer::Init();
 
 		while (m_Running)
 		{
@@ -121,8 +121,8 @@ namespace Hazel {
 		{
 			if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer2D)
 				Renderer2D::OnWindowResize(e.GetWidth(), e.GetHeight());
-			if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer3D)
-				Renderer3D::OnWindowResize(e.GetWidth(), e.GetHeight());
+			if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer)
+				Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
 		}
 
 		return false;

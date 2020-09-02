@@ -28,4 +28,21 @@ namespace Hazel {
 
     }
 
+    void MaterialInstance::Set(const std::string& name, glm::mat4 value)
+    {
+    }
+
+    void MaterialInstance::Set(const std::string& name, glm::vec3 value)
+    {
+    }
+
+    void MaterialInstance::Set(const std::string& name, Ref<TextureCube> textureCube)
+    {
+    }
+
+    Ref<Shader> MaterialInstance::GetShader()
+    {
+        return Ref<Shader>();
+    }
+
 }

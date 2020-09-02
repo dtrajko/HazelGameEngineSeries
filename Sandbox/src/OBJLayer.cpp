@@ -11,7 +11,7 @@
 #include "Hazel/Models/Cube.h"
 #include "Hazel/Loader/OBJLoader.h"
 #include "Hazel/Renderer/CameraController.h"
-#include "Hazel/Renderer/Renderer3D.h"
+#include "Hazel/Renderer/Renderer.h"
 
 
 #define PROFILE_SCOPE(name) Hazel::Timer timer##__LINE__(name, [&](OBJLayer::ProfileResult profileResult) { m_ProfileResults.push_back(profileResult); })

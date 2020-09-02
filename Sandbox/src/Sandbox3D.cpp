@@ -6,7 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Hazel/Models/Cube.h"
-#include "Hazel/Renderer/Renderer3D.h"
+#include "Hazel/Renderer/Renderer.h"
 
 
 Sandbox3D::Sandbox3D()

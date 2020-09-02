@@ -1,7 +1,6 @@
 #include "hzpch.h"
 #include "Renderer2D.h"
-#include "Renderer3D.h"
-#include "RenderCommand.h"
+#include "Renderer.h"
 #include "Hazel/Models/Quad.h"
 #include "Hazel/Models/Cube.h"
 
@@ -10,7 +9,7 @@
 
 namespace Hazel
 {
-	Renderer3D::SceneData* Renderer3D::m_SceneData = new Renderer3D::SceneData;
+	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
 
 	struct RendererStorage
 	{
@@ -22,7 +21,7 @@ namespace Hazel
 
 	static RendererStorage* s_Data;
 
-	void Renderer3D::Init()
+	void Renderer::Init()
 	{
 		HZ_PROFILE_FUNCTION();
 
@@ -75,12 +74,12 @@ namespace Hazel
 		s_Data->TextureShader = Shader::Create("assets/shaders/Renderer3D_Texture.glsl");
 	}
 
-	void Renderer3D::OnWindowResize(uint32_t width, uint32_t height)
+	void Renderer::OnWindowResize(uint32_t width, uint32_t height)
 	{
 		RenderCommand::SetViewport(0, 0, width, height);
 	}
 
-	void Renderer3D::BeginScene(Camera& camera)
+	void Renderer::BeginScene(Camera& camera)
 	{
 		m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 
@@ -88,17 +87,17 @@ namespace Hazel
 		s_Data->TextureShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
 	}
 
-	void Renderer3D::Shutdown()
+	void Renderer::Shutdown()
 	{
 		delete s_Data;
 	}
 
-	void Renderer3D::EndScene()
+	void Renderer::EndScene()
 	{
 
 	}
 
-	void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color)
+	void Renderer::DrawCube(const glm::vec3& position, const glm::vec3& size, const glm::vec4& color)
 	{
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetFloat4("u_Color", color);
@@ -112,7 +111,7 @@ namespace Hazel
 		RenderCommand::DrawIndexed(s_Data->CubeVertexArray);
 	}
 
-	void Renderer3D::DrawCube(const glm::mat4& transform, const glm::vec4& color)
+	void Renderer::DrawCube(const glm::mat4& transform, const glm::vec4& color)
 	{
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetFloat4("u_Color", color);
@@ -122,7 +121,7 @@ namespace Hazel
 		RenderCommand::DrawIndexed(s_Data->CubeVertexArray);
 	}
 
-	void Renderer3D::DrawCube(const glm::vec3& position, const glm::vec3& size, const Ref<Texture2D>& texture)
+	void Renderer::DrawCube(const glm::vec3& position, const glm::vec3& size, const Ref<Texture2D>& texture)
 	{
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
@@ -136,7 +135,7 @@ namespace Hazel
 		RenderCommand::DrawIndexed(s_Data->CubeVertexArray);
 	}
 
-	void Renderer3D::DrawCube(const glm::mat4& transform, const glm::vec4& color, const Ref<Texture2D>& texture)
+	void Renderer::DrawCube(const glm::mat4& transform, const glm::vec4& color, const Ref<Texture2D>& texture)
 	{
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetFloat4("u_Color", color);
@@ -147,7 +146,7 @@ namespace Hazel
 		RenderCommand::DrawIndexed(s_Data->CubeVertexArray);
 	}
 
-	void Renderer3D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+	void Renderer::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
 	{
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetFloat4("u_Color", color);
@@ -157,7 +156,7 @@ namespace Hazel
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}
 
-	void Renderer3D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, const Ref<Texture2D>& texture)
+	void Renderer::DrawQuad(const glm::mat4& transform, const glm::vec4& color, const Ref<Texture2D>& texture)
 	{
 		s_Data->TextureShader->Bind();
 		s_Data->TextureShader->SetFloat4("u_Color", color);
@@ -168,7 +167,7 @@ namespace Hazel
 		RenderCommand::DrawIndexed(s_Data->QuadVertexArray);
 	}
 
-	void Renderer3D::Submit(Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,
+	void Renderer::Submit(Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,
 		const glm::mat4& viewProjectionMatrix, const glm::mat4& transform)
 	{
 		shader->Bind();
@@ -178,6 +177,22 @@ namespace Hazel
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);
+	}
+
+	void Renderer::BeginRenderPass(const Ref<RenderPass>& renderPass)
+	{
+	}
+
+	void Renderer::SubmitFullscreenQuad(Ref<MaterialInstance>& materialInstance)
+	{
+	}
+
+	void Renderer::SubmitMesh(Ref<Mesh>& mesh, glm::mat4& transform, Ref<MaterialInstance>& material)
+	{
+	}
+
+	void Renderer::SubmitQuad(Ref<MaterialInstance>& material, glm::mat4& transform)
+	{
 	}
 
 }

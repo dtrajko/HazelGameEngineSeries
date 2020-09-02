@@ -5,7 +5,7 @@
 #include "Hazel/Particles/RandomDT.h"
 #include "Hazel/Models/Cube.h"
 #include "Hazel/Core/Timer.h"
-#include "Hazel/Renderer/Renderer3D.h"
+#include "Hazel/Renderer/Renderer.h"
 
 #include <glm/gtc/constants.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
@@ -80,14 +80,14 @@ namespace Hazel
 
 			if (m_Enabled3D)
 				if (m_EnabledTexture)
-					Hazel::Renderer3D::DrawCube(transform, color, m_Texture);
+					Hazel::Renderer::DrawCube(transform, color, m_Texture);
 				else
-					Hazel::Renderer3D::DrawCube(transform, color);
+					Hazel::Renderer::DrawCube(transform, color);
 			else
 				if (m_EnabledTexture)
-					Hazel::Renderer3D::DrawQuad(transform, color, m_Texture);
+					Hazel::Renderer::DrawQuad(transform, color, m_Texture);
 				else
-					Hazel::Renderer3D::DrawQuad(transform, color);
+					Hazel::Renderer::DrawQuad(transform, color);
 		}
 	}
 

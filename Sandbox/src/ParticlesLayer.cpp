@@ -2,7 +2,7 @@
 
 #include "Hazel/Models/Cube.h"
 #include "Hazel/Renderer/CameraController.h"
-#include "Hazel/Renderer/Renderer3D.h"
+#include "Hazel/Renderer/Renderer.h"
 #include "Hazel/Core/Timer.h"
 
 #include "imgui/imgui.h"
