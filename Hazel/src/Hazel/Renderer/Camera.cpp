@@ -7,6 +7,9 @@
 
 namespace Hazel
 {
+	Camera::Camera()
+	{
+	}
 
 	Camera::Camera(float left, float right, float bottom, float top)
 		: m_ProjectionMatrix(1.0f), m_ViewMatrix(1.0f)

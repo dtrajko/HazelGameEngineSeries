@@ -12,6 +12,7 @@ namespace Hazel
 	{
 	public:
 
+		Camera();
 		Camera(float left, float right, float bottom, float top);
 		void SetProjection(float left, float right, float bottom, float top);
 

@@ -2,13 +2,22 @@
 
 #include "Hazel/Core/Base.h"
 
+#include <glm/glm.hpp>
+
 
 namespace Hazel {
+
+	enum class FramebufferFormat
+	{
+		RGBA16F,
+		RGBA8,
+	};
 
 	struct FramebufferSpecification
 	{
 		uint32_t Width, Height;
-		// FramebufferFormat Format = 
+		FramebufferFormat Format;
+		glm::vec4 ClearColor;
 		uint32_t Samples = 1;
 
 		bool SwapChainTarget = false;

@@ -23,4 +23,9 @@ namespace Hazel {
     {
     }
 
+    void MaterialInstance::Set(const std::string& name, float value)
+    {
+
+    }
+
 }

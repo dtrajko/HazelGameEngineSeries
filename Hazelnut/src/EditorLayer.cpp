@@ -21,7 +21,7 @@ namespace Hazel {
 
 		m_CheckerboardTexture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
 
-		Hazel::FramebufferSpecification fbSpec;
+		FramebufferSpecification fbSpec;
 		fbSpec.Width = 1280;
 		fbSpec.Height = 720;
 		m_Framebuffer = Hazel::Framebuffer::Create(fbSpec);

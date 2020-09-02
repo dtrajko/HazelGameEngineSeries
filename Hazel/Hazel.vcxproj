@@ -178,6 +178,7 @@
     <ClInclude Include="src\Hazel\Renderer\Renderer2D.h" />
     <ClInclude Include="src\Hazel\Renderer\Renderer3D.h" />
     <ClInclude Include="src\Hazel\Renderer\RendererAPI.h" />
+    <ClInclude Include="src\Hazel\Renderer\RenderPass.h" />
     <ClInclude Include="src\Hazel\Renderer\SceneRenderer.h" />
     <ClInclude Include="src\Hazel\Renderer\Shader.h" />
     <ClInclude Include="src\Hazel\Renderer\SubTexture2D.h" />
@@ -590,6 +591,7 @@
     <ClCompile Include="src\Hazel\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Renderer3D.cpp" />
     <ClCompile Include="src\Hazel\Renderer\RendererAPI.cpp" />
+    <ClCompile Include="src\Hazel\Renderer\RenderPass.cpp" />
     <ClCompile Include="src\Hazel\Renderer\SceneRenderer.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Shader.cpp" />
     <ClCompile Include="src\Hazel\Renderer\SubTexture2D.cpp" />

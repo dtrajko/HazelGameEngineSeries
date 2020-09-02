@@ -22,6 +22,8 @@ namespace Hazel {
 		static Ref<MaterialInstance> Create(Ref<Material>);
 		void SetFlag(MaterialFlag flag, bool value);
 		void SetFlag(const std::string& name, const Ref<TextureCube>& skybox);
+		void Set(const std::string& name, float value);
+
 	};
 
 }
