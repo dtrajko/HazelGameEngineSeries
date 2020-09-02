@@ -31,6 +31,9 @@
     <Filter Include="src\Hazel\Renderer">
       <UniqueIdentifier>{9669EB43-824D-AC99-EBAD-A6ECD7B0961B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Hazel\Scene">
+      <UniqueIdentifier>{0DD9E8B3-7964-5678-8275-D96CEE7FB278}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
     </Filter>
@@ -70,9 +73,6 @@
     <Filter Include="vendor\stb_image">
       <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Hazel\Scene">
-      <UniqueIdentifier>{5fc66f38-b763-49d2-845e-3dbf6e4d0b93}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Hazel.h">
@@ -100,6 +100,9 @@
       <Filter>src\Hazel\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Core\Log.h">
+      <Filter>src\Hazel\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Core\MouseCodes.h">
       <Filter>src\Hazel\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Core\Timer.h">
@@ -159,6 +162,12 @@
     <ClInclude Include="src\Hazel\Renderer\GraphicsContext.h">
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\Material.h">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\Mesh.h">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\OrthographicCamera.h">
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
@@ -166,6 +175,9 @@
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\RenderCommand.h">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\RenderPass.h">
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\Renderer2D.h">
@@ -177,6 +189,9 @@
     <ClInclude Include="src\Hazel\Renderer\RendererAPI.h">
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\SceneRenderer.h">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\Shader.h">
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
@@ -186,8 +201,17 @@
     <ClInclude Include="src\Hazel\Renderer\Texture.h">
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\TextureCube.h">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\VertexArray.h">
       <Filter>src\Hazel\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Scene\Entity.h">
+      <Filter>src\Hazel\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Scene\Scene.h">
+      <Filter>src\Hazel\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\DX11\DX11Context.h">
       <Filter>src\Platform\DX11</Filter>
@@ -217,6 +241,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Vulkan\VulkanContext.h">
+      <Filter>src\Platform\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Vulkan\VulkanDevice.h">
       <Filter>src\Platform\Vulkan</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Vulkan\VulkanRendererAPI.h">
@@ -1335,33 +1362,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Core\MouseCodes.h">
-      <Filter>src\Hazel\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>src\Hazel\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Scene\Entity.h">
-      <Filter>src\Hazel\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Scene\Scene.h">
-      <Filter>src\Hazel\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Renderer\Material.h">
-      <Filter>src\Hazel\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Renderer\SceneRenderer.h">
-      <Filter>src\Hazel\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Renderer\Mesh.h">
-      <Filter>src\Hazel\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Renderer\TextureCube.h">
-      <Filter>src\Hazel\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Renderer\RenderPass.h">
-      <Filter>src\Hazel\Renderer</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Core\Application.cpp">
@@ -1400,6 +1400,12 @@
     <ClCompile Include="src\Hazel\Renderer\Framebuffer.cpp">
       <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\Material.cpp">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\Mesh.cpp">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\OrthographicCamera.cpp">
       <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
@@ -1407,6 +1413,9 @@
       <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\RenderCommand.cpp">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\RenderPass.cpp">
       <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\Renderer2D.cpp">
@@ -1418,6 +1427,9 @@
     <ClCompile Include="src\Hazel\Renderer\RendererAPI.cpp">
       <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\SceneRenderer.cpp">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\Shader.cpp">
       <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
@@ -1427,8 +1439,17 @@
     <ClCompile Include="src\Hazel\Renderer\Texture.cpp">
       <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\TextureCube.cpp">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\VertexArray.cpp">
       <Filter>src\Hazel\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Scene\Entity.cpp">
+      <Filter>src\Hazel\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Scene\Scene.cpp">
+      <Filter>src\Hazel\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\DX11\DX11Context.cpp">
       <Filter>src\Platform\DX11</Filter>
@@ -1460,6 +1481,9 @@
     <ClCompile Include="src\Platform\Vulkan\VulkanContext.cpp">
       <Filter>src\Platform\Vulkan</Filter>
     </ClCompile>
+    <ClCompile Include="src\Platform\Vulkan\VulkanDevice.cpp">
+      <Filter>src\Platform\Vulkan</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Vulkan\VulkanRendererAPI.cpp">
       <Filter>src\Platform\Vulkan</Filter>
     </ClCompile>
@@ -1474,27 +1498,6 @@
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Hazel\Scene\Entity.cpp">
-      <Filter>src\Hazel\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Hazel\Scene\Scene.cpp">
-      <Filter>src\Hazel\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Hazel\Renderer\Material.cpp">
-      <Filter>src\Hazel\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Hazel\Renderer\Mesh.cpp">
-      <Filter>src\Hazel\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Hazel\Renderer\SceneRenderer.cpp">
-      <Filter>src\Hazel\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Hazel\Renderer\TextureCube.cpp">
-      <Filter>src\Hazel\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Hazel\Renderer\RenderPass.cpp">
-      <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

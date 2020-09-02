@@ -68,6 +68,7 @@ project "Hazel"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.tinyobjloader}",
+		"D:/VulkanSDK/1.1.130.0/Include",
 	}
 
 	links
