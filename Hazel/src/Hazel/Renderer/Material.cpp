@@ -40,6 +40,10 @@ namespace Hazel {
     {
     }
 
+    void MaterialInstance::Bind()
+    {
+    }
+
     Ref<Shader> MaterialInstance::GetShader()
     {
         return Ref<Shader>();

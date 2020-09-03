@@ -35,10 +35,15 @@ namespace Hazel
 
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
+		static void SubmitFullscreenQuad(const Ref<MaterialInstance>& materialInstance);
+		static void SubmitMesh(const Ref<Mesh>& mesh, const glm::mat4& transform, const Ref<MaterialInstance>& material);
+		static void SubmitQuad(const Ref<MaterialInstance>& material, const glm::mat4& transform);
+
+		void SetClearColor(float r, float g, float b, float a);
+		void DrawIndexed(uint32_t count, bool depthTest);
+		void WaitAndRender();
 		static void BeginRenderPass(const Ref<RenderPass>& renderPass);
-		static void SubmitFullscreenQuad(Ref<MaterialInstance>& materialInstance);
-		static void SubmitMesh(Ref<Mesh>& mesh, glm::mat4& transform, Ref<MaterialInstance>& material);
-		static void SubmitQuad(Ref<MaterialInstance>& material, glm::mat4& transform);
+		static void EndRenderPass();
 
 	private:
 		struct SceneData

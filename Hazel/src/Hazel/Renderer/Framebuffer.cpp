@@ -20,4 +20,7 @@ namespace Hazel {
 		}
 
 	}
+	void Framebuffer::BindTexture()
+	{
+	}
 }

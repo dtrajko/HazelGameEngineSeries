@@ -45,4 +45,9 @@ namespace Hazel
 	{
 	}
 
+	float Camera::GetExposure()
+	{
+		return 0.0f;
+	}
+
 }

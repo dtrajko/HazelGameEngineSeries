@@ -34,6 +34,7 @@ namespace Hazel
 		virtual void Clear() = 0;
 
 		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0) = 0;
+		static void DrawIndexed(uint32_t count, bool depthTest);
 
 		inline static API GetAPI() { return s_API; };
 		inline static void SetAPI(API api) { s_API = api; };

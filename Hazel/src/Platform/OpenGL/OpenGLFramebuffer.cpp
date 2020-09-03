@@ -61,6 +61,12 @@ namespace Hazel {
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
+
+	void OpenGLFramebuffer::BindTexture()
+	{
+		glBindTexture(GL_TEXTURE_2D, m_ColorAttachment);
+	}
+
 	void OpenGLFramebuffer::Resize(uint32_t width, uint32_t height)
 	{
 		if (width  < 0 || width > s_MaxFramebufferSize || height < 0 || height > s_MaxFramebufferSize)

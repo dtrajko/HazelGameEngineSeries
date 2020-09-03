@@ -17,6 +17,8 @@ namespace Hazel
 		Ref<VertexArray> QuadVertexArray;
 		Ref<Shader> TextureShader;
 		Ref<Texture2D> WhiteTexture;
+
+		Ref<RenderPass> m_ActiveRenderPass;
 	};
 
 	static RendererStorage* s_Data;
@@ -72,6 +74,60 @@ namespace Hazel
 		s_Data->WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
 		s_Data->TextureShader = Shader::Create("assets/shaders/Renderer3D_Texture.glsl");
+	}
+
+	void Renderer::SetClearColor(float r, float g, float b, float a)
+	{
+	}
+
+	void Renderer::DrawIndexed(uint32_t count, bool depthTest)
+	{
+		//	Renderer::Submit([=]() {
+		//		RendererAPI::DrawIndexed(count, depthTest);
+		//	});
+	}
+
+	void Renderer::WaitAndRender()
+	{
+		// s_Data.m_CommandQueue.Execute();
+	}
+
+	void Renderer::BeginRenderPass(const Ref<RenderPass>& renderPass)
+	{
+		HZ_CORE_ASSERT(renderPass, "Render pass cannot be null!");
+
+		// TODO: Convert all of this into a render command buffer
+		s_Data->m_ActiveRenderPass = renderPass;
+
+		renderPass->GetSpecification().TargetFramebuffer->Bind();
+		const glm::vec4& clearColor = renderPass->GetSpecification().TargetFramebuffer->GetSpecification().ClearColor;
+		//	Renderer::Submit([=]() {
+		//		RendererAPI::Clear(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+		//	});
+	}
+
+	void Renderer::EndRenderPass()
+	{
+		HZ_CORE_ASSERT(s_Data->m_ActiveRenderPass, "No active render pass! Have you called Renderer::EndRenderPass twice?");
+		s_Data->m_ActiveRenderPass->GetSpecification().TargetFramebuffer->Unbind();
+		s_Data->m_ActiveRenderPass = nullptr;
+	}
+
+	void Renderer::SubmitQuad(const Ref<MaterialInstance>& material, const glm::mat4& transform)
+	{
+		bool depthTest = true;
+		if (material)
+		{
+			material->Bind();
+		}
+	}
+
+	void Renderer::SubmitFullscreenQuad(const Ref<MaterialInstance>& materialInstance)
+	{
+	}
+
+	void Renderer::SubmitMesh(const Ref<Mesh>& mesh, const glm::mat4& transform, const Ref<MaterialInstance>& material)
+	{
 	}
 
 	void Renderer::OnWindowResize(uint32_t width, uint32_t height)
@@ -177,22 +233,6 @@ namespace Hazel
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);
-	}
-
-	void Renderer::BeginRenderPass(const Ref<RenderPass>& renderPass)
-	{
-	}
-
-	void Renderer::SubmitFullscreenQuad(Ref<MaterialInstance>& materialInstance)
-	{
-	}
-
-	void Renderer::SubmitMesh(Ref<Mesh>& mesh, glm::mat4& transform, Ref<MaterialInstance>& material)
-	{
-	}
-
-	void Renderer::SubmitQuad(Ref<MaterialInstance>& material, glm::mat4& transform)
-	{
 	}
 
 }

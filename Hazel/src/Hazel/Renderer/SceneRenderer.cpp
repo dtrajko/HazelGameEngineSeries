@@ -164,11 +164,23 @@ namespace Hazel {
 		s_Data.GridMaterial->Set("u_ViewProjection", viewProjection);
 		Renderer::SubmitQuad(s_Data.GridMaterial, glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)) * glm::scale(glm::mat4(1.0f), glm::vec3(1.0f)));
 
-
+		Renderer::EndRenderPass();
 	}
 
 	void SceneRenderer::CompositePass()
 	{
+		Renderer::BeginRenderPass(s_Data.CompositePass);
+		s_Data.CompositeShader->Bind();
+		s_Data.CompositeShader->SetFloat("u_Exposure", s_Data.SceneData.SceneCamera.GetExposure());
+		s_Data.GeoPass->GetSpecification().TargetFramebuffer->BindTexture();
+		Renderer::SubmitFullscreenQuad(nullptr);
+		Renderer::EndRenderPass();
+
+	}
+
+	void SceneRenderer::FlushDrawList()
+	{
+		HZ_CORE_ASSERT(!s_Data.ActiveScene, "");
 	}
 
 	Ref<Texture2D> SceneRenderer::GetFinalColorBuffer()
@@ -179,10 +191,6 @@ namespace Hazel {
 	uint32_t SceneRenderer::GetFinalColorBufferRendererID()
 	{
 		return uint32_t();
-	}
-
-	void SceneRenderer::FlushDrawList()
-	{
 	}
 
 }

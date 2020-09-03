@@ -72,7 +72,7 @@ namespace Hazel {
 		}
 		else if (RendererAPI::GetAPI() == RendererAPI::API::Vulkan)
 		{
-			m_Context = new VulkanContext(m_Window);
+			m_Context = (GraphicsContext*)new VulkanContext(m_Window);
 		}
 		else if (RendererAPI::GetAPI() == RendererAPI::API::DX11)
 		{

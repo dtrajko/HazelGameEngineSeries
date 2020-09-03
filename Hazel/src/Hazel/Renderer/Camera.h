@@ -33,6 +33,7 @@ namespace Hazel
 		void RecalculateViewMatrix();
 
 		void Update(Timestep ts);
+		float GetExposure();
 
 	public:
 		glm::vec3 m_Front = glm::vec3(0.0f, 0.0f, -1.0f);

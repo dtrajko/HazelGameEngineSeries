@@ -12,6 +12,10 @@ namespace Hazel
 	RendererAPI::API RendererAPI::s_API = RendererAPI::API::OpenGL;
 	RendererAPI::Mode RendererAPI::s_Mode = RendererAPI::Mode::Renderer;
 
+	void RendererAPI::DrawIndexed(uint32_t count, bool depthTest)
+	{
+	}
+
 	RendererAPI* RendererAPI::Create()
 	{
 		switch (s_API)

@@ -14,6 +14,11 @@ namespace Hazel {
 
 	}
 
+	VkQueue VulkanDevice::GetQueue()
+	{
+		return VkQueue();
+	}
+
 	VulkanPhysicalDevice::VulkanPhysicalDevice()
 	{
 
@@ -22,6 +27,11 @@ namespace Hazel {
 	VulkanPhysicalDevice::~VulkanPhysicalDevice()
 	{
 
+	}
+
+	Scope<VulkanPhysicalDevice> VulkanPhysicalDevice::Select()
+	{
+		return Scope<VulkanPhysicalDevice>();
 	}
 
 }

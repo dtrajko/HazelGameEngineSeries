@@ -1,6 +1,5 @@
 #pragma once
 
-
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
@@ -12,6 +11,8 @@ namespace Hazel {
 	public:
 		VulkanDevice();
 		~VulkanDevice();
+
+		VkQueue GetQueue();
 
 	private:
 		VkDevice m_LogicalDevice = nullptr;
