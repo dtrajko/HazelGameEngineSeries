@@ -8,6 +8,7 @@
 #include "RenderPass.h"
 #include "Material.h"
 #include "Mesh.h"
+#include "RenderCommandQueue.h"
 
 
 namespace Hazel
@@ -30,8 +31,24 @@ namespace Hazel
 		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color);
 		static void DrawQuad(const glm::mat4& transform, const glm::vec4& color, const Ref<Texture2D>& texture);
 
-		static void Submit(Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,
-			const glm::mat4& viewProjectionMatrix, const glm::mat4& transform = glm::mat4(1.0f));
+		template<typename FuncT>
+		static void Submit(FuncT&& func)
+		{
+			auto renderCmd = [](void* ptr) {
+				auto pFunc = (FuncT*)ptr;
+				(*pFunc)();
+
+				// NOTE: Instead of destroying we could try and enforce all items to be trivially destructible
+				// however some items like uniforms which contain std::strings still exist for now
+				// static_assert(std::is_trivially_destructible_v<FuncT>, "FuncT must be trivially destructible");
+				pFunc->~FuncT();
+			};
+			auto storageBuffer = GetRenderCommandQueue().Allocate(renderCmd, sizeof(func));
+			new (storageBuffer) FuncT(std::forward<FuncT>(func));
+		}
+
+		//	static void Submit(Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,
+		//		const glm::mat4& viewProjectionMatrix, const glm::mat4& transform = glm::mat4(1.0f));
 
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
@@ -55,6 +72,9 @@ namespace Hazel
 		};
 
 		static SceneData* m_SceneData;
+
+	private:
+		static RenderCommandQueue& GetRenderCommandQueue();
 	};
 
 }

@@ -1371,6 +1371,9 @@
     <ClInclude Include="src\Platform\Vulkan\VulkanSwapChain.h">
       <Filter>src\Platform\Vulkan</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\RenderCommandQueue.h">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Core\Application.cpp">
@@ -1510,6 +1513,9 @@
     </ClCompile>
     <ClCompile Include="src\Platform\Vulkan\VulkanSwapChain.cpp">
       <Filter>src\Platform\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\RenderCommandQueue.cpp">
+      <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

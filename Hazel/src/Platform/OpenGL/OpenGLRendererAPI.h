@@ -11,11 +11,11 @@ namespace Hazel
 	public:
 		OpenGLRendererAPI() {};
 
-		virtual void Init() override;
+		static void Init();
 
-		virtual void Clear() override;
-		virtual void Clear(float r, float g, float b) override;
-		virtual void Clear(float r, float g, float b, float a) override;
+		static void Clear();
+		static void Clear(float r, float g, float b);
+		static void Clear(float r, float g, float b, float a);
 
 		virtual void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;
 		virtual void SetClearColor(const glm::vec4& color) override;
