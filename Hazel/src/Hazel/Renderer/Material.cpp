@@ -40,6 +40,11 @@ namespace Hazel {
     {
     }
 
+    bool MaterialInstance::GetFlag(MaterialFlag flag)
+    {
+        return false;
+    }
+
     void MaterialInstance::Bind()
     {
     }

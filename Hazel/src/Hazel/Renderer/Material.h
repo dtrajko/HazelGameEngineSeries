@@ -31,6 +31,8 @@ namespace Hazel {
 		void Set(const std::string& name, Ref<TextureCube> textureCube);
 		void Set(const std::string& name, Ref<Texture2D> texture2D);
 
+		bool GetFlag(MaterialFlag flag);
+
 		void Bind();
 
 	};

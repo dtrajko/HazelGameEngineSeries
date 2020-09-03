@@ -39,8 +39,11 @@ namespace Hazel
 		static void SubmitMesh(const Ref<Mesh>& mesh, const glm::mat4& transform, const Ref<MaterialInstance>& material);
 		static void SubmitQuad(const Ref<MaterialInstance>& material, const glm::mat4& transform);
 
+		void Clear();
+		void Clear(float r, float g, float b);
+		void ClearMagenta();
 		void SetClearColor(float r, float g, float b, float a);
-		void DrawIndexed(uint32_t count, bool depthTest);
+		static void DrawIndexed(uint32_t count, bool depthTest);
 		void WaitAndRender();
 		static void BeginRenderPass(const Ref<RenderPass>& renderPass);
 		static void EndRenderPass();

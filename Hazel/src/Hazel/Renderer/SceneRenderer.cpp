@@ -175,22 +175,28 @@ namespace Hazel {
 		s_Data.GeoPass->GetSpecification().TargetFramebuffer->BindTexture();
 		Renderer::SubmitFullscreenQuad(nullptr);
 		Renderer::EndRenderPass();
-
 	}
 
 	void SceneRenderer::FlushDrawList()
 	{
 		HZ_CORE_ASSERT(!s_Data.ActiveScene, "");
+
+		GeometryPass();
+		CompositePass();
+
+		s_Data.DrawList.clear();
+		s_Data.SceneData = {};
 	}
 
 	Ref<Texture2D> SceneRenderer::GetFinalColorBuffer()
 	{
-		return Ref<Texture2D>();
+		HZ_CORE_ASSERT(false, "Not implemented");
+		return nullptr;
 	}
 
 	uint32_t SceneRenderer::GetFinalColorBufferRendererID()
 	{
-		return uint32_t();
+		return s_Data.CompositePass->GetSpecification().TargetFramebuffer->GetColorAttachmentRendererID();
 	}
 
 }

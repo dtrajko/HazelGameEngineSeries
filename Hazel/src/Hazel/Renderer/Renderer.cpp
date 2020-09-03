@@ -19,6 +19,8 @@ namespace Hazel
 		Ref<Texture2D> WhiteTexture;
 
 		Ref<RenderPass> m_ActiveRenderPass;
+		Ref<VertexArray> m_FullscreenQuadVertexArray;
+
 	};
 
 	static RendererStorage* s_Data;
@@ -76,6 +78,23 @@ namespace Hazel
 		s_Data->TextureShader = Shader::Create("assets/shaders/Renderer3D_Texture.glsl");
 	}
 
+	void Renderer::Clear()
+	{
+		//	Renderer::Submit([]() {
+		//		RendererAPI::Clear(0.0f, 0.0f, 0.0f, 1.0f);
+		//	});
+	}
+
+	void Renderer::Clear(float r, float g, float b)
+	{
+	
+	}
+
+	void Renderer::ClearMagenta()
+	{
+		Clear(1, 0, 1);
+	}
+
 	void Renderer::SetClearColor(float r, float g, float b, float a)
 	{
 	}
@@ -119,11 +138,23 @@ namespace Hazel
 		if (material)
 		{
 			material->Bind();
+			depthTest = material->GetFlag(MaterialFlag::DepthTest);
+
+			auto shader = material->GetShader();
+			shader->SetMat4("u_Transform", transform);
 		}
+
+		s_Data->m_FullscreenQuadVertexArray->Bind();
+		Renderer::DrawIndexed(6, depthTest);
 	}
 
-	void Renderer::SubmitFullscreenQuad(const Ref<MaterialInstance>& materialInstance)
+	void Renderer::SubmitFullscreenQuad(const Ref<MaterialInstance>& material)
 	{
+		bool depthTest = true;
+		if (material)
+		{
+
+		}
 	}
 
 	void Renderer::SubmitMesh(const Ref<Mesh>& mesh, const glm::mat4& transform, const Ref<MaterialInstance>& material)
