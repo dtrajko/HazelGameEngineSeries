@@ -35,6 +35,7 @@ namespace Hazel
 		virtual void SetFloat4(const std::string& name, const glm::vec4& value) override;
 		virtual void SetMat3(const std::string& name, const glm::mat3& value) override;
 		virtual void SetMat4(const std::string& name, const glm::mat4& value) override;
+		virtual void SetMat4FromRenderThread(const std::string& name, const glm::mat4& value) override;
 
 		void UploadUniformBool(const std::string& name, bool value);
 		void UploadUniformInt(const std::string& name, int value);

@@ -4,7 +4,9 @@
 #include "Hazel/Models/Quad.h"
 #include "Hazel/Models/Cube.h"
 #include "RenderCommandQueue.h"
+#include "Submesh.h"
 
+#include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 
 
@@ -82,11 +84,6 @@ namespace Hazel
 		s_Data.m_ActiveRenderPass = nullptr;
 	}
 
-	RenderCommandQueue& Renderer::GetRenderCommandQueue()
-	{
-		return s_Data.m_CommandQueue;
-	}
-
 	void Renderer::SubmitQuad(const Ref<MaterialInstance>& material, const glm::mat4& transform)
 	{
 		bool depthTest = true;
@@ -112,8 +109,45 @@ namespace Hazel
 		}
 	}
 
-	void Renderer::SubmitMesh(const Ref<Mesh>& mesh, const glm::mat4& transform, const Ref<MaterialInstance>& material)
+	void Renderer::SubmitMesh(const Ref<Mesh>& mesh, const glm::mat4& transform, const Ref<MaterialInstance>& overrideMaterial)
 	{
+		auto material = overrideMaterial ? overrideMaterial : mesh->GetMaterialInstance();
+		auto shader = material->GetShader();
+		// Bind material uniforms and textures
+		material->Bind();
+		shader->SetMat4("u_Transform", transform);
+
+		// TODO: sort this out
+		mesh->m_VertexArray->Bind();
+
+		// TODO: Replace with render API calls
+		Renderer::Submit([=]()
+		{
+				if (material->GetFlag(MaterialFlag::DepthTest))
+					glEnable(GL_DEPTH_TEST);
+				else
+					glDisable(GL_DEPTH_TEST);
+
+				for (Submesh& submesh : mesh->m_Submeshes)
+				{
+					if (mesh->m_IsAnimated)
+					{
+						for (size_t i = 0; i < mesh->m_BoneTransforms.size(); i++) {
+							std::string uniformName = std::string("u_BoneTransforms[" + std::to_string(i) + std::string("]"));
+							mesh->m_MeshShader->SetMat4FromRenderThread(uniformName, mesh->m_BoneTransforms[i]);
+
+
+						}
+					}
+					shader->SetMat4FromRenderThread("u_Transform", transform * submesh.Transform);
+					glDrawElementsBaseVertex(GL_TRIANGLES, submesh.IndexCount, GL_UNSIGNED_INT, (void*)(sizeof(uint32_t) * submesh.BaseIndex), submesh.BaseVertex);
+				}
+		});
+	}
+
+	RenderCommandQueue& Renderer::GetRenderCommandQueue()
+	{
+		return s_Data.m_CommandQueue;
 	}
 
 	void Renderer::OnWindowResize(uint32_t width, uint32_t height)

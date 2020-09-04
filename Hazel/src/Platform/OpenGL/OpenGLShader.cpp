@@ -257,6 +257,11 @@ namespace Hazel
 		UploadUniformMat4(name, value);
 	}
 
+	void OpenGLShader::SetMat4FromRenderThread(const std::string& name, const glm::mat4& value)
+	{
+		UploadUniformMat4(name, value);
+	}
+
 	void OpenGLShader::UploadUniformBool(const std::string& name, bool value)
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());

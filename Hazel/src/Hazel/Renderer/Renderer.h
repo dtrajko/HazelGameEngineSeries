@@ -53,7 +53,7 @@ namespace Hazel
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
 		static void SubmitFullscreenQuad(const Ref<MaterialInstance>& materialInstance);
-		static void SubmitMesh(const Ref<Mesh>& mesh, const glm::mat4& transform, const Ref<MaterialInstance>& material);
+		static void SubmitMesh(const Ref<Mesh>& mesh, const glm::mat4& transform, const Ref<MaterialInstance>& overrideMaterial);
 		static void SubmitQuad(const Ref<MaterialInstance>& material, const glm::mat4& transform);
 
 		void Clear();
