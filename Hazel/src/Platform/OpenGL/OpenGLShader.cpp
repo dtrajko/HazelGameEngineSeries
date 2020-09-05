@@ -200,7 +200,7 @@ namespace Hazel {
 
 		if (outPosition)
 			*outPosition = end;
-		uint32_t length = end - str + 1;
+		uint32_t length = (uint32_t)(end - str + 1);
 		return std::string(str, length);
 	}
 
@@ -212,7 +212,7 @@ namespace Hazel {
 
 		if (outPosition)
 			*outPosition = end;
-		uint32_t length = end - str + 1;
+		uint32_t length = (uint32_t)(end - str + 1);
 		return std::string(str, length);
 	}
 

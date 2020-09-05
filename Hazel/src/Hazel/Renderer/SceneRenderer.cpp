@@ -39,7 +39,7 @@ namespace Hazel {
 		Ref<MaterialInstance> GridMaterial;
 	};
 
-	static SceneRendererData s_Data;
+	static SceneRendererData s_Data = SceneRendererData{};
 
 	void SceneRenderer::Init()
 	{

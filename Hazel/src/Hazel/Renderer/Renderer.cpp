@@ -19,7 +19,7 @@ namespace Hazel {
 		Ref<VertexArray> m_FullscreenQuadVertexArray;
 	};
 
-	static RendererData s_Data;
+	static RendererData s_Data = RendererData{};
 
 	void Renderer::Init()
 	{
