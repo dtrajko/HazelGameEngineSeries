@@ -5,14 +5,11 @@
 #include "Hazel/Renderer/Framebuffer.h"
 #include <GLFW/glfw3.h>
 
-#include <imgui.h>
+#include <imgui/imgui.h>
 
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
 #include <Windows.h>
-
-#include <glad/glad.h>
-
 
 namespace Hazel {
 

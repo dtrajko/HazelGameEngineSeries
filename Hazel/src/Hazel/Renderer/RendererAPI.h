@@ -1,8 +1,5 @@
 #pragma once
 
-#include "hzpch.h"
-
-
 namespace Hazel {
 
 	using RendererID = uint32_t;
@@ -13,14 +10,21 @@ namespace Hazel {
 		OpenGL
 	};
 
+	// TODO: move into separate header
+	enum class PrimitiveType
+	{
+		None = 0, Triangles, Lines
+	};
+
 	struct RenderAPICapabilities
 	{
 		std::string Vendor;
 		std::string Renderer;
 		std::string Version;
 
-		int MaxSamples;
-		float MaxAnisotropy;
+		int MaxSamples = 0;
+		float MaxAnisotropy = 0.0f;
+		int MaxTextureUnits = 0;
 	};
 
 	class RendererAPI
@@ -34,7 +38,8 @@ namespace Hazel {
 		static void Clear(float r, float g, float b, float a);
 		static void SetClearColor(float r, float g, float b, float a);
 
-		static void DrawIndexed(unsigned int count, bool depthTest = true);
+		static void DrawIndexed(uint32_t count, PrimitiveType type, bool depthTest = true);
+		static void SetLineThickness(float thickness);
 
 		static RenderAPICapabilities& GetCapabilities()
 		{
@@ -48,6 +53,5 @@ namespace Hazel {
 	private:
 		static RendererAPIType s_CurrentRendererAPI;
 	};
-
 
 }

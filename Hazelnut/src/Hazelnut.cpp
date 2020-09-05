@@ -19,5 +19,5 @@ public:
 
 Hazel::Application* Hazel::CreateApplication()
 {
-	return new HazelnutApplication({ "Hazelnut", 1600, 900 });
+	return new HazelnutApplication({"Hazelnut", 1600, 900});
 }
