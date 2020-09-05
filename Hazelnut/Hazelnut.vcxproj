@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>HZ_PLATFORM_WINDOWS;HZ_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Hazel\vendor\spdlog\include;..\Hazel\src;..\Hazel\vendor;..\Hazel\vendor\Glad\include;..\Hazel\vendor\glm;..\Hazel\vendor\tinyobjloader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\Hazel\src;..\Hazel\vendor;..\Hazel\vendor\glm;..\Hazel\vendor\spdlog\include;..\Hazel\vendor\Glad\include;..\Hazel\vendor\tinyobjloader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -88,14 +88,19 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>..\Hazel\vendor\assimp\bin\Debug\assimp-vc141-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST "..\Hazelnut\assets"\ (xcopy /Q /E /Y /I "..\Hazelnut\assets" "..\bin\Debug-windows-x86_64\Hazelnut\assets" &gt; nul) ELSE (xcopy /Q /Y /I "..\Hazelnut\assets" "..\bin\Debug-windows-x86_64\Hazelnut\assets" &gt; nul)
+IF EXIST "..\Hazel\vendor\assimp\bin\Debug\assimp-vc141-mtd.dll"\ (xcopy /Q /E /Y /I "..\Hazel\vendor\assimp\bin\Debug\assimp-vc141-mtd.dll" "..\bin\Debug-windows-x86_64\Hazelnut" &gt; nul) ELSE (xcopy /Q /Y /I "..\Hazel\vendor\assimp\bin\Debug\assimp-vc141-mtd.dll" "..\bin\Debug-windows-x86_64\Hazelnut" &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>HZ_PLATFORM_WINDOWS;HZ_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Hazel\vendor\spdlog\include;..\Hazel\src;..\Hazel\vendor;..\Hazel\vendor\Glad\include;..\Hazel\vendor\glm;..\Hazel\vendor\tinyobjloader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\Hazel\src;..\Hazel\vendor;..\Hazel\vendor\glm;..\Hazel\vendor\spdlog\include;..\Hazel\vendor\Glad\include;..\Hazel\vendor\tinyobjloader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -108,14 +113,19 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>..\Hazel\vendor\assimp\bin\Release\assimp-vc141-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST "..\Hazelnut\assets"\ (xcopy /Q /E /Y /I "..\Hazelnut\assets" "..\bin\Release-windows-x86_64\Hazelnut\assets" &gt; nul) ELSE (xcopy /Q /Y /I "..\Hazelnut\assets" "..\bin\Release-windows-x86_64\Hazelnut\assets" &gt; nul)
+IF EXIST "..\Hazel\vendor\assimp\bin\Release\assimp-vc141-mtd.dll"\ (xcopy /Q /E /Y /I "..\Hazel\vendor\assimp\bin\Release\assimp-vc141-mtd.dll" "..\bin\Release-windows-x86_64\Hazelnut" &gt; nul) ELSE (xcopy /Q /Y /I "..\Hazel\vendor\assimp\bin\Release\assimp-vc141-mtd.dll" "..\bin\Release-windows-x86_64\Hazelnut" &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>HZ_PLATFORM_WINDOWS;HZ_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Hazel\vendor\spdlog\include;..\Hazel\src;..\Hazel\vendor;..\Hazel\vendor\Glad\include;..\Hazel\vendor\glm;..\Hazel\vendor\tinyobjloader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\Hazel\src;..\Hazel\vendor;..\Hazel\vendor\glm;..\Hazel\vendor\spdlog\include;..\Hazel\vendor\Glad\include;..\Hazel\vendor\tinyobjloader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -128,14 +138,19 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>..\Hazel\vendor\assimp\bin\Release\assimp-vc141-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST "..\Hazelnut\assets"\ (xcopy /Q /E /Y /I "..\Hazelnut\assets" "..\bin\Dist-windows-x86_64\Hazelnut\assets" &gt; nul) ELSE (xcopy /Q /Y /I "..\Hazelnut\assets" "..\bin\Dist-windows-x86_64\Hazelnut\assets" &gt; nul)
+IF EXIST "..\Hazel\vendor\assimp\bin\Release\assimp-vc141-mtd.dll"\ (xcopy /Q /E /Y /I "..\Hazel\vendor\assimp\bin\Release\assimp-vc141-mtd.dll" "..\bin\Dist-windows-x86_64\Hazelnut" &gt; nul) ELSE (xcopy /Q /Y /I "..\Hazel\vendor\assimp\bin\Release\assimp-vc141-mtd.dll" "..\bin\Dist-windows-x86_64\Hazelnut" &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\EditorLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\EditorLayer.cpp" />
-    <ClCompile Include="src\HazelnutApp.cpp" />
+    <ClCompile Include="src\Hazelnut.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Hazel\Hazel.vcxproj">

@@ -78,16 +78,16 @@ namespace Hazel
 				transform = glm::scale(transform, glm::vec3(size));
 			}
 
-			if (m_Enabled3D)
-				if (m_EnabledTexture)
-					Hazel::Renderer::DrawCube(transform, color, m_Texture);
-				else
-					Hazel::Renderer::DrawCube(transform, color);
-			else
-				if (m_EnabledTexture)
-					Hazel::Renderer::DrawQuad(transform, color, m_Texture);
-				else
-					Hazel::Renderer::DrawQuad(transform, color);
+			//	if (m_Enabled3D)
+			//		if (m_EnabledTexture)
+			//			Hazel::Renderer::DrawCube(transform, color, m_Texture);
+			//		else
+			//			Hazel::Renderer::DrawCube(transform, color);
+			//	else
+			//		if (m_EnabledTexture)
+			//			Hazel::Renderer::DrawQuad(transform, color, m_Texture);
+			//		else
+			//			Hazel::Renderer::DrawQuad(transform, color);
 		}
 	}
 

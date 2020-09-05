@@ -1,28 +1,21 @@
 #include "hzpch.h"
-
+#include <glad/glad.h>
 #include "WindowsWindow.h"
 
-#include "Hazel/Events/ApplicationEvent.h"
-#include "Hazel/Events/MouseEvent.h"
-#include "Hazel/Events/KeyEvent.h"
+#include "Hazel/Core/Events/ApplicationEvent.h"
+#include "Hazel/Core/Events/KeyEvent.h"
+#include "Hazel/Core/Events/MouseEvent.h"
 
-#include "Hazel/Renderer/Renderer2D.h"
-
-#include "Platform/OpenGL/OpenGLContext.h"
-#include "Platform/Vulkan/VulkanContext.h"
-#include "Platform/DX11/DX11Context.h"
-
-#include <GLFW/glfw3.h>
-
+#include <imgui.h>
 
 namespace Hazel {
 
-	static bool s_GLFWInitialized = false;
-
 	static void GLFWErrorCallback(int error, const char* description)
 	{
-		HZ_CORE_ERROR("GLFW Error ({0}) : {1}", error, description);
+		HZ_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	}
+
+	static bool s_GLFWInitialized = false;
 
 	Window* Window::Create(const WindowProps& props)
 	{
@@ -36,7 +29,6 @@ namespace Hazel {
 
 	WindowsWindow::~WindowsWindow()
 	{
-		Shutdown();
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
@@ -51,152 +43,149 @@ namespace Hazel {
 		{
 			// TODO: glfwTerminate on system shutdown
 			int success = glfwInit();
-			HZ_CORE_ASSERT(success, "Could not initialize GLFW!");
+			HZ_CORE_ASSERT(success, "Could not intialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
+
 			s_GLFWInitialized = true;
 		}
 
-		if (RendererAPI::GetAPI() == RendererAPI::API::Vulkan)
-		{
-			// required for vulkan: don't init OpenGL by default
-			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-		}
-
-		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
-
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
-
-		if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
-		{
-			m_Context = new OpenGLContext(m_Window);
-		}
-		else if (RendererAPI::GetAPI() == RendererAPI::API::Vulkan)
-		{
-			m_Context = (GraphicsContext*)new VulkanContext(m_Window);
-		}
-		else if (RendererAPI::GetAPI() == RendererAPI::API::DX11)
-		{
-			m_Context = new DX11Context(m_Window);
-		}
-
-		m_Context->Init();
-
+		glfwMakeContextCurrent(m_Window);
+		glfwMaximizeWindow(m_Window);
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		HZ_CORE_ASSERT(status, "Failed to initialize Glad!");
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
 		// Set GLFW callbacks
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+				auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
+
+				WindowResizeEvent event((unsigned int)width, (unsigned int)height);
+				data.EventCallback(event);
 				data.Width = width;
 				data.Height = height;
-				WindowResizeEvent event(width, height);
-				data.EventCallback(event);
 			});
 
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
 			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+				auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
+
 				WindowCloseEvent event;
 				data.EventCallback(event);
 			});
 
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+				auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
 
 				switch (action)
 				{
-					case GLFW_PRESS:
-					{
-						KeyPressedEvent event(key, 0);
-						data.EventCallback(event);
-						break;
-					}
-					case GLFW_RELEASE:
-					{
-						KeyReleasedEvent event(key);
-						data.EventCallback(event);
-						break;
-					}
-					case GLFW_REPEAT:
-					{
-						KeyPressedEvent event(key, 1);
-						data.EventCallback(event);
-						break;
-					}
+				case GLFW_PRESS:
+				{
+					KeyPressedEvent event(key, 0);
+					data.EventCallback(event);
+					break;
+				}
+				case GLFW_RELEASE:
+				{
+					KeyReleasedEvent event(key);
+					data.EventCallback(event);
+					break;
+				}
+				case GLFW_REPEAT:
+				{
+					KeyPressedEvent event(key, 1);
+					data.EventCallback(event);
+					break;
+				}
 				}
 			});
 
-		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode)
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int codepoint)
 			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+				auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
 
-				KeyTypedEvent event(keycode);
+				KeyTypedEvent event((int)codepoint);
 				data.EventCallback(event);
 			});
 
-		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int modes)
+		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)
 			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+				auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
 
 				switch (action)
 				{
-					case GLFW_PRESS:
-					{
-						MouseButtonPressedEvent event(button);
-						data.EventCallback(event);
-						break;
-					}
-					case GLFW_RELEASE:
-					{
-						MouseButtonReleasedEvent event(button);
-						data.EventCallback(event);
-						break;
-					}
+				case GLFW_PRESS:
+				{
+					MouseButtonPressedEvent event(button);
+					data.EventCallback(event);
+					break;
+				}
+				case GLFW_RELEASE:
+				{
+					MouseButtonReleasedEvent event(button);
+					data.EventCallback(event);
+					break;
+				}
 				}
 			});
 
 		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset)
 			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+				auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
 
 				MouseScrolledEvent event((float)xOffset, (float)yOffset);
 				data.EventCallback(event);
 			});
 
-		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos)
+		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double x, double y)
 			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+				auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
 
-				MouseMovedEvent event((float)xPos, (float)yPos);
+				MouseMovedEvent event((float)x, (float)y);
 				data.EventCallback(event);
 			});
 
-		glfwSetCursorEnterCallback(m_Window, [](GLFWwindow* window, int entered)
-			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-
-				// TODO
-			});
+		m_ImGuiMouseCursors[ImGuiMouseCursor_Arrow] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
+		m_ImGuiMouseCursors[ImGuiMouseCursor_TextInput] = glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
+		m_ImGuiMouseCursors[ImGuiMouseCursor_ResizeAll] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);   // FIXME: GLFW doesn't have this.
+		m_ImGuiMouseCursors[ImGuiMouseCursor_ResizeNS] = glfwCreateStandardCursor(GLFW_VRESIZE_CURSOR);
+		m_ImGuiMouseCursors[ImGuiMouseCursor_ResizeEW] = glfwCreateStandardCursor(GLFW_HRESIZE_CURSOR);
+		m_ImGuiMouseCursors[ImGuiMouseCursor_ResizeNESW] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);  // FIXME: GLFW doesn't have this.
+		m_ImGuiMouseCursors[ImGuiMouseCursor_ResizeNWSE] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);  // FIXME: GLFW doesn't have this.
+		m_ImGuiMouseCursors[ImGuiMouseCursor_Hand] = glfwCreateStandardCursor(GLFW_HAND_CURSOR);
 	}
+
 	void WindowsWindow::Shutdown()
 	{
-		if (RendererAPI::GetAPI() != RendererAPI::API::OpenGL) return;
 
-		glfwDestroyWindow(m_Window);
+	}
+
+	inline std::pair<float, float> WindowsWindow::GetWindowPos() const
+	{
+		int x, y;
+		glfwGetWindowPos(m_Window, &x, &y);
+		return std::make_pair((float)x, (float)y);
 	}
 
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		m_Context->SwapBuffers();
+		glfwSwapBuffers(m_Window);
+
+		ImGuiMouseCursor imgui_cursor = ImGui::GetMouseCursor();
+		glfwSetCursor(m_Window, m_ImGuiMouseCursors[imgui_cursor] ? m_ImGuiMouseCursors[imgui_cursor] : m_ImGuiMouseCursors[ImGuiMouseCursor_Arrow]);
+		glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+
+		float time = (float)glfwGetTime();
+		float delta = time - m_LastFrameTime;
+		m_LastFrameTime = time;
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
 	{
-		if (RendererAPI::GetAPI() != RendererAPI::API::OpenGL) return;
-
 		if (enabled)
 			glfwSwapInterval(1);
 		else
@@ -210,11 +199,4 @@ namespace Hazel {
 		return m_Data.VSync;
 	}
 
-	void WindowsWindow::SetInputMode(bool cursorEnabled)
-	{
-		if (cursorEnabled)
-			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		else
-			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	}
 }

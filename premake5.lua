@@ -64,8 +64,9 @@ project "Hazel"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.ImGui}",
+		"%{prj.name}/vendor/assimp/include",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.tinyobjloader}",
 		"D:/VulkanSDK/1.1.130.0/Include",
@@ -105,8 +106,9 @@ project "Hazel"
 		optimize "on"
 
 
-project "Sandbox"
-	location "Sandbox"
+
+project "Hazelnut"
+	location "Hazelnut"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++17"
@@ -115,25 +117,33 @@ project "Sandbox"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+	links 
+	{ 
+		"Hazel"
+	}
+
 	files
 	{
 		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.c",
+		"%{prj.name}/src/**.hpp",
 		"%{prj.name}/src/**.cpp",
 	}
 
 	includedirs
 	{
-		"Hazel/vendor/spdlog/include",
+		"%{prj.name}/src",
 		"Hazel/src",
 		"Hazel/vendor",
-		"%{IncludeDir.Glad}",
 		"%{IncludeDir.glm}",
+		"Hazel/vendor/spdlog/include",
+		"%{IncludeDir.Glad}",
 		"%{IncludeDir.tinyobjloader}",
 	}
 
-	links
+	postbuildcommands 
 	{
-		"Hazel"
+		'{COPY} "../Hazelnut/assets" "%{cfg.targetdir}/assets"'
 	}
 
 	filter "system:windows"
@@ -146,18 +156,122 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
-		runtime "Debug"
 		symbols "on"
+		runtime "Debug"
+
+		links
+		{
+			"Hazel/vendor/assimp/bin/Debug/assimp-vc141-mtd.lib"
+		}
+
+		postbuildcommands
+		{
+			'{COPY} "../Hazel/vendor/assimp/bin/Debug/assimp-vc141-mtd.dll" "%{cfg.targetdir}"'
+		}
+		
 
 	filter "configurations:Release"
 		defines "HZ_RELEASE"
 		runtime "Release"
 		optimize "on"
 
+		links
+		{
+			"Hazel/vendor/assimp/bin/Release/assimp-vc141-mt.lib"
+		}
+
+		postbuildcommands
+		{
+			'{COPY} "../Hazel/vendor/assimp/bin/Release/assimp-vc141-mtd.dll" "%{cfg.targetdir}"'
+		}
+
 	filter "configurations:Dist"
 		defines "HZ_DIST"
-		runtime "Release"
 		optimize "on"
+
+		links
+		{
+			"Hazel/vendor/assimp/bin/Release/assimp-vc141-mt.lib"
+		}
+
+		postbuildcommands 
+		{
+			'{COPY} "../Hazel/vendor/assimp/bin/Release/assimp-vc141-mtd.dll" "%{cfg.targetdir}"'
+		}
+
+
+project "Sandbox"
+	location "Sandbox"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++17"
+	staticruntime "on"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	links
+	{
+		"Hazel"
+	}
+
+	files
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.c",
+		"%{prj.name}/src/**.hpp",
+		"%{prj.name}/src/**.cpp",
+	}
+
+	includedirs
+	{
+		"%{prj.name}/src",
+		"Hazel/src",
+		"Hazel/vendor",
+		"%{IncludeDir.glm}",
+		"Hazel/vendor/spdlog/include",
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.tinyobjloader}",
+	}
+
+	filter "system:windows"
+		systemversion "latest"
+
+		defines
+		{
+			"HZ_PLATFORM_WINDOWS",
+		}
+
+	filter "configurations:Debug"
+		defines "HZ_DEBUG"
+		symbols "on"
+		runtime "Debug"
+
+		links
+		{
+			"Hazel/vendor/assimp/bin/Debug/assimp-vc141-mtd.lib"
+		}
+		
+
+	filter "configurations:Release"
+		defines "HZ_RELEASE"
+		optimize "on"
+		runtime "Release"
+
+		links
+		{
+			"Hazel/vendor/assimp/bin/Release/assimp-vc141-mt.lib"
+		}
+
+	filter "configurations:Dist"
+		defines "HZ_DIST"
+		optimize "on"
+		runtime "Release"
+
+		links
+		{
+			"Hazel/vendor/assimp/bin/Release/assimp-vc141-mt.lib"
+		}
 
 
 project "Vulkan"
@@ -173,6 +287,8 @@ project "Vulkan"
 	files
 	{
 		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.c",
+		"%{prj.name}/src/**.hpp",
 		"%{prj.name}/src/**.cpp",
 	}
 
@@ -238,6 +354,8 @@ project "DX11"
 	files
 	{
 		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.c",
+		"%{prj.name}/src/**.hpp",
 		"%{prj.name}/src/**.cpp",
 	}
 
@@ -261,61 +379,6 @@ project "DX11"
 
 	libdirs
 	{
-	}
-
-	filter "system:windows"
-		systemversion "latest"
-
-		defines
-		{
-			"HZ_PLATFORM_WINDOWS",
-		}
-
-	filter "configurations:Debug"
-		defines "HZ_DEBUG"
-		runtime "Debug"
-		symbols "on"
-
-	filter "configurations:Release"
-		defines "HZ_RELEASE"
-		runtime "Release"
-		optimize "on"
-
-	filter "configurations:Dist"
-		defines "HZ_DIST"
-		runtime "Release"
-		optimize "on"
-
-
-project "Hazelnut"
-	location "Hazelnut"
-	kind "ConsoleApp"
-	language "C++"
-	cppdialect "C++17"
-	staticruntime "on"
-
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp",
-	}
-
-	includedirs
-	{
-		"Hazel/vendor/spdlog/include",
-		"Hazel/src",
-		"Hazel/vendor",
-		"%{IncludeDir.Glad}",
-		"%{IncludeDir.glm}",
-		"%{IncludeDir.tinyobjloader}",
-	}
-
-	links
-	{
-		"Hazel"
 	}
 
 	filter "system:windows"

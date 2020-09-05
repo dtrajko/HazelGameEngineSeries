@@ -1,54 +1,43 @@
 #include "hzpch.h"
-#include "Buffer.h"
 
-#include "Renderer2D.h"
+#include "Renderer.h"
+
 #include "Platform/OpenGL/OpenGLBuffer.h"
 
 
-namespace Hazel
-{
-	Ref<VertexBuffer> VertexBuffer::Create(uint32_t size)
+namespace Hazel {
+
+	Ref<VertexBuffer> VertexBuffer::Create(void* data, uint32_t size, VertexBufferUsage usage)
 	{
-		switch (RendererAPI::GetAPI())
+		switch (RendererAPI::Current())
 		{
-		case RendererAPI::API::None:
-			HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
-			return nullptr;
-		case RendererAPI::API::OpenGL:
-			return std::make_shared<OpenGLVertexBuffer>(size);
-		default:
-			HZ_CORE_ASSERT(false, "RendererAPI value unknown!");
-			return nullptr;
+		case RendererAPIType::None:    return nullptr;
+		case RendererAPIType::OpenGL:  return std::make_shared<OpenGLVertexBuffer>(data, size, usage);
 		}
+		HZ_CORE_ASSERT(false, "Unknown RendererAPI");
+		return nullptr;
 	}
 
-	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::Create(uint32_t size, VertexBufferUsage usage)
 	{
-		switch (RendererAPI::GetAPI())
+		switch (RendererAPI::Current())
 		{
-		case RendererAPI::API::None:
-			HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
-			return nullptr;
-		case RendererAPI::API::OpenGL:
-			return std::make_shared<OpenGLVertexBuffer>(vertices, size);
-		default:
-			HZ_CORE_ASSERT(false, "RendererAPI value unknown!");
-			return nullptr;
+		case RendererAPIType::None:    return nullptr;
+		case RendererAPIType::OpenGL:  return std::make_shared<OpenGLVertexBuffer>(size, usage);
 		}
+		HZ_CORE_ASSERT(false, "Unknown RendererAPI");
+		return nullptr;
 	}
 
-	Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count)
+	Ref<IndexBuffer> IndexBuffer::Create(void* data, uint32_t size)
 	{
-		switch (RendererAPI::GetAPI())
+		switch (RendererAPI::Current())
 		{
-		case RendererAPI::API::None:
-			HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
-			return nullptr;
-		case RendererAPI::API::OpenGL:
-			return std::make_shared<OpenGLIndexBuffer>(indices, count);
-		default:
-			HZ_CORE_ASSERT(false, "RendererAPI value unknown!");
-			return nullptr;
+		case RendererAPIType::None:    return nullptr;
+		case RendererAPIType::OpenGL:  return std::make_shared<OpenGLIndexBuffer>(data, size);
 		}
+		HZ_CORE_ASSERT(false, "Unknown RendererAPI");
+		return nullptr;
+
 	}
 }

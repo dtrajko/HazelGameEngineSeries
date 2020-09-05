@@ -2,14 +2,11 @@
 #include "Scene.h"
 
 #include "Hazel/Renderer/SceneRenderer.h"
-#include "Hazel/Renderer/Shader.h"
-#include "Hazel/Renderer/Material.h"
-
 
 namespace Hazel {
 
 	Scene::Scene(const std::string& debugName)
-		: m_DebugName(debugName), m_Camera(-1.0f, 1.0f, -1.0f, 1.0f)
+		: m_DebugName(debugName)
 	{
 		Init();
 	}
@@ -22,15 +19,16 @@ namespace Hazel {
 
 	void Scene::Init()
 	{
-		Ref<Shader> skyboxShader = Shader::Create("assets/shaders/quad.glsl");
+		auto skyboxShader = Shader::Create("assets/shaders/Skybox.glsl");
 		m_SkyboxMaterial = MaterialInstance::Create(Material::Create(skyboxShader));
 		m_SkyboxMaterial->SetFlag(MaterialFlag::DepthTest, false);
-
 	}
 
 	void Scene::OnUpdate(Timestep ts)
 	{
 		m_Camera.Update(ts);
+
+		m_SkyboxMaterial->Set("u_TextureLod", m_SkyboxLod);
 
 		// Update all entities
 		for (auto entity : m_Entities)
@@ -57,21 +55,16 @@ namespace Hazel {
 		m_Camera = camera;
 	}
 
-	void Scene::LoadEnvironmentMap(const std::string& filepath)
+	void Scene::SetEnvironment(const Environment& environment)
 	{
-		SceneRenderer::CreateEnvironmentMap(filepath);
-	}
-
-	void Scene::SetEnvironmentMaps(const Ref<TextureCube>& environmentRadianceMap, const Ref<TextureCube>& environmentIrradianceMap)
-	{
-		m_EnvironmentRadianceMap = environmentRadianceMap;
-		m_EnvironmentIrradianceMap = environmentIrradianceMap;
+		m_Environment = environment;
+		SetSkybox(environment.RadianceMap);
 	}
 
 	void Scene::SetSkybox(const Ref<TextureCube>& skybox)
 	{
 		m_SkyboxTexture = skybox;
-		m_SkyboxMaterial->SetFlag("u_Texture", skybox);
+		m_SkyboxMaterial->Set("u_Texture", skybox);
 	}
 
 	void Scene::AddEntity(Entity* entity)
@@ -81,7 +74,14 @@ namespace Hazel {
 
 	Entity* Scene::CreateEntity()
 	{
-		return nullptr;
+		Entity* entity = new Entity();
+		AddEntity(entity);
+		return entity;
 	}
 
+	Environment Environment::Load(const std::string& filepath)
+	{
+		auto [radiance, irradiance] = SceneRenderer::CreateEnvironmentMap(filepath);
+		return { radiance, irradiance };
+	}
 }

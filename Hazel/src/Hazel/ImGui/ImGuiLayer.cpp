@@ -2,27 +2,31 @@
 #include "ImGuiLayer.h"
 
 #include "imgui.h"
+
+#ifndef IMGUI_IMPL_API
+#define IMGUI_IMPL_API
+#endif // !IMGUI_IMPL_API
+
 #include "examples/imgui_impl_glfw.h"
 #include "examples/imgui_impl_opengl3.h"
 
 #include "Hazel/Core/Application.h"
-#include "Hazel/Renderer/RendererAPI.h"
-
-// Temporary
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "ImGuizmo.h"
 
-namespace Hazel
-{
+#include "Hazel/Renderer/Renderer.h"
+
+namespace Hazel {
 
 	ImGuiLayer::ImGuiLayer()
-		: Layer("ImGuiLayer")
 	{
-		if (RendererAPI::GetAPI() != RendererAPI::API::OpenGL)
-		{
-			std::runtime_error("ImGuiLayer requires OpenGL to run!");
-		}
+
+	}
+
+	ImGuiLayer::ImGuiLayer(const std::string& name)
+	{
+
 	}
 
 	ImGuiLayer::~ImGuiLayer()
@@ -43,6 +47,9 @@ namespace Hazel
 		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
 		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
 
+		ImFont* pFont = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\segoeui.ttf", 18.0f);
+		io.FontDefault = io.Fonts->Fonts.back();
+
 		// Setup Dear ImGui style
 		ImGui::StyleColorsDark();
 		//ImGui::StyleColorsClassic();
@@ -54,6 +61,7 @@ namespace Hazel
 			style.WindowRounding = 0.0f;
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 		}
+		style.Colors[ImGuiCol_WindowBg] = ImVec4(0.15f, 0.15f, 0.15f, style.Colors[ImGuiCol_WindowBg].w);
 
 		Application& app = Application::Get();
 		GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
@@ -70,21 +78,12 @@ namespace Hazel
 		ImGui::DestroyContext();
 	}
 
-	void ImGuiLayer::OnEvent(Event& e)
-	{
-		if (m_BlockEvents)
-		{
-			ImGuiIO& io = ImGui::GetIO();
-			e.Handled |= e.IsInCategory(EventCategoryMouse) & io.WantCaptureMouse;
-			e.Handled |= e.IsInCategory(EventCategoryKeyboard) & io.WantCaptureKeyboard;
-		}
-	}
-
 	void ImGuiLayer::Begin()
 	{
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
+		ImGuizmo::BeginFrame();
 	}
 
 	void ImGuiLayer::End()
@@ -104,6 +103,10 @@ namespace Hazel
 			ImGui::RenderPlatformWindowsDefault();
 			glfwMakeContextCurrent(backup_current_context);
 		}
+	}
+
+	void ImGuiLayer::OnImGuiRender()
+	{
 	}
 
 }

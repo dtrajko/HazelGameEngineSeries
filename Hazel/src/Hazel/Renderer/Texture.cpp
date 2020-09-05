@@ -1,57 +1,69 @@
 #include "hzpch.h"
-
 #include "Texture.h"
-#include "RendererAPI.h"
-#include "Platform/OpenGL/OpenGLTexture.h"
 
-#include <stb_image.h>
+#include "Hazel/Renderer/RendererAPI.h"
+#include "../../Platform/OpenGL/OpenGLTexture.h"
 
 
-namespace Hazel
-{
+namespace Hazel {
 
-	Ref<Texture2D> Texture2D::Create(const uint32_t width, const uint32_t height)
+	Ref<Texture2D> Texture2D::Create(TextureFormat format, unsigned int width, unsigned int height, TextureWrap wrap)
 	{
-		switch (RendererAPI::GetAPI())
+		switch (RendererAPI::Current())
 		{
-		case RendererAPI::API::None:
-			HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
-			return nullptr;
-		case RendererAPI::API::OpenGL:
-			return CreateRef<OpenGLTexture2D>(width, height);
-		default:
-			HZ_CORE_ASSERT(false, "RendererAPI value unknown!");
-			return nullptr;
+		case RendererAPIType::None: return nullptr;
+		case RendererAPIType::OpenGL: return CreateRef<OpenGLTexture2D>(format, width, height, wrap);
 		}
+		return nullptr;
 	}
 
-	Ref<Texture2D> Texture2D::Create(const std::string& path)
+	Ref<Texture2D> Texture2D::Create(const std::string& path, bool srgb)
 	{
-		switch (RendererAPI::GetAPI())
+		switch (RendererAPI::Current())
 		{
-		case RendererAPI::API::None:
-			HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
-			return nullptr;
-		case RendererAPI::API::OpenGL:
-			return CreateRef<OpenGLTexture2D>(path);
-		default:
-			HZ_CORE_ASSERT(false, "RendererAPI value unknown!");
-			return nullptr;
+		case RendererAPIType::None: return nullptr;
+		case RendererAPIType::OpenGL: return CreateRef<OpenGLTexture2D>(path, srgb);
 		}
+		return nullptr;
 	}
 
-	uint32_t Texture2D::LoadTexture(const std::string& path)
+	Ref<TextureCube> TextureCube::Create(TextureFormat format, uint32_t width, uint32_t height)
 	{
-		switch (RendererAPI::GetAPI())
+		switch (RendererAPI::Current())
 		{
-		case RendererAPI::API::None:
-			HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
-			return uint32_t();
-		case RendererAPI::API::OpenGL:
-			return OpenGLTexture2D::LoadTexture(path);
-		default:
-			HZ_CORE_ASSERT(false, "RendererAPI value unknown!");
-			return uint32_t();
+		case RendererAPIType::None: return nullptr;
+		case RendererAPIType::OpenGL: return CreateRef<OpenGLTextureCube>(format, width, height);
 		}
+		return nullptr;
 	}
+
+	Ref<TextureCube> TextureCube::Create(const std::string& path)
+	{
+		switch (RendererAPI::Current())
+		{
+		case RendererAPIType::None: return nullptr;
+		case RendererAPIType::OpenGL: return CreateRef<OpenGLTextureCube>(path);
+		}
+		return nullptr;
+	}
+
+	uint32_t Texture::GetBPP(TextureFormat format)
+	{
+		switch (format)
+		{
+		case TextureFormat::RGB:    return 3;
+		case TextureFormat::RGBA:   return 4;
+		}
+		return 0;
+	}
+
+	uint32_t Texture::CalculateMipMapCount(uint32_t width, uint32_t height)
+	{
+		uint32_t levels = 1;
+		while ((width | height) >> levels)
+			levels++;
+
+		return levels;
+	}
+
 }

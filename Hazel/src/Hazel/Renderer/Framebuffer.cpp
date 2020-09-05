@@ -1,26 +1,45 @@
 #include "hzpch.h"
-
 #include "Framebuffer.h"
-#include "Renderer2D.h"
 
-#include "Platform/OpenGL/OpenGLFramebuffer.h"
+#include "../../Platform/OpenGL/OpenGLFramebuffer.h"
 
 
 namespace Hazel {
 
 	Ref<Framebuffer> Framebuffer::Create(const FramebufferSpecification& spec)
 	{
-		switch (RendererAPI::GetAPI())
+		Ref<Framebuffer> result = nullptr;
+
+		switch (RendererAPI::Current())
 		{
-		case RendererAPI::API::None:
-			HZ_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
-		case RendererAPI::API::OpenGL: return CreateRef<OpenGLFramebuffer>(spec);
-		default:
-			HZ_CORE_ASSERT(false, "RendererAPI value unknown!"); return nullptr;
+		case RendererAPIType::None:		return nullptr;
+		case RendererAPIType::OpenGL:	result = std::make_shared<OpenGLFramebuffer>(spec);
 		}
+		FramebufferPool::GetGlobal()->Add(result);
+		return result;
+	}
+
+	FramebufferPool* FramebufferPool::s_Instance = new FramebufferPool;
+
+	FramebufferPool::FramebufferPool(uint32_t maxFBs /* = 32 */)
+	{
 
 	}
-	void Framebuffer::BindTexture()
+
+	FramebufferPool::~FramebufferPool()
 	{
+
 	}
+
+	std::weak_ptr<Framebuffer> FramebufferPool::AllocateBuffer()
+	{
+		// m_Pool.push_back();
+		return std::weak_ptr<Framebuffer>();
+	}
+
+	void FramebufferPool::Add(std::weak_ptr<Framebuffer> framebuffer)
+	{
+		m_Pool.push_back(framebuffer);
+	}
+
 }

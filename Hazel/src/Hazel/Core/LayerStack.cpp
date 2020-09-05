@@ -1,9 +1,11 @@
 #include "hzpch.h"
 #include "LayerStack.h"
 
-
 namespace Hazel {
 
+	LayerStack::LayerStack()
+	{
+	}
 
 	LayerStack::~LayerStack()
 	{
@@ -30,6 +32,7 @@ namespace Hazel {
 			m_Layers.erase(it);
 			m_LayerInsertIndex--;
 		}
+
 	}
 
 	void LayerStack::PopOverlay(Layer* overlay)
@@ -38,4 +41,5 @@ namespace Hazel {
 		if (it != m_Layers.end())
 			m_Layers.erase(it);
 	}
+
 }

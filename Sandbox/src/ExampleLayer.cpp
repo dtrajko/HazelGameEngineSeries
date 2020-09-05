@@ -31,7 +31,7 @@ void ExampleLayer::DrawOpenGLTriangle()
 
 void ExampleLayer::OnUpdate(Hazel::Timestep timestep)
 {
-	if (Hazel::RendererAPI::GetAPI() != Hazel::RendererAPI::API::OpenGL) return;
+	if (Hazel::RendererAPI::Current() != Hazel::RendererAPI::API::OpenGL) return;
 
 	m_FPS = (unsigned int)(1.0f / timestep.GetSeconds());
 

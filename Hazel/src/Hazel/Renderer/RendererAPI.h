@@ -1,56 +1,55 @@
 #pragma once
 
-#include <glm/glm.hpp>
+#include "hzpch.h"
 
-#include "VertexArray.h"
+#include <string>
 
 
-namespace Hazel
-{
+namespace Hazel {
+
+	using RendererID = uint32_t;
+
+	enum class RendererAPIType
+	{
+		None,
+		OpenGL
+	};
+
+	struct RenderAPICapabilities
+	{
+		std::string Vendor;
+		std::string Renderer;
+		std::string Version;
+
+		int MaxSamples;
+		float MaxAnisotropy;
+	};
 
 	class RendererAPI
 	{
-	public:
-		enum class API
-		{
-			None = 0,
-			OpenGL = 1,
-			Vulkan = 2,
-			DX11 = 3,
-			DX12 = 4,
-			Metal = 5,
-		};
-
-		enum class Mode
-		{
-			Renderer2D = 0,
-			Renderer = 1,
-		};
-
-	public:
-		static void Init() {};
-		static void Clear() {};
-		static void Clear(float r, float g, float b) {};
-		static void Clear(float r, float g, float b, float a) {};
-
-		virtual void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) = 0;
-		virtual void SetClearColor(const glm::vec4& color) = 0;
-
-		virtual void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0) = 0;
-		static void DrawIndexed(uint32_t count, bool depthTest);
-
-		inline static API GetAPI() { return s_API; };
-		inline static void SetAPI(API api) { s_API = api; };
-
-		inline static Mode GetMode() { return s_Mode; };
-		inline static void SetMode(Mode mode) { s_Mode = mode; HZ_INFO("RendererAPI::SetMode: {0}", mode); };
-
-		static RendererAPI* Create();
-
 	private:
-		static API s_API;
-		static Mode s_Mode;
 
+	public:
+		static void Init();
+		static void Shutdown();
+
+		static void Clear(float r, float g, float b, float a);
+		static void SetClearColor(float r, float g, float b, float a);
+
+		static void DrawIndexed(unsigned int count, bool depthTest = true);
+
+		static RenderAPICapabilities& GetCapabilities()
+		{
+			static RenderAPICapabilities capabilities;
+			return capabilities;
+		}
+
+		static RendererAPIType Current() { return s_CurrentRendererAPI; }
+	private:
+		static void LoadRequiredAssets();
+	private:
+		static RendererAPIType s_CurrentRendererAPI;
 	};
+
 
 }

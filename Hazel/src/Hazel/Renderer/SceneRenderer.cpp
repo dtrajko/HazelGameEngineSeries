@@ -1,13 +1,11 @@
 #include "hzpch.h"
-
 #include "SceneRenderer.h"
+
 #include "Renderer.h"
-#include "RenderPass.h"
-#include "Framebuffer.h"
 
 #include <glad/glad.h>
-#include <glm/gtc/matrix_transform.hpp>
 
+#include <glm/gtc/matrix_transform.hpp>
 
 namespace Hazel {
 
@@ -17,20 +15,18 @@ namespace Hazel {
 		struct SceneInfo
 		{
 			Camera SceneCamera;
-		
+
 			// Resources
 			Ref<MaterialInstance> SkyboxMaterial;
-			Ref<TextureCube> EnvironmentRadianceMap;
-			Ref<TextureCube> EnvironmentIrradianceMap;
-		
+			Environment SceneEnvironment;
 		} SceneData;
 
 		Ref<Texture2D> BRDFLUT;
 		Ref<Shader> CompositeShader;
-		
+
 		Ref<RenderPass> GeoPass;
 		Ref<RenderPass> CompositePass;
-		
+
 		struct DrawCommand
 		{
 			Ref<Mesh> Mesh;
@@ -38,7 +34,7 @@ namespace Hazel {
 			glm::mat4 Transform;
 		};
 		std::vector<DrawCommand> DrawList;
-		
+
 		// Grid
 		Ref<MaterialInstance> GridMaterial;
 	};
@@ -64,7 +60,7 @@ namespace Hazel {
 		compFramebufferSpec.ClearColor = { 0.5f, 0.1f, 0.1f, 1.0f };
 
 		RenderPassSpecification compRenderPassSpec;
-		compRenderPassSpec.TargetFramebuffer = Framebuffer::Create(compFramebufferSpec);
+		compRenderPassSpec.TargetFramebuffer = Hazel::Framebuffer::Create(compFramebufferSpec);
 		s_Data.CompositePass = RenderPass::Create(compRenderPassSpec);
 
 		s_Data.CompositeShader = Shader::Create("assets/shaders/hdr.glsl");
@@ -73,8 +69,7 @@ namespace Hazel {
 		// Grid
 		auto gridShader = Shader::Create("assets/shaders/Grid.glsl");
 		s_Data.GridMaterial = MaterialInstance::Create(Material::Create(gridShader));
-		float gridScale = 16.025f;
-		float gridSize = 0.025f;
+		float gridScale = 16.025f, gridSize = 0.025f;
 		s_Data.GridMaterial->Set("u_Scale", gridScale);
 		s_Data.GridMaterial->Set("u_Res", gridSize);
 	}
@@ -85,7 +80,7 @@ namespace Hazel {
 		s_Data.CompositePass->GetSpecification().TargetFramebuffer->Resize(width, height);
 	}
 
-	void SceneRenderer::BeginScene(Scene* scene)
+	void SceneRenderer::BeginScene(const Scene* scene)
 	{
 		HZ_CORE_ASSERT(!s_Data.ActiveScene, "");
 
@@ -93,8 +88,7 @@ namespace Hazel {
 
 		s_Data.SceneData.SceneCamera = scene->m_Camera;
 		s_Data.SceneData.SkyboxMaterial = scene->m_SkyboxMaterial;
-		s_Data.SceneData.EnvironmentRadianceMap = scene->m_EnvironmentRadianceMap;
-		s_Data.SceneData.EnvironmentIrradianceMap = scene->m_EnvironmentIrradianceMap;
+		s_Data.SceneData.SceneEnvironment = scene->m_Environment;
 	}
 
 	void SceneRenderer::EndScene()
@@ -117,52 +111,101 @@ namespace Hazel {
 		s_Data.DrawList.push_back({ mesh, entity->GetMaterial(), entity->GetTransform() });
 	}
 
-	void SceneRenderer::CreateEnvironmentMap(const std::string& filepath)
+	static Ref<Shader> equirectangularConversionShader, envFilteringShader, envIrradianceShader;
+
+	std::pair<Ref<TextureCube>, Ref<TextureCube>> SceneRenderer::CreateEnvironmentMap(const std::string& filepath)
 	{
-		const uint32_t cubemapSize = 1024;
+		const uint32_t cubemapSize = 2048;
+		const uint32_t irradianceMapSize = 32;
 
 		Ref<TextureCube> envUnfiltered = TextureCube::Create(TextureFormat::Float16, cubemapSize, cubemapSize);
-		Ref<Shader> equirectangularConversionShader = Shader::Create("assets/shaders/EquirectangularToCubeMap.glsl");
+		if (!equirectangularConversionShader)
+			equirectangularConversionShader = Shader::Create("assets/shaders/EquirectangularToCubeMap.glsl");
 		Ref<Texture2D> envEquirect = Texture2D::Create(filepath);
 		HZ_CORE_ASSERT(envEquirect->GetFormat() == TextureFormat::Float16, "Texture is not HDR!");
 
 		equirectangularConversionShader->Bind();
-		envEquirect->Bind(0);
-		//	Renderer::Submit([=]()
-		//	{
-		//			glBindImageTexture(0, envUnfiltered->GetRendererID(), 0, GL_TRUE, 0, GL_WRITE_ONLY, GL_RGBA16F);
-		//			glDispatchCompute(cubemapSize / 32, cubemapSize / 32, 6);
-		//			glGenerateTextureMipmap(envUnfiltered->GetRendererID());
-		//	});
+		envEquirect->Bind();
+		Renderer::Submit([envUnfiltered, cubemapSize, envEquirect]()
+			{
+				glBindImageTexture(0, envUnfiltered->GetRendererID(), 0, GL_TRUE, 0, GL_WRITE_ONLY, GL_RGBA16F);
+				glDispatchCompute(cubemapSize / 32, cubemapSize / 32, 6);
+				glGenerateTextureMipmap(envUnfiltered->GetRendererID());
+			});
+
+
+		if (!envFilteringShader)
+			envFilteringShader = Shader::Create("assets/shaders/EnvironmentMipFilter.glsl");
+
+		Ref<TextureCube> envFiltered = TextureCube::Create(TextureFormat::Float16, cubemapSize, cubemapSize);
+
+		Renderer::Submit([envUnfiltered, envFiltered]()
+			{
+				glCopyImageSubData(envUnfiltered->GetRendererID(), GL_TEXTURE_CUBE_MAP, 0, 0, 0, 0,
+					envFiltered->GetRendererID(), GL_TEXTURE_CUBE_MAP, 0, 0, 0, 0,
+					envFiltered->GetWidth(), envFiltered->GetHeight(), 6);
+			});
+
+		envFilteringShader->Bind();
+		envUnfiltered->Bind();
+
+		Renderer::Submit([envUnfiltered, envFiltered, cubemapSize]() {
+			const float deltaRoughness = 1.0f / glm::max((float)(envFiltered->GetMipLevelCount() - 1.0f), 1.0f);
+			for (uint32_t level = 1, size = cubemapSize / 2; level < envFiltered->GetMipLevelCount(); level++, size /= 2) // <= ?
+			{
+				const GLuint numGroups = glm::max(1, (int)size / 32);
+				glBindImageTexture(0, envFiltered->GetRendererID(), level, GL_TRUE, 0, GL_WRITE_ONLY, GL_RGBA16F);
+				glProgramUniform1f(envFilteringShader->GetRendererID(), 0, level * deltaRoughness);
+				glDispatchCompute(numGroups, numGroups, 6);
+			}
+			});
+
+		if (!envIrradianceShader)
+			envIrradianceShader = Shader::Create("assets/shaders/EnvironmentIrradiance.glsl");
+
+		Ref<TextureCube> irradianceMap = TextureCube::Create(TextureFormat::Float16, irradianceMapSize, irradianceMapSize);
+		envIrradianceShader->Bind();
+		envFiltered->Bind();
+		Renderer::Submit([irradianceMap]()
+			{
+				glBindImageTexture(0, irradianceMap->GetRendererID(), 0, GL_TRUE, 0, GL_WRITE_ONLY, GL_RGBA16F);
+				glDispatchCompute(irradianceMap->GetWidth() / 32, irradianceMap->GetHeight() / 32, 6);
+			});
+
+		return { envFiltered, irradianceMap };
 	}
 
 	void SceneRenderer::GeometryPass()
 	{
 		Renderer::BeginRenderPass(s_Data.GeoPass);
+
 		auto viewProjection = s_Data.SceneData.SceneCamera.GetProjectionMatrix() * s_Data.SceneData.SceneCamera.GetViewMatrix();
 
 		// Skybox
 		auto skyboxShader = s_Data.SceneData.SkyboxMaterial->GetShader();
 		s_Data.SceneData.SkyboxMaterial->Set("u_InverseVP", glm::inverse(viewProjection));
+		// s_Data.SceneInfo.EnvironmentIrradianceMap->Bind(0);
 		Renderer::SubmitFullscreenQuad(s_Data.SceneData.SkyboxMaterial);
 
 		// Render entities
 		for (auto& dc : s_Data.DrawList)
 		{
-			dc.Material->Set("u_ViewProjectionMatrix", viewProjection);
-			dc.Material->Set("u_CameraPosition", s_Data.SceneData.SceneCamera.GetPosition());
+			auto baseMaterial = dc.Mesh->GetMaterial();
+			baseMaterial->Set("u_ViewProjectionMatrix", viewProjection);
+			baseMaterial->Set("u_CameraPosition", s_Data.SceneData.SceneCamera.GetPosition());
 
 			// Environment (TODO: don't do this per mesh)
-			dc.Material->Set("u_EnvRadianceTex", s_Data.SceneData.EnvironmentRadianceMap);
-			dc.Material->Set("u_EnvIrradianceTex", s_Data.SceneData.EnvironmentIrradianceMap);
-			dc.Material->Set("u_BRDFLUTTexture", s_Data.BRDFLUT);
+			baseMaterial->Set("u_EnvRadianceTex", s_Data.SceneData.SceneEnvironment.RadianceMap);
+			baseMaterial->Set("u_EnvIrradianceTex", s_Data.SceneData.SceneEnvironment.IrradianceMap);
+			baseMaterial->Set("u_BRDFLUTTexture", s_Data.BRDFLUT);
 
-			Renderer::SubmitMesh(dc.Mesh, dc.Transform, dc.Material);
+			auto overrideMaterial = nullptr; // dc.Material;
+			Renderer::SubmitMesh(dc.Mesh, dc.Transform, overrideMaterial);
 		}
 
 		// Grid
 		s_Data.GridMaterial->Set("u_ViewProjection", viewProjection);
-		Renderer::SubmitQuad(s_Data.GridMaterial, glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)) * glm::scale(glm::mat4(1.0f), glm::vec3(1.0f)));
+		Renderer::SubmitQuad(s_Data.GridMaterial, glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f)) * glm::scale(glm::mat4(1.0f), glm::vec3(16.0f)));
 
 		Renderer::EndRenderPass();
 	}
@@ -190,6 +233,7 @@ namespace Hazel {
 
 	Ref<Texture2D> SceneRenderer::GetFinalColorBuffer()
 	{
+		// return s_Data.CompositePass->GetSpecification().TargetFramebuffer;
 		HZ_CORE_ASSERT(false, "Not implemented");
 		return nullptr;
 	}

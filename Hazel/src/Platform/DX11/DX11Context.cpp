@@ -15,7 +15,7 @@ namespace Hazel
 	{
 		HZ_CORE_ASSERT(windowHandle, "Window handle is null!");
 
-		RendererAPI::SetAPI(RendererAPI::API::DX11);
+		RendererAPI::SetAPI(RendererAPIType::DX11);
 	}
 
 	void DX11Context::Init()

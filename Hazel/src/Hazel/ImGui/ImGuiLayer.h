@@ -1,34 +1,25 @@
 #pragma once
 
+#include "hzpch.h"
 #include "Hazel/Core/Layer.h"
 
-#include "Hazel/Events/ApplicationEvent.h"
-#include "Hazel/Events/KeyEvent.h"
-#include "Hazel/Events/MouseEvent.h"
+namespace Hazel {
 
-
-namespace Hazel
-{
-
-	class HAZEL_API ImGuiLayer : public Layer
+	class ImGuiLayer : public Layer
 	{
 	public:
 		ImGuiLayer();
-		~ImGuiLayer();
-
-		virtual void OnAttach() override;
-		virtual void OnDetach() override;
-
-		virtual void OnEvent(Event& e) override;
+		ImGuiLayer(const std::string& name);
+		virtual ~ImGuiLayer();
 
 		void Begin();
 		void End();
 
-		inline void BlockEvents(bool block) { m_BlockEvents = block; };
-
+		virtual void OnAttach() override;
+		virtual void OnDetach() override;
+		virtual void OnImGuiRender() override;
 	private:
-		bool m_BlockEvents = true;
 		float m_Time = 0.0f;
-
 	};
+
 }

@@ -3,8 +3,8 @@
 #include "Hazel/Renderer/Camera.h"
 #include "Hazel/Core/Timestep.h"
 
-#include "Hazel/Events/ApplicationEvent.h"
-#include "Hazel/Events/MouseEvent.h"
+#include "Hazel/Core/Events/ApplicationEvent.h"
+#include "Hazel/Core/Events/MouseEvent.h"
 
 
 namespace Hazel

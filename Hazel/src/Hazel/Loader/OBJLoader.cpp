@@ -3,6 +3,7 @@
 #include "OBJLoader.h"
 
 #include <fstream>
+#include <sstream>
 
 
 float* OBJLoader::m_VerticesArray;

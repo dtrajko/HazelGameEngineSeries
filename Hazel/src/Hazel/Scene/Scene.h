@@ -2,13 +2,16 @@
 
 #include "Entity.h"
 #include "Hazel/Renderer/Camera.h"
-#include "Hazel/Core/Timestep.h"
-#include "Hazel/Renderer/TextureCube.h"
-
-#include <vector>
-
 
 namespace Hazel {
+
+	struct Environment
+	{
+		Ref<TextureCube> RadianceMap;
+		Ref<TextureCube> IrradianceMap;
+
+		static Environment Load(const std::string& filepath);
+	};
 
 	class Scene
 	{
@@ -23,24 +26,26 @@ namespace Hazel {
 		void SetCamera(const Camera& camera);
 		Camera& GetCamera() { return m_Camera; }
 
-		void LoadEnvironmentMap(const std::string& filepath);
-		void SetEnvironmentMaps(const Ref<TextureCube>& environmentRadianceMap, const Ref<TextureCube>& environmentIrradianceMap);
+		void SetEnvironment(const Environment& environment);
 		void SetSkybox(const Ref<TextureCube>& skybox);
+
+		float& GetSkyboxLod() { return m_SkyboxLod; }
 
 		void AddEntity(Entity* entity);
 		Entity* CreateEntity();
-
 	private:
-		const std::string& m_DebugName;
+		std::string m_DebugName;
 		std::vector<Entity*> m_Entities;
 		Camera m_Camera;
 
-		Ref<TextureCube> m_EnvironmentRadianceMap;
-		Ref<TextureCube> m_EnvironmentIrradianceMap;
+		Environment m_Environment;
 		Ref<TextureCube> m_SkyboxTexture;
 		Ref<MaterialInstance> m_SkyboxMaterial;
 
+		float m_SkyboxLod = 1.0f;
+
 		friend class SceneRenderer;
+		friend class SceneHierarchyPanel;
 	};
 
 }
