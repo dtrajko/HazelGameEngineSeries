@@ -10,7 +10,7 @@ namespace Hazel {
 }
 
 #ifndef HZ_PLATFORM_WINDOWS
-#error Hazel only supports Windows!
+	#error Hazel only supports Windows!
 #endif
 
 // __VA_ARGS__ expansion to get past MSVC "bug"

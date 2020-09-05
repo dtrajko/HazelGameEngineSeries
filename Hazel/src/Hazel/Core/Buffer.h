@@ -2,7 +2,6 @@
 
 #include "Hazel/Core/Base.h"
 
-
 namespace Hazel {
 
 	struct Buffer

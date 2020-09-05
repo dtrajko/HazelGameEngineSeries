@@ -2,8 +2,9 @@
 
 #include "Hazel/Core/Base.h"
 
-#include "../vendor/spdlog/spdlog.h"
-#include "../vendor/spdlog/fmt/ostr.h"
+#include "../spdlog.h"
+#include "../fmt/ostr.h"
+
 
 namespace Hazel {
 

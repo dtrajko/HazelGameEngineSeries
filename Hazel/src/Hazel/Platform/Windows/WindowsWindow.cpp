@@ -14,7 +14,7 @@ namespace Hazel {
 	{
 		HZ_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	}
-
+	
 	static bool s_GLFWInitialized = false;
 
 	Window* Window::Create(const WindowProps& props)
@@ -59,29 +59,29 @@ namespace Hazel {
 
 		// Set GLFW callbacks
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
-			{
-				auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
+		{
+			auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
 
-				WindowResizeEvent event((unsigned int)width, (unsigned int)height);
-				data.EventCallback(event);
-				data.Width = width;
-				data.Height = height;
-			});
+			WindowResizeEvent event((unsigned int)width, (unsigned int)height);
+			data.EventCallback(event);
+			data.Width = width;
+			data.Height = height;
+		});
 
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
-			{
-				auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
+		{
+			auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
 
-				WindowCloseEvent event;
-				data.EventCallback(event);
-			});
+			WindowCloseEvent event;
+			data.EventCallback(event);
+		});
 
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods)
-			{
-				auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
+		{
+			auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
 
-				switch (action)
-				{
+			switch (action)
+			{
 				case GLFW_PRESS:
 				{
 					KeyPressedEvent event(key, 0);
@@ -100,23 +100,23 @@ namespace Hazel {
 					data.EventCallback(event);
 					break;
 				}
-				}
-			});
+			}
+		});
 
 		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int codepoint)
-			{
-				auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
+		{
+			auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
 
-				KeyTypedEvent event((int)codepoint);
-				data.EventCallback(event);
-			});
+			KeyTypedEvent event((int)codepoint);
+			data.EventCallback(event);
+		});
 
 		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods)
-			{
-				auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
+		{
+			auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
 
-				switch (action)
-				{
+			switch (action)
+			{
 				case GLFW_PRESS:
 				{
 					MouseButtonPressedEvent event(button);
@@ -129,24 +129,24 @@ namespace Hazel {
 					data.EventCallback(event);
 					break;
 				}
-				}
-			});
+			}
+		});
 
 		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset)
-			{
-				auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
+		{
+			auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
 
-				MouseScrolledEvent event((float)xOffset, (float)yOffset);
-				data.EventCallback(event);
-			});
+			MouseScrolledEvent event((float)xOffset, (float)yOffset);
+			data.EventCallback(event);
+		});
 
 		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double x, double y)
-			{
-				auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
+		{
+			auto& data = *((WindowData*)glfwGetWindowUserPointer(window));
 
-				MouseMovedEvent event((float)x, (float)y);
-				data.EventCallback(event);
-			});
+			MouseMovedEvent event((float)x, (float)y);
+			data.EventCallback(event);
+		});
 
 		m_ImGuiMouseCursors[ImGuiMouseCursor_Arrow] = glfwCreateStandardCursor(GLFW_ARROW_CURSOR);
 		m_ImGuiMouseCursors[ImGuiMouseCursor_TextInput] = glfwCreateStandardCursor(GLFW_IBEAM_CURSOR);
@@ -160,14 +160,14 @@ namespace Hazel {
 
 	void WindowsWindow::Shutdown()
 	{
-
+		
 	}
 
 	inline std::pair<float, float> WindowsWindow::GetWindowPos() const
 	{
 		int x, y;
 		glfwGetWindowPos(m_Window, &x, &y);
-		return std::make_pair((float)x, (float)y);
+		return { x, y };
 	}
 
 	void WindowsWindow::OnUpdate()
@@ -179,7 +179,7 @@ namespace Hazel {
 		glfwSetCursor(m_Window, m_ImGuiMouseCursors[imgui_cursor] ? m_ImGuiMouseCursors[imgui_cursor] : m_ImGuiMouseCursors[ImGuiMouseCursor_Arrow]);
 		glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
-		float time = (float)glfwGetTime();
+		float time = glfwGetTime();
 		float delta = time - m_LastFrameTime;
 		m_LastFrameTime = time;
 	}

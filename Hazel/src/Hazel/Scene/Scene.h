@@ -18,7 +18,7 @@ namespace Hazel {
 	public:
 		Scene(const std::string& debugName = "Scene");
 		~Scene();
-
+		
 		void Init();
 
 		void OnUpdate(Timestep ts);

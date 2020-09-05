@@ -2,8 +2,7 @@
 #include "Shader.h"
 
 #include "Hazel/Renderer/Renderer.h"
-#include "../../Platform/OpenGL/OpenGLShader.h"
-
+#include "Hazel/Platform/OpenGL/OpenGLShader.h"
 
 namespace Hazel {
 
@@ -15,8 +14,8 @@ namespace Hazel {
 
 		switch (RendererAPI::Current())
 		{
-		case RendererAPIType::None: return nullptr;
-		case RendererAPIType::OpenGL: result = CreateRef<OpenGLShader>(filepath);
+			case RendererAPIType::None: return nullptr;
+			case RendererAPIType::OpenGL: result = std::make_shared<OpenGLShader>(filepath);
 		}
 		s_AllShaders.push_back(result);
 		return result;
@@ -28,8 +27,8 @@ namespace Hazel {
 
 		switch (RendererAPI::Current())
 		{
-		case RendererAPIType::None: return nullptr;
-		case RendererAPIType::OpenGL: result = OpenGLShader::CreateFromString(source);
+			case RendererAPIType::None: return nullptr;
+			case RendererAPIType::OpenGL: result = OpenGLShader::CreateFromString(source);
 		}
 		s_AllShaders.push_back(result);
 		return result;
@@ -46,7 +45,7 @@ namespace Hazel {
 	void ShaderLibrary::Add(const Hazel::Ref<Shader>& shader)
 	{
 		auto& name = shader->GetName();
-		HZ_CORE_ASSERT(m_Shaders.find(name) == m_Shaders.end(), "");
+		HZ_CORE_ASSERT(m_Shaders.find(name) == m_Shaders.end());
 		m_Shaders[name] = shader;
 	}
 

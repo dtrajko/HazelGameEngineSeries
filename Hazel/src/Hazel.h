@@ -13,7 +13,7 @@
 #include "Hazel/Core/Events/KeyEvent.h"
 #include "Hazel/Core/Events/MouseEvent.h"
 
-#include "../../vendor/imgui/imgui.h"
+#include "imgui/imgui.h"
 
 // --- Hazel Render API ------------------------------
 #include "Hazel/Renderer/Renderer.h"

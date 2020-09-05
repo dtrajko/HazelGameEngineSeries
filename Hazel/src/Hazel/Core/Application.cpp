@@ -5,13 +5,14 @@
 #include "Hazel/Renderer/Framebuffer.h"
 #include <GLFW/glfw3.h>
 
-#include <glad/glad.h>
-
 #include <imgui.h>
 
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
 #include <Windows.h>
+
+#include <glad/glad.h>
+
 
 namespace Hazel {
 
@@ -110,7 +111,7 @@ namespace Hazel {
 
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
-		int width = e.GetWidth(), height = e.GetHeight();
+		int width = e.GetWidth(), height = e.GetHeight();	
 		if (width == 0 || height == 0)
 		{
 			m_Minimized = true;

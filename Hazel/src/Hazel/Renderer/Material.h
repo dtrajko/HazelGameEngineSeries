@@ -11,9 +11,9 @@ namespace Hazel {
 
 	enum class MaterialFlag
 	{
-		None = BIT(0),
-		DepthTest = BIT(1),
-		Blend = BIT(2)
+		None       = BIT(0),
+		DepthTest  = BIT(1),
+		Blend      = BIT(2)
 	};
 
 	class Material
@@ -36,7 +36,7 @@ namespace Hazel {
 			HZ_CORE_ASSERT(decl, "Could not find uniform with name 'x'");
 			auto& buffer = GetUniformBufferTarget(decl);
 			buffer.Write((byte*)&value, decl->GetSize(), decl->GetOffset());
-
+			
 			for (auto mi : m_MaterialInstances)
 				mi->OnMaterialValueUpdated(decl);
 		}
@@ -96,7 +96,7 @@ namespace Hazel {
 			// HZ_CORE_ASSERT(decl, "Could not find uniform with name '{0}'", name);
 			HZ_CORE_ASSERT(decl, "Could not find uniform with name 'x'");
 			auto& buffer = GetUniformBufferTarget(decl);
-			buffer.Write((byte*)&value, decl->GetSize(), decl->GetOffset());
+			buffer.Write((byte*)& value, decl->GetSize(), decl->GetOffset());
 
 			m_OverriddenValues.insert(name);
 		}

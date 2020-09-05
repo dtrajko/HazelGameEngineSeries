@@ -67,7 +67,7 @@ namespace Hazel {
 		LogStream::Initialize();
 
 		HZ_CORE_INFO("Loading mesh: {0}", filename.c_str());
-
+		
 		m_Importer = std::make_unique<Assimp::Importer>();
 
 		const aiScene* scene = m_Importer->ReadFile(filename, s_MeshImportFlags);
@@ -153,7 +153,7 @@ namespace Hazel {
 				HZ_CORE_ASSERT(mesh->mFaces[i].mNumIndices == 3, "Must have 3 indices.");
 				m_Indices.push_back({ mesh->mFaces[i].mIndices[0], mesh->mFaces[i].mIndices[1], mesh->mFaces[i].mIndices[2] });
 			}
-
+			
 		}
 
 		TraverseNodes(scene->mRootNode);
@@ -246,7 +246,7 @@ namespace Hazel {
 				else
 				{
 					mi->Set("u_AlbedoTexToggle", 0.0f);
-					mi->Set("u_AlbedoColor", glm::vec3{ aiColor.r, aiColor.g, aiColor.b });
+					mi->Set("u_AlbedoColor", glm::vec3 { aiColor.r, aiColor.g, aiColor.b });
 				}
 
 				for (uint32_t i = 0; i < aiMaterial->mNumProperties; i++)
@@ -408,7 +408,7 @@ namespace Hazel {
 		m_VertexArray = VertexArray::Create();
 		if (m_IsAnimated)
 		{
-			auto vb = VertexBuffer::Create(m_AnimatedVertices.data(), (uint32_t)m_AnimatedVertices.size() * sizeof(AnimatedVertex));
+			auto vb = VertexBuffer::Create(m_AnimatedVertices.data(), m_AnimatedVertices.size() * sizeof(AnimatedVertex));
 			vb->SetLayout({
 				{ ShaderDataType::Float3, "a_Position" },
 				{ ShaderDataType::Float3, "a_Normal" },
@@ -417,23 +417,23 @@ namespace Hazel {
 				{ ShaderDataType::Float2, "a_TexCoord" },
 				{ ShaderDataType::Int4, "a_BoneIDs" },
 				{ ShaderDataType::Float4, "a_BoneWeights" },
-				});
+			});
 			m_VertexArray->AddVertexBuffer(vb);
 		}
 		else
 		{
-			auto vb = VertexBuffer::Create(m_StaticVertices.data(), (uint32_t)m_StaticVertices.size() * sizeof(Vertex));
+			auto vb = VertexBuffer::Create(m_StaticVertices.data(), m_StaticVertices.size() * sizeof(Vertex));
 			vb->SetLayout({
 				{ ShaderDataType::Float3, "a_Position" },
 				{ ShaderDataType::Float3, "a_Normal" },
 				{ ShaderDataType::Float3, "a_Tangent" },
 				{ ShaderDataType::Float3, "a_Binormal" },
 				{ ShaderDataType::Float2, "a_TexCoord" },
-				});
+			});
 			m_VertexArray->AddVertexBuffer(vb);
 		}
 
-		auto ib = IndexBuffer::Create(m_Indices.data(), (uint32_t)m_Indices.size() * sizeof(Index));
+		auto ib = IndexBuffer::Create(m_Indices.data(), m_Indices.size() * sizeof(Index));
 		m_VertexArray->SetIndexBuffer(ib);
 		m_Scene = scene;
 	}
@@ -640,7 +640,7 @@ namespace Hazel {
 				return nodeAnim;
 		}
 		return nullptr;
-	}
+	} 
 
 	void Mesh::BoneTransform(float time)
 	{

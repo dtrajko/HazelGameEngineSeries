@@ -1262,7 +1262,7 @@ namespace ImGuizmo
    static bool CanActivate()
    {
        // Check for modifiers
-       if (Hazel::Input::IsKeyPressed((int)HZ_KEY_LEFT_ALT) || Hazel::Input::IsKeyPressed((int)HZ_KEY_LEFT_SHIFT) || Hazel::Input::IsKeyPressed((int)HZ_KEY_LEFT_CONTROL))
+       if (Hazel::Input::IsKeyPressed(HZ_KEY_LEFT_ALT) || Hazel::Input::IsKeyPressed(HZ_KEY_LEFT_SHIFT) || Hazel::Input::IsKeyPressed(HZ_KEY_LEFT_CONTROL))
            return false;
 
       if (ImGui::IsMouseClicked(0) && !ImGui::IsAnyItemHovered() && !ImGui::IsAnyItemActive())

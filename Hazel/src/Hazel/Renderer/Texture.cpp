@@ -2,8 +2,7 @@
 #include "Texture.h"
 
 #include "Hazel/Renderer/RendererAPI.h"
-#include "../../Platform/OpenGL/OpenGLTexture.h"
-
+#include "Hazel/Platform/OpenGL/OpenGLTexture.h"
 
 namespace Hazel {
 
@@ -11,8 +10,8 @@ namespace Hazel {
 	{
 		switch (RendererAPI::Current())
 		{
-		case RendererAPIType::None: return nullptr;
-		case RendererAPIType::OpenGL: return CreateRef<OpenGLTexture2D>(format, width, height, wrap);
+			case RendererAPIType::None: return nullptr;
+			case RendererAPIType::OpenGL: return CreateRef<OpenGLTexture2D>(format, width, height, wrap);
 		}
 		return nullptr;
 	}
@@ -21,8 +20,8 @@ namespace Hazel {
 	{
 		switch (RendererAPI::Current())
 		{
-		case RendererAPIType::None: return nullptr;
-		case RendererAPIType::OpenGL: return CreateRef<OpenGLTexture2D>(path, srgb);
+			case RendererAPIType::None: return nullptr;
+			case RendererAPIType::OpenGL: return CreateRef<OpenGLTexture2D>(path, srgb);
 		}
 		return nullptr;
 	}
@@ -31,8 +30,8 @@ namespace Hazel {
 	{
 		switch (RendererAPI::Current())
 		{
-		case RendererAPIType::None: return nullptr;
-		case RendererAPIType::OpenGL: return CreateRef<OpenGLTextureCube>(format, width, height);
+			case RendererAPIType::None: return nullptr;
+			case RendererAPIType::OpenGL: return CreateRef<OpenGLTextureCube>(format, width, height);
 		}
 		return nullptr;
 	}
@@ -41,8 +40,8 @@ namespace Hazel {
 	{
 		switch (RendererAPI::Current())
 		{
-		case RendererAPIType::None: return nullptr;
-		case RendererAPIType::OpenGL: return CreateRef<OpenGLTextureCube>(path);
+			case RendererAPIType::None: return nullptr;
+			case RendererAPIType::OpenGL: return CreateRef<OpenGLTextureCube>(path);
 		}
 		return nullptr;
 	}
@@ -51,8 +50,8 @@ namespace Hazel {
 	{
 		switch (format)
 		{
-		case TextureFormat::RGB:    return 3;
-		case TextureFormat::RGBA:   return 4;
+			case TextureFormat::RGB:    return 3;
+			case TextureFormat::RGBA:   return 4;
 		}
 		return 0;
 	}

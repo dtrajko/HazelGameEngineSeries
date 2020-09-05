@@ -1,8 +1,7 @@
 #include "hzpch.h"
 #include "Framebuffer.h"
 
-#include "../../Platform/OpenGL/OpenGLFramebuffer.h"
-
+#include "Hazel/Platform/OpenGL/OpenGLFramebuffer.h"
 
 namespace Hazel {
 
@@ -12,8 +11,8 @@ namespace Hazel {
 
 		switch (RendererAPI::Current())
 		{
-		case RendererAPIType::None:		return nullptr;
-		case RendererAPIType::OpenGL:	result = std::make_shared<OpenGLFramebuffer>(spec);
+			case RendererAPIType::None:		return nullptr;
+			case RendererAPIType::OpenGL:	result = std::make_shared<OpenGLFramebuffer>(spec);
 		}
 		FramebufferPool::GetGlobal()->Add(result);
 		return result;
@@ -28,7 +27,7 @@ namespace Hazel {
 
 	FramebufferPool::~FramebufferPool()
 	{
-
+		
 	}
 
 	std::weak_ptr<Framebuffer> FramebufferPool::AllocateBuffer()

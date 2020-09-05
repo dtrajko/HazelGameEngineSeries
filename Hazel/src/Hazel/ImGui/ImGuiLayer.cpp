@@ -2,18 +2,14 @@
 #include "ImGuiLayer.h"
 
 #include "imgui.h"
+#include "ImGuizmo.h"
 
-#ifndef IMGUI_IMPL_API
 #define IMGUI_IMPL_API
-#endif // !IMGUI_IMPL_API
-
 #include "examples/imgui_impl_glfw.h"
 #include "examples/imgui_impl_opengl3.h"
 
 #include "Hazel/Core/Application.h"
 #include <GLFW/glfw3.h>
-
-#include "ImGuizmo.h"
 
 #include "Hazel/Renderer/Renderer.h"
 
@@ -90,7 +86,7 @@ namespace Hazel {
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
-		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
+		io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
 
 		// Rendering
 		ImGui::Render();

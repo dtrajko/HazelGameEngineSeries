@@ -46,7 +46,7 @@ namespace Hazel {
 	void Material::OnShaderReloaded()
 	{
 		AllocateStorage();
-
+		
 		for (auto mi : m_MaterialInstances)
 			mi->OnShaderReloaded();
 	}
@@ -90,8 +90,8 @@ namespace Hazel {
 	{
 		switch (uniformDeclaration->GetDomain())
 		{
-		case ShaderDomain::Vertex:    return m_VSUniformStorageBuffer;
-		case ShaderDomain::Pixel:     return m_PSUniformStorageBuffer;
+			case ShaderDomain::Vertex:    return m_VSUniformStorageBuffer;
+			case ShaderDomain::Pixel:     return m_PSUniformStorageBuffer;
 		}
 
 		HZ_CORE_ASSERT(false, "Invalid uniform declaration domain! Material does not support this shader type.");
@@ -113,7 +113,7 @@ namespace Hazel {
 
 	void Material::BindTextures() const
 	{
-		for (uint32_t i = 0; i < m_Textures.size(); i++)
+		for (size_t i = 0; i < m_Textures.size(); i++)
 		{
 			auto& texture = m_Textures[i];
 			if (texture)
@@ -191,8 +191,8 @@ namespace Hazel {
 	{
 		switch (uniformDeclaration->GetDomain())
 		{
-		case ShaderDomain::Vertex:    return m_VSUniformStorageBuffer;
-		case ShaderDomain::Pixel:     return m_PSUniformStorageBuffer;
+			case ShaderDomain::Vertex:    return m_VSUniformStorageBuffer;
+			case ShaderDomain::Pixel:     return m_PSUniformStorageBuffer;
 		}
 
 		HZ_CORE_ASSERT(false, "Invalid uniform declaration domain! Material does not support this shader type.");
@@ -210,7 +210,7 @@ namespace Hazel {
 			m_Material->m_Shader->SetPSMaterialUniformBuffer(m_PSUniformStorageBuffer);
 
 		m_Material->BindTextures();
-		for (uint32_t i = 0; i < m_Textures.size(); i++)
+		for (size_t i = 0; i < m_Textures.size(); i++)
 		{
 			auto& texture = m_Textures[i];
 			if (texture)

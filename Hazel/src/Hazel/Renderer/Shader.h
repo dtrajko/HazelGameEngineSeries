@@ -13,7 +13,7 @@ namespace Hazel
 {
 	struct ShaderUniform
 	{
-
+		
 	};
 
 	struct ShaderUniformCollection

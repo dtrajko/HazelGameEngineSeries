@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Framebuffer.h"
+#include "Hazel/Core/Base.h"
 
+#include "Framebuffer.h"
 
 namespace Hazel {
 
@@ -13,12 +14,11 @@ namespace Hazel {
 	class RenderPass
 	{
 	public:
-		static Ref<RenderPass> Create(RenderPassSpecification geoRenderPassSpec);
-		inline RenderPassSpecification GetSpecification() { return m_RenderPassSpec; };
+		virtual ~RenderPass() {}
 
-	private:
-		RenderPassSpecification m_RenderPassSpec;
+		virtual const RenderPassSpecification& GetSpecification() const = 0;
 
+		static Ref<RenderPass> Create(const RenderPassSpecification& spec);
 	};
 
 }

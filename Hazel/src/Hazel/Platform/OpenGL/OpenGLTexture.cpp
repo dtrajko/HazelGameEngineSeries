@@ -13,9 +13,9 @@ namespace Hazel {
 	{
 		switch (format)
 		{
-		case Hazel::TextureFormat::RGB:     return GL_RGB;
-		case Hazel::TextureFormat::RGBA:    return GL_RGBA;
-		case Hazel::TextureFormat::Float16: return GL_RGBA16F;
+			case Hazel::TextureFormat::RGB:     return GL_RGB;
+			case Hazel::TextureFormat::RGBA:    return GL_RGBA;
+			case Hazel::TextureFormat::Float16: return GL_RGBA16F;
 		}
 		HZ_CORE_ASSERT(false, "Unknown texture format!");
 		return 0;
@@ -30,22 +30,22 @@ namespace Hazel {
 	{
 		auto self = this;
 		Renderer::Submit([this]()
-			{
-				glGenTextures(1, &m_RendererID);
-				glBindTexture(GL_TEXTURE_2D, m_RendererID);
+		{
+			glGenTextures(1, &m_RendererID);
+			glBindTexture(GL_TEXTURE_2D, m_RendererID);
 
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-				GLenum wrap = m_Wrap == TextureWrap::Clamp ? GL_CLAMP_TO_EDGE : GL_REPEAT;
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap);
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap);
-				glTextureParameterf(m_RendererID, GL_TEXTURE_MAX_ANISOTROPY, RendererAPI::GetCapabilities().MaxAnisotropy);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			GLenum wrap = m_Wrap == TextureWrap::Clamp ? GL_CLAMP_TO_EDGE : GL_REPEAT;
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap);
+			glTextureParameterf(m_RendererID, GL_TEXTURE_MAX_ANISOTROPY, RendererAPI::GetCapabilities().MaxAnisotropy);
 
-				glTexImage2D(GL_TEXTURE_2D, 0, HazelToOpenGLTextureFormat(m_Format), m_Width, m_Height, 0, HazelToOpenGLTextureFormat(m_Format), GL_UNSIGNED_BYTE, nullptr);
-				glGenerateMipmap(GL_TEXTURE_2D);
+			glTexImage2D(GL_TEXTURE_2D, 0, HazelToOpenGLTextureFormat(m_Format), m_Width, m_Height, 0, HazelToOpenGLTextureFormat(m_Format), GL_UNSIGNED_BYTE, nullptr);
+			glGenerateMipmap(GL_TEXTURE_2D);
 
-				glBindTexture(GL_TEXTURE_2D, 0);
-			});
+			glBindTexture(GL_TEXTURE_2D, 0);
+		});
 	}
 
 	OpenGLTexture2D::OpenGLTexture2D(const std::string& path, bool srgb)
@@ -76,54 +76,54 @@ namespace Hazel {
 		m_Height = height;
 
 		Renderer::Submit([=]()
+		{
+			// TODO: Consolidate properly
+			if (srgb)
 			{
-				// TODO: Consolidate properly
-				if (srgb)
-				{
-					glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
-					int levels = Texture::CalculateMipMapCount(m_Width, m_Height);
-					glTextureStorage2D(m_RendererID, levels, GL_SRGB8, m_Width, m_Height);
-					glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, levels > 1 ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
-					glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
+				int levels = Texture::CalculateMipMapCount(m_Width, m_Height);
+				glTextureStorage2D(m_RendererID, levels, GL_SRGB8, m_Width, m_Height);
+				glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, levels > 1 ? GL_LINEAR_MIPMAP_LINEAR : GL_LINEAR);
+				glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-					glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, GL_RGB, GL_UNSIGNED_BYTE, m_ImageData.Data);
-					glGenerateTextureMipmap(m_RendererID);
-				}
-				else
-				{
-					glGenTextures(1, &m_RendererID);
-					glBindTexture(GL_TEXTURE_2D, m_RendererID);
+				glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, GL_RGB, GL_UNSIGNED_BYTE, m_ImageData.Data);
+				glGenerateTextureMipmap(m_RendererID);
+			}
+			else
+			{
+				glGenTextures(1, &m_RendererID);
+				glBindTexture(GL_TEXTURE_2D, m_RendererID);
 
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-					glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-					GLenum internalFormat = HazelToOpenGLTextureFormat(m_Format);
-					GLenum format = srgb ? GL_SRGB8 : (m_IsHDR ? GL_RGB : HazelToOpenGLTextureFormat(m_Format)); // HDR = GL_RGB for now
-					GLenum type = internalFormat == GL_RGBA16F ? GL_FLOAT : GL_UNSIGNED_BYTE;
-					glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_Width, m_Height, 0, format, type, m_ImageData.Data);
-					glGenerateMipmap(GL_TEXTURE_2D);
+				GLenum internalFormat = HazelToOpenGLTextureFormat(m_Format);
+				GLenum format = srgb ? GL_SRGB8 : (m_IsHDR ? GL_RGB : HazelToOpenGLTextureFormat(m_Format)); // HDR = GL_RGB for now
+				GLenum type = internalFormat == GL_RGBA16F ? GL_FLOAT : GL_UNSIGNED_BYTE;
+				glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, m_Width, m_Height, 0, format, type, m_ImageData.Data);
+				glGenerateMipmap(GL_TEXTURE_2D);
 
-					glBindTexture(GL_TEXTURE_2D, 0);
-				}
-				stbi_image_free(m_ImageData.Data);
-			});
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+			stbi_image_free(m_ImageData.Data);
+		});
 	}
 
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
 		Renderer::Submit([this]() {
 			glDeleteTextures(1, &m_RendererID);
-			});
+		});
 	}
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
 		Renderer::Submit([this, slot]() {
 			glBindTextureUnit(slot, m_RendererID);
-			});
+		});
 	}
 
 	void OpenGLTexture2D::Lock()
@@ -136,7 +136,7 @@ namespace Hazel {
 		m_Locked = false;
 		Renderer::Submit([this]() {
 			glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, HazelToOpenGLTextureFormat(m_Format), GL_UNSIGNED_BYTE, m_ImageData.Data);
-			});
+		});
 	}
 
 	void OpenGLTexture2D::Resize(uint32_t width, uint32_t height)
@@ -182,7 +182,7 @@ namespace Hazel {
 			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
 			// glTextureParameterf(m_RendererID, GL_TEXTURE_MAX_ANISOTROPY, 16);
-			});
+		});
 	}
 
 	OpenGLTextureCube::OpenGLTextureCube(const std::string& path)
@@ -271,7 +271,7 @@ namespace Hazel {
 				delete[] faces[i];
 
 			stbi_image_free(m_ImageData);
-			});
+		});
 	}
 
 	OpenGLTextureCube::~OpenGLTextureCube()
@@ -279,14 +279,14 @@ namespace Hazel {
 		auto self = this;
 		Renderer::Submit([this]() {
 			glDeleteTextures(1, &m_RendererID);
-			});
+		});
 	}
 
 	void OpenGLTextureCube::Bind(uint32_t slot) const
 	{
 		Renderer::Submit([this, slot]() {
 			glBindTextureUnit(slot, m_RendererID);
-			});
+		});
 	}
 
 	uint32_t OpenGLTextureCube::GetMipLevelCount() const

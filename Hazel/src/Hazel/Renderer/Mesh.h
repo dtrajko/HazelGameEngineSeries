@@ -38,14 +38,14 @@ namespace Hazel {
 		glm::vec3 Binormal;
 		glm::vec2 Texcoord;
 
-		uint32_t IDs[4] = { 0, 0, 0, 0 };
-		float Weights[4] { 0.0f, 0.0f, 0.0f, 0.0f };
+		uint32_t IDs[4] = { 0, 0,0, 0 };
+		float Weights[4]{ 0.0f, 0.0f, 0.0f, 0.0f };
 
 		void AddBoneData(uint32_t BoneID, float Weight)
 		{
 			for (size_t i = 0; i < 4; i++)
 			{
-				if (Weights[i] == 0.0f)
+				if (Weights[i] == 0.0)
 				{
 					IDs[i] = BoneID;
 					Weights[i] = Weight;
@@ -88,14 +88,14 @@ namespace Hazel {
 		{
 			for (size_t i = 0; i < 4; i++)
 			{
-				if (Weights[i] = 0.0f)
+				if (Weights[i] == 0.0)
 				{
 					IDs[i] = BoneID;
 					Weights[i] = Weight;
 					return;
 				}
 			}
-
+			
 			// should never get here - more bones than we have space for
 			HZ_CORE_ASSERT(false, "Too many bones!");
 		}
@@ -124,11 +124,11 @@ namespace Hazel {
 		Ref<Shader> GetMeshShader() { return m_MeshShader; }
 		Ref<Material> GetMaterial() { return m_BaseMaterial; }
 		std::vector<Ref<MaterialInstance>> GetMaterials() { return m_Materials; }
-		const std::vector<Ref<Texture2D>>& GetTextures() const { return m_Textures; };
+		const std::vector<Ref<Texture2D>>& GetTextures() const { return m_Textures; }
 		const std::string& GetFilePath() const { return m_FilePath; }
 	private:
 		void BoneTransform(float time);
-		void ReadNodeHierarchy(float AnimationTime, const aiNode* pNode, const glm::mat4& parentTransform);
+		void ReadNodeHierarchy(float AnimationTime, const aiNode* pNode, const glm::mat4& ParentTransform);
 		void TraverseNodes(aiNode* node, const glm::mat4& parentTransform = glm::mat4(1.0f), uint32_t level = 0);
 
 		const aiNodeAnim* FindNodeAnim(const aiAnimation* animation, const std::string& nodeName);
@@ -138,10 +138,9 @@ namespace Hazel {
 		glm::vec3 InterpolateTranslation(float animationTime, const aiNodeAnim* nodeAnim);
 		glm::quat InterpolateRotation(float animationTime, const aiNodeAnim* nodeAnim);
 		glm::vec3 InterpolateScale(float animationTime, const aiNodeAnim* nodeAnim);
-
 	private:
 		std::vector<Submesh> m_Submeshes;
-
+		
 		std::unique_ptr<Assimp::Importer> m_Importer;
 
 		glm::mat4 m_InverseTransform;
@@ -176,6 +175,5 @@ namespace Hazel {
 
 		friend class Renderer;
 		friend class SceneHierarchyPanel;
-
 	};
 }

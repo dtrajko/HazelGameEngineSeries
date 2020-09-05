@@ -2,8 +2,7 @@
 
 #include "Renderer.h"
 
-#include "Platform/OpenGL/OpenGLBuffer.h"
-
+#include "Hazel/Platform/OpenGL/OpenGLBuffer.h"
 
 namespace Hazel {
 
@@ -11,8 +10,8 @@ namespace Hazel {
 	{
 		switch (RendererAPI::Current())
 		{
-		case RendererAPIType::None:    return nullptr;
-		case RendererAPIType::OpenGL:  return std::make_shared<OpenGLVertexBuffer>(data, size, usage);
+			case RendererAPIType::None:    return nullptr;
+			case RendererAPIType::OpenGL:  return std::make_shared<OpenGLVertexBuffer>(data, size, usage);
 		}
 		HZ_CORE_ASSERT(false, "Unknown RendererAPI");
 		return nullptr;
@@ -22,19 +21,19 @@ namespace Hazel {
 	{
 		switch (RendererAPI::Current())
 		{
-		case RendererAPIType::None:    return nullptr;
-		case RendererAPIType::OpenGL:  return std::make_shared<OpenGLVertexBuffer>(size, usage);
+			case RendererAPIType::None:    return nullptr;
+			case RendererAPIType::OpenGL:  return std::make_shared<OpenGLVertexBuffer>(size, usage);
 		}
 		HZ_CORE_ASSERT(false, "Unknown RendererAPI");
 		return nullptr;
 	}
-
+	
 	Ref<IndexBuffer> IndexBuffer::Create(void* data, uint32_t size)
 	{
 		switch (RendererAPI::Current())
 		{
-		case RendererAPIType::None:    return nullptr;
-		case RendererAPIType::OpenGL:  return std::make_shared<OpenGLIndexBuffer>(data, size);
+			case RendererAPIType::None:    return nullptr;
+			case RendererAPIType::OpenGL:  return std::make_shared<OpenGLIndexBuffer>(data, size);
 		}
 		HZ_CORE_ASSERT(false, "Unknown RendererAPI");
 		return nullptr;

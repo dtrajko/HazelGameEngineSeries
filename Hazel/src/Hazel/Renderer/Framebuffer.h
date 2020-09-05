@@ -8,8 +8,8 @@ namespace Hazel {
 
 	enum class FramebufferFormat
 	{
-		None = 0,
-		RGBA8 = 1,
+		None    = 0,
+		RGBA8   = 1,
 		RGBA16F = 2
 	};
 
@@ -19,7 +19,7 @@ namespace Hazel {
 		uint32_t Height = 720;
 		glm::vec4 ClearColor;
 		FramebufferFormat Format;
-
+		
 		// SwapChainTarget = screen buffer (i.e. no framebuffer)
 		bool SwapChainTarget = false;
 	};
