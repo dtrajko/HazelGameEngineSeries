@@ -34,14 +34,8 @@
     <Filter Include="Hazel\Platform">
       <UniqueIdentifier>{0D422A0B-F90F-1E11-E2A3-8E37CE10FA75}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Hazel\Platform\DX11">
-      <UniqueIdentifier>{7AD8AFAB-E639-8DB9-6FA7-D36BDB07C478}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Hazel\Platform\OpenGL">
       <UniqueIdentifier>{A17A8072-0DE7-3B6D-D6DA-D3CA42065ED5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Hazel\Platform\Vulkan">
-      <UniqueIdentifier>{EDDE3283-594B-EE7D-223F-86DB8E6A10E6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Hazel\Platform\Windows">
       <UniqueIdentifier>{47A9AB1A-33A3-D46C-1C10-6B7D08A93AD9}</UniqueIdentifier>
@@ -147,6 +141,9 @@
     </ClInclude>
     <ClInclude Include="src\Hazel\Models\Quad.h">
       <Filter>Hazel\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Particles\RandomDT.h">
+      <Filter>Hazel\Particles</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>Hazel\Platform\OpenGL</Filter>

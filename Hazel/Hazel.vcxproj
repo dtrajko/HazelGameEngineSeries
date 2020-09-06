@@ -171,6 +171,7 @@
     <ClInclude Include="src\Hazel\Loader\OBJLoader.h" />
     <ClInclude Include="src\Hazel\Models\Cube.h" />
     <ClInclude Include="src\Hazel\Models\Quad.h" />
+    <ClInclude Include="src\Hazel\Particles\RandomDT.h" />
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLFramebuffer.h" />
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLRenderPass.h" />
