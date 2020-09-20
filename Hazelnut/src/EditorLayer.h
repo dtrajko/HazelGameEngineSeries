@@ -12,8 +12,10 @@ namespace Hazel {
 	public:
 		EditorLayer();
 		virtual ~EditorLayer() = default;
+
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
+
 		void OnUpdate(Timestep timestep) override;
 		virtual void OnImGuiRender() override;
 		void OnEvent(Event& e) override;
@@ -25,6 +27,10 @@ namespace Hazel {
 		Ref<VertexArray> m_SquareVA;
 		Ref<Shader> m_FlatColorShader;
 		Ref<Framebuffer> m_Framebuffer;
+
+		Ref<Scene> m_ActiveScene;
+
+		entt::entity m_SquareEntity;
 
 		Ref<Texture2D> m_CheckerboardTexture;
 
