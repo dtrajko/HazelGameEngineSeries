@@ -15,12 +15,13 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
-IncludeDir["GLFW"]      = "Hazel/vendor/GLFW/include"
-IncludeDir["Glad"]      = "Hazel/vendor/Glad/include"
-IncludeDir["ImGui"]     = "Hazel/vendor/imgui"
-IncludeDir["glm"]       = "Hazel/vendor/glm"
-IncludeDir["stb_image"] = "Hazel/vendor/stb_image"
+IncludeDir["GLFW"]          = "Hazel/vendor/GLFW/include"
+IncludeDir["Glad"]          = "Hazel/vendor/Glad/include"
+IncludeDir["ImGui"]         = "Hazel/vendor/imgui"
+IncludeDir["glm"]           = "Hazel/vendor/glm"
 IncludeDir["tinyobjloader"] = "Hazel/vendor/tinyobjloader"
+IncludeDir["stb_image"]     = "Hazel/vendor/stb_image"
+IncludeDir["entt"]          = "Hazel/vendor/entt/include"
 
 
 group "Dependencies"
@@ -68,6 +69,7 @@ project "Hazel"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.tinyobjloader}",
+		"%{IncludeDir.entt}",
 	}
 
 	links
@@ -128,6 +130,7 @@ project "Sandbox"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.tinyobjloader}",
+		"%{IncludeDir.entt}",
 	}
 
 	links
@@ -186,6 +189,7 @@ project "Vulkan"
 		"%{IncludeDir.tinyobjloader}",
 		"Hazel/vendor/spdlog/include",
 		"D:/VulkanSDK/1.1.130.0/Include",
+		"%{IncludeDir.entt}",
 	}
 
 	links
@@ -248,6 +252,7 @@ project "DX11"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"Hazel/vendor/spdlog/include",
+		"%{IncludeDir.entt}",
 	}
 
 	links
@@ -310,6 +315,7 @@ project "Hazelnut"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.tinyobjloader}",
+		"%{IncludeDir.entt}",
 	}
 
 	links

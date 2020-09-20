@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>HZ_PLATFORM_WINDOWS;HZ_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Hazel\src;..\Hazel\vendor\GLFW\include;..\Hazel\vendor\Glad\include;..\Hazel\vendor\imgui;..\Hazel\vendor\glm;..\Hazel\vendor\stb_image;..\Hazel\vendor\tinyobjloader;..\Hazel\vendor\spdlog\include;D:\VulkanSDK\1.1.130.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Hazel\src;..\Hazel\vendor\GLFW\include;..\Hazel\vendor\Glad\include;..\Hazel\vendor\imgui;..\Hazel\vendor\glm;..\Hazel\vendor\stb_image;..\Hazel\vendor\tinyobjloader;..\Hazel\vendor\spdlog\include;D:\VulkanSDK\1.1.130.0\Include;..\Hazel\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -97,7 +97,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>HZ_PLATFORM_WINDOWS;HZ_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Hazel\src;..\Hazel\vendor\GLFW\include;..\Hazel\vendor\Glad\include;..\Hazel\vendor\imgui;..\Hazel\vendor\glm;..\Hazel\vendor\stb_image;..\Hazel\vendor\tinyobjloader;..\Hazel\vendor\spdlog\include;D:\VulkanSDK\1.1.130.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Hazel\src;..\Hazel\vendor\GLFW\include;..\Hazel\vendor\Glad\include;..\Hazel\vendor\imgui;..\Hazel\vendor\glm;..\Hazel\vendor\stb_image;..\Hazel\vendor\tinyobjloader;..\Hazel\vendor\spdlog\include;D:\VulkanSDK\1.1.130.0\Include;..\Hazel\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -119,7 +119,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>HZ_PLATFORM_WINDOWS;HZ_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\Hazel\src;..\Hazel\vendor\GLFW\include;..\Hazel\vendor\Glad\include;..\Hazel\vendor\imgui;..\Hazel\vendor\glm;..\Hazel\vendor\stb_image;..\Hazel\vendor\tinyobjloader;..\Hazel\vendor\spdlog\include;D:\VulkanSDK\1.1.130.0\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Hazel\src;..\Hazel\vendor\GLFW\include;..\Hazel\vendor\Glad\include;..\Hazel\vendor\imgui;..\Hazel\vendor\glm;..\Hazel\vendor\stb_image;..\Hazel\vendor\tinyobjloader;..\Hazel\vendor\spdlog\include;D:\VulkanSDK\1.1.130.0\Include;..\Hazel\vendor\entt\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
