@@ -166,6 +166,7 @@
     <ClInclude Include="src\Hazel\Particles\RandomDT.h" />
     <ClInclude Include="src\Hazel\Renderer\Buffer.h" />
     <ClInclude Include="src\Hazel\Renderer\Camera.h" />
+    <ClInclude Include="src\Hazel\Renderer\CameraDT.h" />
     <ClInclude Include="src\Hazel\Renderer\CameraController.h" />
     <ClInclude Include="src\Hazel\Renderer\Framebuffer.h" />
     <ClInclude Include="src\Hazel\Renderer\GraphicsContext.h" />
@@ -575,7 +576,7 @@
     <ClCompile Include="src\Hazel\Loader\OBJLoader.cpp" />
     <ClCompile Include="src\Hazel\Particles\ParticleSystemDT.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Buffer.cpp" />
-    <ClCompile Include="src\Hazel\Renderer\Camera.cpp" />
+    <ClCompile Include="src\Hazel\Renderer\CameraDT.cpp" />
     <ClCompile Include="src\Hazel\Renderer\CameraController.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Framebuffer.cpp" />
     <ClCompile Include="src\Hazel\Renderer\OrthographicCamera.cpp" />
@@ -588,7 +589,6 @@
     <ClCompile Include="src\Hazel\Renderer\SubTexture2D.cpp" />
     <ClCompile Include="src\Hazel\Renderer\Texture.cpp" />
     <ClCompile Include="src\Hazel\Renderer\VertexArray.cpp" />
-    <ClCompile Include="src\Hazel\Scene\Components.cpp" />
     <ClCompile Include="src\Hazel\Scene\Entity.cpp" />
     <ClCompile Include="src\Hazel\Scene\Scene.cpp" />
     <ClCompile Include="src\Platform\DX11\DX11Context.cpp" />

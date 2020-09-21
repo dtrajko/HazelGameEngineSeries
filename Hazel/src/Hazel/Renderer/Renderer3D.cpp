@@ -80,7 +80,7 @@ namespace Hazel
 		RenderCommand::SetViewport(0, 0, width, height);
 	}
 
-	void Renderer3D::BeginScene(Camera& camera)
+	void Renderer3D::BeginScene(CameraDT& camera)
 	{
 		m_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 

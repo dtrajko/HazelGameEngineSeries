@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Hazel/Renderer/Camera.h"
+#include "Hazel/Renderer/CameraDT.h"
 #include "Hazel/Core/Timestep.h"
 
 #include "Hazel/Events/ApplicationEvent.h"
@@ -17,8 +17,8 @@ namespace Hazel
 
 		void OnUpdate(Timestep timestep);
 		void OnEvent(Event& e);
-		Camera& GetCamera() { return m_Camera; };
-		const Camera& GetCamera() const { return m_Camera; };
+		CameraDT& GetCamera() { return m_Camera; };
+		const CameraDT& GetCamera() const { return m_Camera; };
 
 		void SetZoomLevel(float zoomLevel) { m_ZoomLevel = zoomLevel; }
 		float GetZoomLevel() const { return m_ZoomLevel; }
@@ -34,7 +34,7 @@ namespace Hazel
 	private:
 		float m_AspectRatio;
 		float m_ZoomLevel = 1.0f;
-		Camera m_Camera;
+		CameraDT m_Camera;
 
 		bool m_Rotation;
 

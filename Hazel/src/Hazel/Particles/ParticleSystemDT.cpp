@@ -44,7 +44,7 @@ namespace Hazel
 		}
 	}
 
-	void ParticleSystemDT::OnRender(Hazel::Camera& camera)
+	void ParticleSystemDT::OnRender(Hazel::CameraDT& camera)
 	{
 		for (auto& particle : m_ParticlePool)
 		{

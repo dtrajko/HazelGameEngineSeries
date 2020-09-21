@@ -32,7 +32,7 @@ namespace Hazel
 		void SetEnabledTexture(bool enabledTexture) { m_EnabledTexture = enabledTexture; };
 		void SetTexture(Ref<Texture2D> texture) { m_Texture = texture; };
 		void OnUpdate(Hazel::Timestep ts);
-		void OnRender(Hazel::Camera& camera);
+		void OnRender(Hazel::CameraDT& camera);
 		void Emit(const ParticlePropsDT& particleProps);
 
 	private:

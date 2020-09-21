@@ -3,6 +3,7 @@
 #include "Hazel/Renderer/OrthographicCamera.h"
 #include "Hazel/Renderer/Texture.h"
 #include "RendererAPI.h"
+#include "Hazel/Renderer/Camera.h"
 
 
 namespace Hazel {
@@ -15,7 +16,8 @@ namespace Hazel {
 
 		static void OnWindowResize(uint32_t width, uint32_t height);
 
-		static void BeginScene(const OrthographicCamera& camera);
+		static void BeginScene(const Camera& camera, const glm::mat4& transform);
+		static void BeginScene(const OrthographicCamera& camera); // TODO: Remove
 		static void EndScene();
 		static void Flush();
 

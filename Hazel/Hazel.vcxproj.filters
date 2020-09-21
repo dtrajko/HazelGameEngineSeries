@@ -150,9 +150,6 @@
     <ClInclude Include="src\Hazel\Renderer\Buffer.h">
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Renderer\Camera.h">
-      <Filter>src\Hazel\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\CameraController.h">
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
@@ -1347,6 +1344,12 @@
     <ClInclude Include="src\Hazel\Scene\Entity.h">
       <Filter>src\Hazel\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\CameraDT.h">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\Camera.h">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Core\Application.cpp">
@@ -1374,9 +1377,6 @@
       <Filter>src\Hazel\Particles</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\Buffer.cpp">
-      <Filter>src\Hazel\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Hazel\Renderer\Camera.cpp">
       <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\CameraController.cpp">
@@ -1463,11 +1463,11 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Hazel\Scene\Components.cpp">
-      <Filter>src\Hazel\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="src\Hazel\Scene\Entity.cpp">
       <Filter>src\Hazel\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\CameraDT.cpp">
+      <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

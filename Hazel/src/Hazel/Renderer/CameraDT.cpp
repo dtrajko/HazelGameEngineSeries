@@ -1,6 +1,6 @@
 #include "hzpch.h"
 
-#include "Camera.h"
+#include "CameraDT.h"
 
 #include "glm/gtc/matrix_transform.hpp"
 
@@ -8,20 +8,20 @@
 namespace Hazel
 {
 
-	Camera::Camera(float left, float right, float bottom, float top)
+	CameraDT::CameraDT(float left, float right, float bottom, float top)
 		: m_ProjectionMatrix(1.0f), m_ViewMatrix(1.0f)
 	{
 		m_ProjectionMatrix = glm::perspective(m_FOV, m_Aspect, m_Near, m_Far);
 		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
 	}
 
-	void Camera::SetProjection(float left, float right, float bottom, float top)
+	void CameraDT::SetProjection(float left, float right, float bottom, float top)
 	{
 		m_ProjectionMatrix = glm::perspective(m_FOV, m_Aspect, m_Near, m_Far);
 		m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
 	}
 
-	void Camera::RecalculateViewMatrix()
+	void CameraDT::RecalculateViewMatrix()
 	{
 		float Pitch = m_Rotation.x;
 		float Yaw = m_Rotation.y;
