@@ -6,6 +6,20 @@
 namespace Hazel
 {
 
+	struct TagComponent
+	{
+		std::string Tag;
+
+		TagComponent() = default;
+
+		TagComponent(const TagComponent&) = default;
+		TagComponent(std::string tag)
+			: Tag(tag) {};
+
+		operator std::string& () { return Tag; };
+		operator const std::string& () const { return Tag; };
+	};
+
 	struct TransformComponent
 	{
 		glm::mat4 Transform{ 1.0f };
@@ -28,8 +42,8 @@ namespace Hazel
 		SpriteRendererComponent(const glm::vec4& color)
 			: Color(color) {};
 
-		operator glm::vec4& () { return Color; }; // implicit cast operator?
-		operator const glm::vec4& () const { return Color; }; // implicit cast operator?
+		operator glm::vec4& () { return Color; };
+		operator const glm::vec4& () const { return Color; };
 	};
 
 }
