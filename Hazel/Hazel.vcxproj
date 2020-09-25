@@ -184,6 +184,7 @@
     <ClInclude Include="src\Hazel\Scene\Entity.h" />
     <ClInclude Include="src\Hazel\Scene\Scene.h" />
     <ClInclude Include="src\Hazel\Scene\SceneCamera.h" />
+    <ClInclude Include="src\Hazel\Scene\ScriptableEntity.h" />
     <ClInclude Include="src\Platform\DX11\DX11Context.h" />
     <ClInclude Include="src\Platform\DX11\DX11RendererAPI.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />

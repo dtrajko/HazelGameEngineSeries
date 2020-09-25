@@ -1353,6 +1353,9 @@
     <ClInclude Include="src\Hazel\Scene\SceneCamera.h">
       <Filter>src\Hazel\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Scene\ScriptableEntity.h">
+      <Filter>src\Hazel\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Core\Application.cpp">
