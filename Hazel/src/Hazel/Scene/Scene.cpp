@@ -63,18 +63,15 @@ namespace Hazel {
 		{
 			m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc)
 			{
+				// TODO: Move to Scene::OnScenePlay
 				if (!nsc.Instance)
 				{
-					nsc.InstantiateFunction();
+					nsc.Instance = nsc.InstantiateScript();
 					nsc.Instance->m_Entity = Entity{ entity, this };
-					if (nsc.OnCreateFunction) {
-						nsc.OnCreateFunction(nsc.Instance);
-					}
+					nsc.Instance->OnCreate();
 				}
 
-				if (nsc.OnUpdateFunction) {
-					nsc.OnUpdateFunction(nsc.Instance, ts);
-				}
+				nsc.Instance->OnUpdate(ts);
 			});
 		}
 
@@ -134,15 +131,14 @@ namespace Hazel {
 		// Destroy scripts
 		{
 			m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc)
+			{
+				// TODO: Move to Scene::OnSceneStop
+				if (nsc.Instance)
 				{
-					if (nsc.Instance)
-					{
-						if (nsc.OnDestroyFunction) {
-							nsc.OnDestroyFunction(nsc.Instance);
-						}
-						nsc.DestroyInstanceFunction();
-					}
-				});
+					nsc.Instance->OnDestroy();
+					nsc.DestroyScript(&nsc);
+				}
+			});
 		}
 	}
 }
