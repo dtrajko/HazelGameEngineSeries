@@ -35,10 +35,10 @@ namespace Hazel {
 
 		m_SquareEntity = square;
 
-		m_CameraEntity = m_ActiveScene->CreateEntity("Camera Entity");
+		m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
 		m_CameraEntity.AddComponent<CameraComponent>();
 
-		m_SecondCamera = m_ActiveScene->CreateEntity("Clip-Space Camera");
+		m_SecondCamera = m_ActiveScene->CreateEntity("Camera B");
 		auto& cc = m_SecondCamera.AddComponent<CameraComponent>();
 		cc.Primary = false;
 
