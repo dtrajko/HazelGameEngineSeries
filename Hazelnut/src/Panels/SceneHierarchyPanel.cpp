@@ -32,6 +32,11 @@ namespace Hazel
 			DrawEntityNode(entity);
 		});
 
+		if (ImGui::IsMouseDown(0) && ImGui::IsWindowHovered())
+		{
+			m_SelectionContext = {};
+		}
+
 		ImGui::End();
 
 		ImGui::Begin("Properties");
