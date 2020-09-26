@@ -50,6 +50,11 @@ namespace Hazel
 
 		if (opened)
 		{
+			ImGuiTreeNodeFlags flags = ((m_SelectionContext == entity) ? ImGuiTreeNodeFlags_Selected : 0) | ImGuiTreeNodeFlags_OpenOnArrow;
+			bool opened = ImGui::TreeNodeEx((void*)(uint64_t)((uint32_t)entity + 1000), flags, tag.c_str());
+			if (opened) {
+				ImGui::TreePop();
+			}
 			ImGui::TreePop();
 		}
 	}
