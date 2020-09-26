@@ -7,6 +7,9 @@ namespace Hazel {
 	class SceneCamera : public Camera
 	{
 	public:
+		enum class ProjectionType { Perspective = 0, Orthographic = 1 };
+
+	public:
 		SceneCamera();
 		virtual ~SceneCamera() = default;
 
@@ -15,10 +18,14 @@ namespace Hazel {
 		float GetOrthographicSize() const { return m_OrthographicSize; }
 		void SetOrthographicSize(float size) { m_OrthographicSize = size; RecalculateProjection(); }
 
+		ProjectionType GetProjectionType() const { return m_ProjectionType; };
+
 	private:
 		void RecalculateProjection();
 
 	private:
+		ProjectionType m_ProjectionType = ProjectionType::Orthographic;
+
 		float m_OrthographicSize = 10.0f;
 		float m_OrthographicNear = -1.0f;
 		float m_OrthographicFar  =  1.0f;

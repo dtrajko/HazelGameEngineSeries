@@ -83,7 +83,7 @@ namespace Hazel
 			// Camera0
 			char buffer[256];
 			memset(buffer, 0, sizeof(buffer));
-			strcpy(buffer, tag.c_str());
+			strcpy_s(buffer, sizeof(buffer), tag.c_str());
 			if (ImGui::InputText("Tag", buffer, sizeof(buffer)))
 			{
 				tag = std::string(buffer);
@@ -96,6 +96,24 @@ namespace Hazel
 			{
 				auto& transform = entity.GetComponent<TransformComponent>().Transform;
 				ImGui::DragFloat3("Position", glm::value_ptr(transform[3]), 0.1f);
+
+				ImGui::TreePop();
+			}
+		}
+
+		if (entity.HasComponent<CameraComponent>())
+		{
+			if (ImGui::TreeNodeEx((void*)typeid(CameraComponent).hash_code(), ImGuiTreeNodeFlags_DefaultOpen, "Camera"))
+			{
+				auto& cameraComponent = entity.GetComponent<CameraComponent>();
+
+				const char* projectionTypeStrings[] = { "Perspective", "Orthographic" };
+				const char* currentProjectionTypeString = projectionTypeStrings[(int)cameraComponent.Camera.GetProjectionType()];
+
+				if (ImGui::BeginCombo("Projection", currentProjectionTypeString))
+				{
+					ImGui::EndCombo();
+				}
 
 				ImGui::TreePop();
 			}
