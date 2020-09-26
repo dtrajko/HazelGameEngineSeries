@@ -33,6 +33,9 @@ namespace Hazel {
 		auto square = m_ActiveScene->CreateEntity("Green Square");
 		square.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
 
+		auto redSquare = m_ActiveScene->CreateEntity("Red Square");
+		redSquare.AddComponent<SpriteRendererComponent>(glm::vec4{ 1.0f, 0.0f, 0.0f, 1.0f });
+
 		m_SquareEntity = square;
 
 		m_CameraEntity = m_ActiveScene->CreateEntity("Camera A");
@@ -211,9 +214,11 @@ namespace Hazel {
 			ImGui::DragFloat3("Camera A Transform", glm::value_ptr(m_CameraEntity.GetComponent<TransformComponent>().Transform[3]));
 			ImGui::DragFloat3("Camera B Transform", glm::value_ptr(m_SecondCamera.GetComponent<TransformComponent>().Transform[3]));
 
-			ImGui::Checkbox("Camera A", &m_PrimaryCamera);
-			m_CameraEntity.GetComponent<CameraComponent>().Primary = m_PrimaryCamera;
-			m_SecondCamera.GetComponent<CameraComponent>().Primary = !m_PrimaryCamera;
+			if (ImGui::Checkbox("Camera A", &m_PrimaryCamera))
+			{
+				m_CameraEntity.GetComponent<CameraComponent>().Primary = m_PrimaryCamera;
+				m_SecondCamera.GetComponent<CameraComponent>().Primary = !m_PrimaryCamera;
+			}
 
 			auto& camera = m_SecondCamera.GetComponent<CameraComponent>().Camera;
 			float orthoSize = camera.GetOrthographicSize();

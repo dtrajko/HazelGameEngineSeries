@@ -108,6 +108,8 @@ namespace Hazel
 				auto& cameraComponent = entity.GetComponent<CameraComponent>();
 				auto& camera = cameraComponent.Camera;
 
+				ImGui::Checkbox("Primary", &cameraComponent.Primary);
+
 				const char* projectionTypeStrings[] = { "Perspective", "Orthographic" };
 				const char* currentProjectionTypeString = projectionTypeStrings[(int)camera.GetProjectionType()];
 
@@ -130,6 +132,17 @@ namespace Hazel
 
 				if (camera.GetProjectionType() == SceneCamera::ProjectionType::Perspective)
 				{
+					float verticalFOV = glm::degrees(camera.GetPerspectiveVerticalFOV());
+					if (ImGui::DragFloat("Vertical FOV", &verticalFOV))
+						camera.SetPerspectiveVerticalFOV(glm::radians(verticalFOV));
+
+					float nearClip = camera.GetPerspectiveNearClip();
+					if (ImGui::DragFloat("Near", &nearClip))
+						camera.SetPerspectiveNearClip(nearClip);
+
+					float farClip = camera.GetPerspectiveFarClip();
+					if (ImGui::DragFloat("Far", &farClip))
+						camera.SetPerspectiveFarClip(farClip);
 				}
 
 				if (camera.GetProjectionType() == SceneCamera::ProjectionType::Orthographic)
@@ -145,6 +158,8 @@ namespace Hazel
 					float orthoFar = camera.GetOrthographicFarClip();
 					if (ImGui::DragFloat("Far", &orthoFar))
 						camera.SetOrthographicFarClip(orthoFar);
+
+					ImGui::Checkbox("Fixed Aspect Ratio", &cameraComponent.FixedAspectRatio);
 				}
 
 				ImGui::TreePop();
