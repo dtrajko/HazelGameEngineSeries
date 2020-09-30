@@ -117,7 +117,7 @@ IF EXIST "..\Hazel\vendor\assimp\bin\Debug\assimp-vc141-mtd.dll"\ (xcopy /Q /E /
     </Link>
     <PostBuildEvent>
       <Command>IF EXIST "..\Hazelnut\assets"\ (xcopy /Q /E /Y /I "..\Hazelnut\assets" "..\bin\Release-windows-x86_64\Hazelnut\assets" &gt; nul) ELSE (xcopy /Q /Y /I "..\Hazelnut\assets" "..\bin\Release-windows-x86_64\Hazelnut\assets" &gt; nul)
-IF EXIST "..\Hazel\vendor\assimp\bin\Release\assimp-vc141-mt.dll"\ (xcopy /Q /E /Y /I "..\Hazel\vendor\assimp\bin\Release\assimp-vc141-mt.dll" "..\bin\Release-windows-x86_64\Hazelnut" &gt; nul) ELSE (xcopy /Q /Y /I "..\Hazel\vendor\assimp\bin\Release\assimp-vc141-mt.dll" "..\bin\Release-windows-x86_64\Hazelnut" &gt; nul)</Command>
+IF EXIST "..\Hazel\vendor\assimp\bin\Release\assimp-vc141-mtd.dll"\ (xcopy /Q /E /Y /I "..\Hazel\vendor\assimp\bin\Release\assimp-vc141-mtd.dll" "..\bin\Release-windows-x86_64\Hazelnut" &gt; nul) ELSE (xcopy /Q /Y /I "..\Hazel\vendor\assimp\bin\Release\assimp-vc141-mtd.dll" "..\bin\Release-windows-x86_64\Hazelnut" &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">

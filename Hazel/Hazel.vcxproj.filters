@@ -13,23 +13,11 @@
     <Filter Include="Hazel\Core\Math">
       <UniqueIdentifier>{0ABD9040-7648-FE04-7F59-81F9EB635A05}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Hazel\Debug">
-      <UniqueIdentifier>{CF42009B-3BF8-7890-C4EC-726730A16F94}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Hazel\Editor">
       <UniqueIdentifier>{AF804FFD-9BE3-DEA1-4469-175830ABAA24}</UniqueIdentifier>
     </Filter>
     <Filter Include="Hazel\ImGui">
       <UniqueIdentifier>{83AD5E9B-EF62-D790-7857-D167E40BCE94}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Hazel\Loader">
-      <UniqueIdentifier>{3F02660E-2B65-F5B2-D4EA-2D69C02CC135}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Hazel\Models">
-      <UniqueIdentifier>{2CD5BC10-1838-4CB5-C1BD-846BADFF1738}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Hazel\Particles">
-      <UniqueIdentifier>{AF016C66-1B8D-D92A-249E-5C1F90A8352B}</UniqueIdentifier>
     </Filter>
     <Filter Include="Hazel\Platform">
       <UniqueIdentifier>{0D422A0B-F90F-1E11-E2A3-8E37CE10FA75}</UniqueIdentifier>
@@ -64,9 +52,6 @@
     <ClInclude Include="src\Hazel\Core\Buffer.h">
       <Filter>Hazel\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Core\EntryPoint.h">
-      <Filter>Hazel\Core</Filter>
-    </ClInclude>
     <ClInclude Include="src\Hazel\Core\Events\ApplicationEvent.h">
       <Filter>Hazel\Core\Events</Filter>
     </ClInclude>
@@ -94,17 +79,8 @@
     <ClInclude Include="src\Hazel\Core\Log.h">
       <Filter>Hazel\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Core\Math\AABB.h">
-      <Filter>Hazel\Core\Math</Filter>
-    </ClInclude>
     <ClInclude Include="src\Hazel\Core\Math\Mat4.h">
       <Filter>Hazel\Core\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Core\Math\Ray.h">
-      <Filter>Hazel\Core\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Core\MouseCodes.h">
-      <Filter>Hazel\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Core\Platform.h">
       <Filter>Hazel\Core</Filter>
@@ -112,14 +88,8 @@
     <ClInclude Include="src\Hazel\Core\TimeStep.h">
       <Filter>Hazel\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Core\Timer.h">
-      <Filter>Hazel\Core</Filter>
-    </ClInclude>
     <ClInclude Include="src\Hazel\Core\Window.h">
       <Filter>Hazel\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Debug\Instrumentor.h">
-      <Filter>Hazel\Debug</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Editor\SceneHierarchyPanel.h">
       <Filter>Hazel\Editor</Filter>
@@ -132,18 +102,6 @@
     </ClInclude>
     <ClInclude Include="src\Hazel\ImGui\ImGuizmo.h">
       <Filter>Hazel\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Loader\OBJLoader.h">
-      <Filter>Hazel\Loader</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Models\Cube.h">
-      <Filter>Hazel\Models</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Models\Quad.h">
-      <Filter>Hazel\Models</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Particles\RandomDT.h">
-      <Filter>Hazel\Particles</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>Hazel\Platform\OpenGL</Filter>
@@ -178,9 +136,6 @@
     <ClInclude Include="src\Hazel\Renderer\Framebuffer.h">
       <Filter>Hazel\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Renderer\GraphicsContext.h">
-      <Filter>Hazel\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\Material.h">
       <Filter>Hazel\Renderer</Filter>
     </ClInclude>
@@ -196,13 +151,7 @@
     <ClInclude Include="src\Hazel\Renderer\Renderer.h">
       <Filter>Hazel\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Renderer\Renderer2D.h">
-      <Filter>Hazel\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\RendererAPI.h">
-      <Filter>Hazel\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Renderer\RendererContext.h">
       <Filter>Hazel\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\SceneRenderer.h">
@@ -212,9 +161,6 @@
       <Filter>Hazel\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\ShaderUniform.h">
-      <Filter>Hazel\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Renderer\SubTexture2D.h">
       <Filter>Hazel\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\Texture.h">
@@ -267,9 +213,6 @@
     </ClCompile>
     <ClCompile Include="src\Hazel\ImGui\ImGuizmo.cpp">
       <Filter>Hazel\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Hazel\Loader\OBJLoader.cpp">
-      <Filter>Hazel\Loader</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>Hazel\Platform\OpenGL</Filter>
@@ -325,16 +268,10 @@
     <ClCompile Include="src\Hazel\Renderer\Renderer.cpp">
       <Filter>Hazel\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Hazel\Renderer\Renderer2D.cpp">
-      <Filter>Hazel\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\SceneRenderer.cpp">
       <Filter>Hazel\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\Shader.cpp">
-      <Filter>Hazel\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Hazel\Renderer\SubTexture2D.cpp">
       <Filter>Hazel\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\Texture.cpp">
