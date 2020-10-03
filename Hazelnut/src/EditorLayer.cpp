@@ -191,7 +191,7 @@ namespace Hazel {
 
 			m_SceneHierarchyPanel.OnImGuiRender();
 
-			ImGui::Begin("Settings");
+			ImGui::Begin("Stats");
 
 			auto stats = Renderer2D::GetStats();
 			ImGui::Text("Renderer2D Stats:");
@@ -200,40 +200,11 @@ namespace Hazel {
 			ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 			ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
-			if (m_SquareEntity)
-			{
-				ImGui::Separator();
-				ImGui::Text("%s", m_SquareEntity.GetComponent<TagComponent>().Tag.c_str());
-
-				auto& squareColor = m_SquareEntity.GetComponent<SpriteRendererComponent>().Color;
-				ImGui::ColorEdit4("Square Color", glm::value_ptr(squareColor));
-
-				ImGui::Separator();
-			}
-
-			ImGui::DragFloat3("Camera A Transform", glm::value_ptr(m_CameraEntity.GetComponent<TransformComponent>().Transform[3]));
-			ImGui::DragFloat3("Camera B Transform", glm::value_ptr(m_SecondCamera.GetComponent<TransformComponent>().Transform[3]));
-
-			if (ImGui::Checkbox("Camera A", &m_PrimaryCamera))
-			{
-				m_CameraEntity.GetComponent<CameraComponent>().Primary = m_PrimaryCamera;
-				m_SecondCamera.GetComponent<CameraComponent>().Primary = !m_PrimaryCamera;
-			}
-
-			auto& camera = m_SecondCamera.GetComponent<CameraComponent>().Camera;
-			float orthoSize = camera.GetOrthographicSize();
-			if (ImGui::DragFloat("Second Camera Ortho Size", &orthoSize)) {
-				camera.SetOrthographicSize(orthoSize);
-			}
-
 			ImGui::End();
 
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
 			ImGui::Begin("Viewport");
 			{
-				// HZ_CORE_WARN("Focused: {0}", ImGui::IsWindowFocused());
-				// HZ_CORE_WARN("Hovered: {0}", ImGui::IsWindowHovered());
-
 				m_ViewportFocused = ImGui::IsWindowFocused();
 				m_ViewportHovered = ImGui::IsWindowHovered();
 				Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
@@ -243,12 +214,7 @@ namespace Hazel {
 				if (m_ViewportSize != *((glm::vec2*) & viewportPanelSize) && viewportPanelSize.x > 0 && viewportPanelSize.y > 0)
 				{
 					m_ViewportSize = glm::vec2(viewportPanelSize.x, viewportPanelSize.y);
-
-					//	m_Framebuffer->Resize((uint32_t)viewportPanelSize.x, (uint32_t)viewportPanelSize.y);
-					//	m_CameraController.OnResize(viewportPanelSize.x, viewportPanelSize.y);
 				}
-
-				//	HZ_WARN("Viewport Size : {0} {1}", viewportPanelSize.x, viewportPanelSize.y);
 
 				uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
 				ImGui::Image((void*)textureID, ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
