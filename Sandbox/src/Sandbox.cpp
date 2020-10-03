@@ -131,7 +131,7 @@ public:
 	{
 	}
 
-	virtual void OnUpdate(Hazel::TimeStep ts) override
+	virtual void OnUpdate(Hazel::Timestep ts) override
 	{
 		// THINGS TO LOOK AT:
 		// - BRDF LUT
