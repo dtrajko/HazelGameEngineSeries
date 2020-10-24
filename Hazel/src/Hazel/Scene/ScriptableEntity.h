@@ -5,7 +5,6 @@
 
 namespace Hazel
 {
-
 	class ScriptableEntity
 	{
 	public:
