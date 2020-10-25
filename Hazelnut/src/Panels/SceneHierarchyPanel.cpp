@@ -15,13 +15,10 @@ namespace Hazel
 		SetContext(context);
 	}
 
-	SceneHierarchyPanel::~SceneHierarchyPanel()
-	{
-	}
-
 	void SceneHierarchyPanel::SetContext(const Ref<Scene>& context)
 	{
 		m_Context = context;
+		m_SelectionContext = {};
 	}
 
 	void SceneHierarchyPanel::OnImGuiRender()
@@ -347,6 +344,10 @@ namespace Hazel
 			ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
 		});
 
+	}
+
+	SceneHierarchyPanel::~SceneHierarchyPanel()
+	{
 	}
 
 }

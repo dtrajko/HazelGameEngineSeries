@@ -8,6 +8,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Hazel/Scene/SceneSerializer.h"
+#include "Hazel/Utils/PlatformUtils.h"
 
 
 namespace Hazel {
@@ -194,16 +195,34 @@ namespace Hazel {
 					// which we can't undo at the moment without finer window depth/z control.
 					//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
 
-					if (ImGui::MenuItem("Serialize"))
+					if (ImGui::MenuItem("New", "Ctrl+N"))
 					{
-						SceneSerializer serializer(m_ActiveScene);
-						serializer.Serialize("assets/scenes/Example.hazel");
+						m_ActiveScene = CreateRef<Scene>();
+						m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+						m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 					}
 
-					if (ImGui::MenuItem("Deserialize"))
+					if (ImGui::MenuItem("Open...", "Ctrl+O"))
 					{
-						SceneSerializer serializer(m_ActiveScene);
-						serializer.Deserialize("assets/scenes/Example.hazel");
+						std::string filepath = FileDialogs::OpenFile("Hazel Scene (*.hazel)\0*.hazel\0");
+						if (!filepath.empty())
+						{
+							m_ActiveScene = CreateRef<Scene>();
+							m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+							m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
+							SceneSerializer serializer(m_ActiveScene);
+							serializer.Deserialize(filepath);
+						}
+					}
+
+					if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
+					{
+						std::string filepath = FileDialogs::SaveFile("Hazel Scene (*.hazel)\0*.hazel\0");
+						if (!filepath.empty()) {
+							SceneSerializer serializer(m_ActiveScene);
+							serializer.Serialize(filepath);
+						}
 					}
 
 					if (ImGui::MenuItem("Exit")) Application::Get().Close();
