@@ -8,7 +8,7 @@
 
 namespace Hazel {
 
-	class HAZEL_API LayerStack
+	class LayerStack
 	{
 	public:
 		LayerStack() = default;
