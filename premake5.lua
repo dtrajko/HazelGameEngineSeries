@@ -22,14 +22,14 @@ IncludeDir["glm"]           = "Hazel/vendor/glm"
 IncludeDir["tinyobjloader"] = "Hazel/vendor/tinyobjloader"
 IncludeDir["stb_image"]     = "Hazel/vendor/stb_image"
 IncludeDir["entt"]          = "Hazel/vendor/entt/include"
-
+IncludeDir["yaml_cpp"]      = "Hazel/vendor/yaml-cpp/include"
 
 group "Dependencies"
 	include "Hazel/vendor/GLFW"
 	include "Hazel/vendor/Glad"
 	include "Hazel/vendor/imgui"
+	include "Hazel/vendor/yaml-cpp"
 group ""
-
 
 project "Hazel"
 	location "Hazel"
@@ -70,6 +70,7 @@ project "Hazel"
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.tinyobjloader}",
 		"%{IncludeDir.entt}",
+		"%{IncludeDir.yaml_cpp}",
 	}
 
 	links
@@ -77,6 +78,7 @@ project "Hazel"
 		"GLFW",
 		"Glad",
 		"ImGui",
+		"yaml-cpp",
 		"opengl32.lib",
 	}
 

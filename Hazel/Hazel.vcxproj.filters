@@ -150,7 +150,13 @@
     <ClInclude Include="src\Hazel\Renderer\Buffer.h">
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\Camera.h">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\CameraController.h">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Renderer\CameraDT.h">
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Hazel\Renderer\Framebuffer.h">
@@ -189,7 +195,19 @@
     <ClInclude Include="src\Hazel\Renderer\VertexArray.h">
       <Filter>src\Hazel\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Hazel\Scene\Components.h">
+      <Filter>src\Hazel\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Scene\Entity.h">
+      <Filter>src\Hazel\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="src\Hazel\Scene\Scene.h">
+      <Filter>src\Hazel\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Scene\SceneCamera.h">
+      <Filter>src\Hazel\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Hazel\Scene\ScriptableEntity.h">
       <Filter>src\Hazel\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\DX11\DX11Context.h">
@@ -1338,24 +1356,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Hazel\Scene\Components.h">
-      <Filter>src\Hazel\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Scene\Entity.h">
-      <Filter>src\Hazel\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Renderer\CameraDT.h">
-      <Filter>src\Hazel\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Renderer\Camera.h">
-      <Filter>src\Hazel\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Scene\SceneCamera.h">
-      <Filter>src\Hazel\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Hazel\Scene\ScriptableEntity.h">
-      <Filter>src\Hazel\Scene</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Hazel\Core\Application.cpp">
@@ -1386,6 +1386,9 @@
       <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\CameraController.cpp">
+      <Filter>src\Hazel\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Renderer\CameraDT.cpp">
       <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Hazel\Renderer\Framebuffer.cpp">
@@ -1421,7 +1424,13 @@
     <ClCompile Include="src\Hazel\Renderer\VertexArray.cpp">
       <Filter>src\Hazel\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Hazel\Scene\Entity.cpp">
+      <Filter>src\Hazel\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\Hazel\Scene\Scene.cpp">
+      <Filter>src\Hazel\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Hazel\Scene\SceneCamera.cpp">
       <Filter>src\Hazel\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\DX11\DX11Context.cpp">
@@ -1468,15 +1477,6 @@
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Hazel\Scene\Entity.cpp">
-      <Filter>src\Hazel\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Hazel\Renderer\CameraDT.cpp">
-      <Filter>src\Hazel\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Hazel\Scene\SceneCamera.cpp">
-      <Filter>src\Hazel\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
