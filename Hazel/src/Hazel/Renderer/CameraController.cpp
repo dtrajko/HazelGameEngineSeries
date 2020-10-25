@@ -20,36 +20,36 @@ namespace Hazel
 
 	void CameraController::OnUpdate(Timestep timestep)
 	{
-		if (Input::IsKeyPressed(HZ_KEY_UP) || Input::IsKeyPressed(HZ_KEY_W))
+		if (Input::IsKeyPressed(Key::Up) || Input::IsKeyPressed(Key::W))
 		{
 			m_CameraPosition += m_Camera.GetFront() * m_CameraTranslationSpeed * timestep.GetSeconds();
 		}
-		else if (Input::IsKeyPressed(HZ_KEY_DOWN) || Input::IsKeyPressed(HZ_KEY_S))
+		else if (Input::IsKeyPressed(Key::Down) || Input::IsKeyPressed(Key::S))
 		{
 			m_CameraPosition -= m_Camera.GetFront() * m_CameraTranslationSpeed * timestep.GetSeconds();
 		}
 
-		if (Input::IsKeyPressed(HZ_KEY_LEFT) || Input::IsKeyPressed(HZ_KEY_A))
+		if (Input::IsKeyPressed(Key::Left) || Input::IsKeyPressed(Key::A))
 		{
 			m_CameraPosition -= m_Camera.GetRight() * m_CameraTranslationSpeed * timestep.GetSeconds();
 		}
-		else if (Input::IsKeyPressed(HZ_KEY_RIGHT) || Input::IsKeyPressed(HZ_KEY_D))
+		else if (Input::IsKeyPressed(Key::Right) || Input::IsKeyPressed(Key::D))
 		{
 			m_CameraPosition += m_Camera.GetRight() * m_CameraTranslationSpeed * timestep.GetSeconds();
 		}
 
-		if (Input::IsKeyPressed(HZ_KEY_Q))
+		if (Input::IsKeyPressed(Key::Q))
 		{
 			m_CameraPosition -= m_Camera.GetUp() * m_CameraTranslationSpeed * timestep.GetSeconds();
 		}
-		else if (Input::IsKeyPressed(HZ_KEY_E))
+		else if (Input::IsKeyPressed(Key::E))
 		{
 			m_CameraPosition += m_Camera.GetUp() * m_CameraTranslationSpeed * timestep.GetSeconds();
 		}
 
 		if (m_Rotation)
 		{
-			if (Input::IsMouseButtonPressed(HZ_MOUSE_BUTTON_RIGHT))
+			if (Input::IsMouseButtonPressed(Mouse::ButtonRight))
 			{
 				if (m_MouseFirstMoved)
 				{
@@ -84,7 +84,7 @@ namespace Hazel
 			m_Camera.SetRotation(m_CameraRotation);
 		}
 
-		if (Input::IsMouseButtonReleased(HZ_MOUSE_BUTTON_RIGHT))
+		if (Input::IsMouseButtonReleased(Mouse::ButtonRight))
 		{
 			m_MouseFirstMoved = true;
 		}
@@ -107,7 +107,7 @@ namespace Hazel
 
 	bool CameraController::OnMouseMoved(MouseMovedEvent& e)
 	{
-		if (Input::IsMouseButtonPressed(HZ_MOUSE_BUTTON_1))
+		if (Input::IsMouseButtonPressed(Mouse::ButtonRight))
 		{
 			// HZ_INFO("Mouse position X = {0}, Y = {1}", e.GetX(), e.GetY());
 		}

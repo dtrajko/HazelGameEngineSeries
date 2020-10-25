@@ -21,33 +21,33 @@ namespace Hazel
 		HZ_PROFILE_FUNCTION();
 
 		/* Camera movement Begin */
-		if (Input::IsKeyPressed(HZ_KEY_LEFT) || Input::IsKeyPressed(HZ_KEY_A))
+		if (Input::IsKeyPressed(Key::Left) || Input::IsKeyPressed(Key::A))
 		{
 			m_CameraPosition.x -= m_CameraTranslationSpeed * timestep.GetSeconds();
 		}
-		else if (Input::IsKeyPressed(HZ_KEY_RIGHT) || Input::IsKeyPressed(HZ_KEY_D))
+		else if (Input::IsKeyPressed(Key::Right) || Input::IsKeyPressed(Key::D))
 		{
 			m_CameraPosition.x += m_CameraTranslationSpeed * timestep.GetSeconds();
 		}
 
-		if (Input::IsKeyPressed(HZ_KEY_UP) || Input::IsKeyPressed(HZ_KEY_W))
+		if (Input::IsKeyPressed(Key::Up) || Input::IsKeyPressed(Key::W))
 		{
 			m_CameraPosition.y += m_CameraTranslationSpeed * timestep.GetSeconds();
 		}
-		else if (Input::IsKeyPressed(HZ_KEY_DOWN) || Input::IsKeyPressed(HZ_KEY_S))
+		else if (Input::IsKeyPressed(Key::Down) || Input::IsKeyPressed(Key::S))
 		{
 			m_CameraPosition.y -= m_CameraTranslationSpeed * timestep.GetSeconds();
 		}
 
 		if (m_Rotation)
 		{
-			float shiftSpeedMultiplier = Input::IsKeyPressed(HZ_KEY_LEFT_SHIFT) ? m_ShiftSpeedMultiplier : 1.f;
+			float shiftSpeedMultiplier = Input::IsKeyPressed(Key::LeftShift) ? m_ShiftSpeedMultiplier : 1.f;
 
-			if (Input::IsKeyPressed(HZ_KEY_Q))
+			if (Input::IsKeyPressed(Key::Q))
 			{
 				m_CameraRotation += m_CameraRotationSpeed * shiftSpeedMultiplier * timestep.GetSeconds();
 			}
-			else if (Input::IsKeyPressed(HZ_KEY_E))
+			else if (Input::IsKeyPressed(Key::E))
 			{
 				m_CameraRotation -= m_CameraRotationSpeed * shiftSpeedMultiplier * timestep.GetSeconds();
 			}
@@ -110,7 +110,7 @@ namespace Hazel
 	{
 		HZ_PROFILE_FUNCTION();
 
-		if (Input::IsMouseButtonPressed(HZ_MOUSE_BUTTON_1))
+		if (Input::IsMouseButtonPressed(Mouse::ButtonRight))
 		{
 			// HZ_INFO("Mouse position X = {0}, Y = {1}", e.GetX(), e.GetY());
 		}
