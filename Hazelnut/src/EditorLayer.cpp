@@ -12,6 +12,8 @@
 
 #include "ImGuizmo.h"
 
+#include "Hazel/Math/Math.h"
+
 
 namespace Hazel {
 
@@ -251,7 +253,7 @@ namespace Hazel {
 
 				// Gizmos
 				Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
-				if (selectedEntity)
+				if (selectedEntity && m_GizmoType != -1)
 				{
 					ImGuizmo::SetOrthographic(false);
 					ImGuizmo::SetDrawlist();
@@ -271,11 +273,17 @@ namespace Hazel {
 					glm::mat4 transform = tc.GetTransform();
 
 					ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
-						ImGuizmo::OPERATION::TRANSLATE, ImGuizmo::LOCAL, glm::value_ptr(transform));
+						(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform));
 
 					if (ImGuizmo::IsUsing())
 					{
-						tc.Translation = glm::vec3(transform[3]);
+						glm::vec3 translation, rotation, scale;
+						Math::DecomposeTransform(transform, translation, rotation, scale);
+
+						glm::vec3 deltaRotation = rotation - tc.Rotation;
+						tc.Translation = translation;
+						tc.Rotation += deltaRotation;
+						tc.Scale = scale;
 					}
 				}
 			}
@@ -330,6 +338,20 @@ namespace Hazel {
 				}
 				break;
 			}
+
+			// Gizmos
+			case Key::Q:
+				m_GizmoType = -1;
+				break;
+			case Key::W:
+				m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+				break;
+			case Key::E:
+				m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+				break;
+			case Key::R:
+				m_GizmoType = ImGuizmo::OPERATION::SCALE;
+				break;
 		}
 
 		return true;
