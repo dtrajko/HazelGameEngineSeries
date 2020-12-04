@@ -99,20 +99,18 @@ namespace Hazel {
 		}
 	}
 
-	Scene::~Scene()
+	Entity Scene::GetPrimaryCameraEntity()
 	{
-		// Destroy scripts
+		auto view = m_Registry.view<CameraComponent>();
+		for (auto entity : view)
 		{
-			m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc)
+			const auto& camera = view.get<CameraComponent>(entity);
+			if (camera.Primary)
 			{
-				// TODO: Move to Scene::OnSceneStop
-				if (nsc.Instance)
-				{
-					nsc.Instance->OnDestroy();
-					nsc.DestroyScript(&nsc);
-				}
-			});
+				return Entity{ entity, this };
+			}
 		}
+		return {};
 	}
 
 	template<typename T>
@@ -145,6 +143,22 @@ namespace Hazel {
 	template<>
 	void Scene::OnComponentAdded<NativeScriptComponent>(Entity entity, NativeScriptComponent& component)
 	{
+	}
+
+	Scene::~Scene()
+	{
+		// Destroy scripts
+		{
+			m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc)
+				{
+					// TODO: Move to Scene::OnSceneStop
+					if (nsc.Instance)
+					{
+						nsc.Instance->OnDestroy();
+						nsc.DestroyScript(&nsc);
+					}
+				});
+		}
 	}
 
 }

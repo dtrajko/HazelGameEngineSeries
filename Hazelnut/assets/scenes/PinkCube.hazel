@@ -23,7 +23,7 @@ Entities:
       Tag: Top
     TransformComponent:
       Translation: [0, 0.5, 0]
-      Rotation: [1.57079637, 0, 0.785398185]
+      Rotation: [1.57079637, 0.785398185, 0]
       Scale: [1, 1, 1]
     SpriteRendererComponent:
       Color: [0.999726295, 0, 1, 1]
