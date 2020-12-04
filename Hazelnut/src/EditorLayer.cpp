@@ -239,7 +239,7 @@ namespace Hazel {
 			{
 				m_ViewportFocused = ImGui::IsWindowFocused();
 				m_ViewportHovered = ImGui::IsWindowHovered();
-				Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
+				Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused && !m_ViewportHovered);
 
 				ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
 
@@ -272,8 +272,20 @@ namespace Hazel {
 					auto& tc = selectedEntity.GetComponent<TransformComponent>();
 					glm::mat4 transform = tc.GetTransform();
 
+					// Snapping
+					bool snap = Input::IsKeyPressed(Key::LeftControl);
+					float snapValue = 0.5f; // Snap to 0.5m for translation/scale
+					// Snap to 45 degrees for rotation
+					if (m_GizmoType == ImGuizmo::OPERATION::ROTATE) {
+						snapValue = 45.0f;
+					}
+
+					float snapValues[3] = { snapValue, snapValue, snapValue };
+
+
 					ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
-						(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform));
+						(ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform),
+						nullptr, snap ? snapValues : nullptr);
 
 					if (ImGuizmo::IsUsing())
 					{
