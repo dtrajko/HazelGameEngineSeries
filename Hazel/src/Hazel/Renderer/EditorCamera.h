@@ -3,17 +3,21 @@
 #include "Camera.h"
 #include "Hazel/Events/Event.h"
 #include "Hazel/Events/MouseEvent.h"
+#include "Hazel/Core/Timestep.h"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/quaternion.hpp>
-
+#include <glm/gtx/quaternion.hpp>
 
 namespace Hazel {
 
 	class EditorCamera : public Camera
 	{
 	public:
+		EditorCamera() = default;
+		EditorCamera(float fov, float aspectRation, float nearClip, float farClip);
 
+		void OnUpdate(Timestep ts);
 		void OnEvent(Event& e);
 
 		inline float GetDistance() const { return m_Distance; }
@@ -56,18 +60,17 @@ namespace Hazel {
 		float m_FarClip = 1000.0f;
 
 		glm::mat4 m_ViewMatrix;
-		glm::vec3 m_Position = { 0.0f, 0.0f, -10.0f };
+		glm::vec3 m_Position = { 0.0f, 0.0f, 0.0f };
 		glm::vec3 m_FocalPoint = { 0.0f, 0.0f, 0.0f };
 
-		glm::vec2 m_InitialMousePosition;
+		glm::vec2 m_InitialMousePosition = { 0.0f, 0.0f };
 
-		float m_Distance = 0.0f;
+		float m_Distance = 10.0f;
 		float m_Pitch = 0.0f;
 		float m_Yaw = 0.0f;
 
-		float m_ViewportWidth;
-		float m_ViewportHeight;
-		glm::mat4 m_Projection;
+		float m_ViewportWidth = 1280.0f;
+		float m_ViewportHeight = 720.0f;
 
 	};
 
