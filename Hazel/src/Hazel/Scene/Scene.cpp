@@ -75,7 +75,7 @@ namespace Hazel {
 			{
 				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 			
-				Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
+				Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color, (uint32_t)entity);
 			}
 
 			Renderer2D::EndScene();
@@ -84,17 +84,19 @@ namespace Hazel {
 
 	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
 	{
-		Renderer2D::BeginScene(camera);
-
-		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-		for (auto entity : group)
 		{
-			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+			Renderer2D::BeginScene(camera);
 
-			Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color);
+			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+			for (auto entity : group)
+			{
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+
+				Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color, (uint32_t)entity);
+			}
+
+			Renderer2D::EndScene();
 		}
-
-		Renderer2D::EndScene();
 	}
 
 	void Scene::OnViewportResize(uint32_t width, uint32_t height)
@@ -110,6 +112,25 @@ namespace Hazel {
 			if (!cameraComponent.FixedAspectRatio) {
 				cameraComponent.Camera.SetViewportSize(width, height);
 			}
+		}
+	}
+
+	void Scene::DrawIDBuffer(Ref<Framebuffer> target, EditorCamera& camera)
+	{
+		target->Bind();
+		{
+			// Render to ID buffer
+			Renderer2D::BeginScene(camera);
+
+			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+			for (auto entity : group)
+			{
+				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+
+				Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color, (uint32_t)entity);
+			}
+
+			Renderer2D::EndScene();
 		}
 	}
 

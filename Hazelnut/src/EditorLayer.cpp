@@ -34,6 +34,8 @@ namespace Hazel {
 		fbSpec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(fbSpec);
 
+		m_IDFramebuffer = Framebuffer::Create(fbSpec);
+
 		m_ActiveScene = CreateRef<Scene>();
 
 		m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
@@ -138,6 +140,8 @@ namespace Hazel {
 
 		// Update scene
 		m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
+		m_ActiveScene->DrawIDBuffer(m_IDFramebuffer, m_EditorCamera);
+
 		// m_ActiveScene->OnUpdateRuntime(ts);
 
 		m_Framebuffer->Unbind();

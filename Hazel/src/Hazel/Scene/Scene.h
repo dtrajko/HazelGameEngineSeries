@@ -2,6 +2,7 @@
 
 #include "Hazel/Core/Timestep.h"
 #include "Hazel/Renderer/EditorCamera.h"
+#include "Hazel/Renderer/Framebuffer.h"
 
 #include "entt.hpp"
 
@@ -22,6 +23,8 @@ namespace Hazel {
 		void OnUpdateRuntime(Timestep ts);
 		void OnUpdateEditor(Timestep ts, EditorCamera& camera);
 		void OnViewportResize(uint32_t width, uint32_t height);
+
+		void DrawIDBuffer(Ref<Framebuffer> target, EditorCamera& camera);
 
 		Entity GetPrimaryCameraEntity();
 

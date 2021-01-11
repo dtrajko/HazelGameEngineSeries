@@ -36,6 +36,7 @@ namespace Hazel {
 		Ref<VertexArray> m_SquareVA;
 		Ref<Shader> m_FlatColorShader;
 		Ref<Framebuffer> m_Framebuffer;
+		Ref<Framebuffer> m_IDFramebuffer;
 
 		Ref<Scene> m_ActiveScene;
 		Entity m_SquareEntity;
