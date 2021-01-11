@@ -50,7 +50,7 @@ namespace Hazel {
 
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, m_IDAttachment, 0);
 
-		GLenum drawBuffers[] = { GL_DRAW_BUFFER0, GL_DRAW_BUFFER1 };
+		GLenum drawBuffers[] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
 		glDrawBuffers(2, drawBuffers);
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_DepthAttachment);

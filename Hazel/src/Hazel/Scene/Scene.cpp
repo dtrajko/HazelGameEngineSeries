@@ -4,9 +4,10 @@
 #include "Components.h"
 #include "Hazel/Renderer/Renderer2D.h"
 
-#include <glm/glm.hpp>
-
 #include "Entity.h"
+
+#include <glm/glm.hpp>
+#include <glad/glad.h>
 
 
 namespace Hazel {
@@ -132,6 +133,14 @@ namespace Hazel {
 
 			Renderer2D::EndScene();
 		}
+	}
+
+	int Scene::Pixel(int x, int y)
+	{
+		glReadBuffer(GL_COLOR_ATTACHMENT1);
+		int pixelData;
+		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
+		return pixelData;
 	}
 
 	Entity Scene::GetPrimaryCameraEntity()
