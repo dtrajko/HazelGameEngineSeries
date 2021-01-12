@@ -24,6 +24,7 @@ namespace Hazel {
 
 	private:
 		bool OnKeyPressed(KeyPressedEvent& e);
+		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
 
 		void NewScene();
 		void OpenScene();
@@ -46,6 +47,8 @@ namespace Hazel {
 		bool m_PrimaryCamera = true;
 
 		EditorCamera m_EditorCamera;
+
+		Entity m_HoveredEntity;
 
 		Ref<Texture2D> m_CheckerboardTexture;
 

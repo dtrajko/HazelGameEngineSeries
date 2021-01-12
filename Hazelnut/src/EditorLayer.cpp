@@ -138,19 +138,28 @@ namespace Hazel {
 		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 		RenderCommand::Clear();
 
+		m_Framebuffer->Bind();
+
 		// Update scene
 		m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
-		// m_ActiveScene->DrawIDBuffer(m_IDFramebuffer, m_EditorCamera);
 
 		auto [mx, my] = ImGui::GetMousePos();
 		mx -= m_ViewportBounds[0].x;
 		my -= m_ViewportBounds[0].y;
 		auto viewportWidth = m_ViewportBounds[1].x - m_ViewportBounds[0].x;
 		auto viewportHeight = m_ViewportBounds[1].y - m_ViewportBounds[0].y;
+		my = viewportHeight - my - 26;
+		int mouseX = (int)mx;
+		int mouseY = (int)my;
+		if (mouseX >= 0 && mouseY >= 0 && mouseX < viewportWidth && mouseY < viewportHeight)
+		{
+			int pixel = m_ActiveScene->Pixel((int)mx, (int)my);
+			HZ_CORE_WARN("[ MX {0} MY {1} ] ID = {2}", mx, my, pixel);
 
-		int pixel = m_ActiveScene->Pixel((int)mx, (int)my);
-		HZ_CORE_WARN("ID = {0}", pixel);
+			m_HoveredEntity = pixel == -1 ? Entity() : Entity((entt::entity)pixel, m_ActiveScene.get());
+		}
 
+		// m_ActiveScene->DrawIDBuffer(m_IDFramebuffer, m_EditorCamera);
 		// m_ActiveScene->OnUpdateRuntime(ts);
 
 		m_Framebuffer->Unbind();
@@ -252,6 +261,8 @@ namespace Hazel {
 			ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 			ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
+			ImGui::Text("Hovered Entity: %d", (uint32_t)m_HoveredEntity);
+
 			ImGui::End();
 
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
@@ -347,6 +358,7 @@ namespace Hazel {
 
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<KeyPressedEvent>(HZ_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
+		dispatcher.Dispatch<MouseButtonPressedEvent>(HZ_BIND_EVENT_FN(EditorLayer::OnMouseButtonPressed));
 	}
 
 	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
@@ -402,6 +414,33 @@ namespace Hazel {
 		}
 
 		return true;
+	}
+
+	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e)
+	{
+		if (e.GetMouseButton() == Mouse::ButtonLeft)
+		{
+			auto [mx, my] = ImGui::GetMousePos();
+			mx -= m_ViewportBounds[0].x;
+			my -= m_ViewportBounds[0].y;
+			auto viewportWidth = m_ViewportBounds[1].x - m_ViewportBounds[0].x;
+			auto viewportHeight = m_ViewportBounds[1].y - m_ViewportBounds[0].y;
+			my = viewportHeight - my - 26;
+			int mouseX = (int)mx;
+			int mouseY = (int)my;
+			if (mouseX >= 0 && mouseY >= 0 && mouseX < viewportWidth && mouseY < viewportHeight)
+			{
+				m_Framebuffer->Bind();
+				int pixel = m_ActiveScene->Pixel((int)mx, (int)my);
+				HZ_CORE_WARN("[ MX {0} MY {1} ] ID = {2}", mx, my, pixel);
+				m_Framebuffer->Unbind();
+			}
+			else
+			{
+				// HZ_CORE_WARN("Out of range!");
+			}
+		}
+		return false;
 	}
 
 	void EditorLayer::NewScene()

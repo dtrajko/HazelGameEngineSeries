@@ -67,6 +67,9 @@ namespace Hazel {
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
 		glViewport(0, 0, m_Specification.Width, m_Specification.Height);
+
+		int clearValue = -1;
+		glClearTexImage(m_IDAttachment, 0, GL_RED_INTEGER, GL_INT, &clearValue);
 	}
 
 	void OpenGLFramebuffer::Unbind()
