@@ -154,7 +154,7 @@ namespace Hazel {
 		if (mouseX >= 0 && mouseY >= 0 && mouseX < viewportWidth && mouseY < viewportHeight)
 		{
 			int pixel = m_ActiveScene->Pixel((int)mx, (int)my);
-			HZ_CORE_WARN("[ MX {0} MY {1} ] ID = {2}", mx, my, pixel);
+			// HZ_CORE_WARN("[ MX {0} MY {1} ] ID = {2}", mx, my, pixel);
 
 			m_HoveredEntity = pixel == -1 ? Entity() : Entity((entt::entity)pixel, m_ActiveScene.get());
 		}
@@ -261,7 +261,24 @@ namespace Hazel {
 			ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 			ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
-			ImGui::Text("Hovered Entity: %d", (uint32_t)m_HoveredEntity);
+			std::string name = "Null";
+			if ((entt::entity)m_HoveredEntity != entt::null)
+			{
+				name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
+			}
+			ImGui::Text("Hovered Entity: %s [ID=%d]", name.c_str(), (uint32_t)m_HoveredEntity);
+
+			//	{
+			//		m_Framebuffer->Bind();
+			//		ImGui::Text("Color Buffer");
+			//		ImGui::Image((void*)(intptr_t)m_Framebuffer->GetColorAttachmentRendererID(), { 128.0f, 128.0f });
+			//		m_Framebuffer->Unbind();
+			//	
+			//		m_IDFramebuffer->Bind();
+			//		ImGui::Text("ID Buffer");
+			//		ImGui::Image((void*)(intptr_t)m_IDFramebuffer->GetIDAttachmentRendererID(), { 128.0f, 128.0f });
+			//		m_IDFramebuffer->Unbind();
+			//	}
 
 			ImGui::End();
 
@@ -418,26 +435,11 @@ namespace Hazel {
 
 	bool EditorLayer::OnMouseButtonPressed(MouseButtonPressedEvent& e)
 	{
-		if (e.GetMouseButton() == Mouse::ButtonLeft)
+		if (e.GetMouseButton() == Mouse::ButtonLeft && !ImGuizmo::IsUsing() && !ImGuizmo::IsOver() && !Input::IsKeyPressed(Key::LeftAlt))
 		{
-			auto [mx, my] = ImGui::GetMousePos();
-			mx -= m_ViewportBounds[0].x;
-			my -= m_ViewportBounds[0].y;
-			auto viewportWidth = m_ViewportBounds[1].x - m_ViewportBounds[0].x;
-			auto viewportHeight = m_ViewportBounds[1].y - m_ViewportBounds[0].y;
-			my = viewportHeight - my - 26;
-			int mouseX = (int)mx;
-			int mouseY = (int)my;
-			if (mouseX >= 0 && mouseY >= 0 && mouseX < viewportWidth && mouseY < viewportHeight)
+			if ((entt::entity)m_HoveredEntity != entt::null)
 			{
-				m_Framebuffer->Bind();
-				int pixel = m_ActiveScene->Pixel((int)mx, (int)my);
-				HZ_CORE_WARN("[ MX {0} MY {1} ] ID = {2}", mx, my, pixel);
-				m_Framebuffer->Unbind();
-			}
-			else
-			{
-				// HZ_CORE_WARN("Out of range!");
+				m_SceneHierarchyPanel.SetSelectedEntity(m_HoveredEntity);
 			}
 		}
 		return false;
