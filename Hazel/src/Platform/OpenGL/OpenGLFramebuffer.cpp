@@ -7,11 +7,21 @@
 
 namespace Hazel {
 
-	static const uint32_t s_MaxFramebufferSize = 8192;
+	// static const uint32_t s_MaxFramebufferSize = 8192;
 
 	OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecification& spec)
 		: m_Specification(spec)
 	{
+		for (auto format : m_Specification.Attachments.Attachments)
+		{
+			if (!Utils::IsDepthFormat(format.TextureFormat)) {
+				m_ColorAttachmentFormats.emplace_back(format.TextureFormat);
+			}
+			else {
+				m_DepthAttachmentFormat = format.TextureFormat;
+			}
+		}
+
 		Invalidate();
 	}
 
@@ -32,6 +42,9 @@ namespace Hazel {
 
 		glCreateFramebuffers(1, &m_RendererID);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
+
+		// Attachments
+		// TODO
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_ColorAttachment);
 		glBindTexture(GL_TEXTURE_2D, m_ColorAttachment);
