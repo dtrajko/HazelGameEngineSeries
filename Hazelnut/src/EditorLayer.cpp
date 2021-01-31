@@ -30,7 +30,7 @@ namespace Hazel {
 		m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
 
 		FramebufferSpecification fbSpec;
-		fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
+		fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
 		fbSpec.Width = 1280;
 		fbSpec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(fbSpec);
@@ -263,9 +263,9 @@ namespace Hazel {
 			ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
 			std::string name = "Null";
-			if ((entt::entity)m_HoveredEntity != entt::null)
+			if ((entt::entity)m_HoveredEntity != entt::null && m_HoveredEntity.IsValid())
 			{
-				// name = m_HoveredEntity.GetComponent<TagComponent>().Tag; // throws an error
+				name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
 			}
 			ImGui::Text("Hovered Entity: %s [ID=%d]", name.c_str(), (uint32_t)m_HoveredEntity);
 
