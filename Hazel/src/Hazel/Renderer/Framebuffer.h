@@ -58,6 +58,7 @@ namespace Hazel {
 		virtual void Unbind() = 0;
 
 		virtual void Resize(uint32_t width, uint32_t height) = 0;
+		virtual int ReadPixel(uint32_t attachmentIndex, uint32_t x, uint32_t y) = 0; // same as Scene::Pixel
 
 		virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const = 0;
 
