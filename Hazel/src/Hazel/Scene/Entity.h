@@ -58,7 +58,7 @@ namespace Hazel {
 		};
 
 		inline entt::entity GetHandle() { return m_EntityHandle; }
-		inline bool IsValid() { return std::abs((int)m_EntityHandle) < 100000; }
+		inline bool IsValid() { return m_EntityHandle != entt::null && (int)m_EntityHandle != 0 && std::abs((int)m_EntityHandle) < 100000; }
 
 	private:
 		entt::entity m_EntityHandle{ entt::null };

@@ -149,16 +149,15 @@ namespace Hazel {
 		my -= m_ViewportBounds[0].y;
 
 		glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
-
-		auto viewportWidth = m_ViewportBounds[1].x - m_ViewportBounds[0].x;
-		auto viewportHeight = m_ViewportBounds[1].y - m_ViewportBounds[0].y;
-		my = viewportHeight - my - 26;
+		// auto viewportWidth = m_ViewportBounds[1].x - m_ViewportBounds[0].x;
+		// auto viewportHeight = m_ViewportBounds[1].y - m_ViewportBounds[0].y;
+		// my = viewportSize.y - my - 22;
 		int mouseX = (int)mx;
-		int mouseY = (int)my;
+		int mouseY = (int)viewportSize.y - (int)my - 22;
 
-		HZ_CORE_WARN("Mouse = {0}, {1}", mouseX, mouseY);
+		HZ_CORE_WARN("Mouse = {0}, {1}", (int)mx, (int)my);
 
-		if (mouseX >= 0 && mouseY >= 0 && mouseX < viewportWidth && mouseY < viewportHeight)
+		if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
 		{
 			int pixel = m_ActiveScene->Pixel(mouseX, mouseY);
 			m_HoveredEntity = pixel == -1 ? Entity() : Entity((entt::entity)pixel, m_ActiveScene.get());
@@ -267,7 +266,7 @@ namespace Hazel {
 			ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
 			std::string name = "Null";
-			if ((entt::entity)m_HoveredEntity != entt::null && m_HoveredEntity.IsValid())
+			if (m_HoveredEntity.IsValid())
 			{
 				name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
 			}
