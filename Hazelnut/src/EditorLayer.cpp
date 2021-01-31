@@ -147,16 +147,20 @@ namespace Hazel {
 		auto [mx, my] = ImGui::GetMousePos();
 		mx -= m_ViewportBounds[0].x;
 		my -= m_ViewportBounds[0].y;
+
+		glm::vec2 viewportSize = m_ViewportBounds[1] - m_ViewportBounds[0];
+
 		auto viewportWidth = m_ViewportBounds[1].x - m_ViewportBounds[0].x;
 		auto viewportHeight = m_ViewportBounds[1].y - m_ViewportBounds[0].y;
 		my = viewportHeight - my - 26;
 		int mouseX = (int)mx;
 		int mouseY = (int)my;
+
+		HZ_CORE_WARN("Mouse = {0}, {1}", mouseX, mouseY);
+
 		if (mouseX >= 0 && mouseY >= 0 && mouseX < viewportWidth && mouseY < viewportHeight)
 		{
-			int pixel = m_ActiveScene->Pixel((int)mx, (int)my);
-			// HZ_CORE_WARN("[ MX {0} MY {1} ] ID = {2}", mx, my, pixel);
-
+			int pixel = m_ActiveScene->Pixel(mouseX, mouseY);
 			m_HoveredEntity = pixel == -1 ? Entity() : Entity((entt::entity)pixel, m_ActiveScene.get());
 		}
 
@@ -286,7 +290,7 @@ namespace Hazel {
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{0, 0});
 			ImGui::Begin("Viewport");
 			{
-				auto viewportOffset = ImGui::GetCursorPos(); // includes tab bar
+				auto viewportOffset = ImGui::GetCursorPos(); // Includes tab bar
 
 				m_ViewportFocused = ImGui::IsWindowFocused();
 				m_ViewportHovered = ImGui::IsWindowHovered();
