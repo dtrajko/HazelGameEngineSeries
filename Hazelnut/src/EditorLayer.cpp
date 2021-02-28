@@ -268,24 +268,12 @@ namespace Hazel {
 			ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 			ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 
-			std::string name = "Null";
+			std::string name = "None";
 			if (m_HoveredEntity.IsValid())
 			{
 				name = m_HoveredEntity.GetComponent<TagComponent>().Tag;
 			}
 			ImGui::Text("Hovered Entity: %s [ID=%d]", name.c_str(), (uint32_t)m_HoveredEntity);
-
-			//	{
-			//		m_Framebuffer->Bind();
-			//		ImGui::Text("Color Buffer");
-			//		ImGui::Image((void*)(intptr_t)m_Framebuffer->GetColorAttachmentRendererID(), { 128.0f, 128.0f });
-			//		m_Framebuffer->Unbind();
-			//	
-			//		m_IDFramebuffer->Bind();
-			//		ImGui::Text("ID Buffer");
-			//		ImGui::Image((void*)(intptr_t)m_IDFramebuffer->GetIDAttachmentRendererID(), { 128.0f, 128.0f });
-			//		m_IDFramebuffer->Unbind();
-			//	}
 
 			ImGui::End();
 
