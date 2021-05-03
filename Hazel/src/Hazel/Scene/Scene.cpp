@@ -4,11 +4,9 @@
 #include "Components.h"
 #include "Hazel/Renderer/Renderer2D.h"
 
-#include "Entity.h"
-
 #include <glm/glm.hpp>
-#include <glad/glad.h>
 
+#include "Entity.h"
 
 namespace Hazel {
 
@@ -16,8 +14,12 @@ namespace Hazel {
 	{
 	}
 
+	Scene::~Scene()
+	{
+	}
+
 	Entity Scene::CreateEntity(const std::string& name)
-	{ 
+	{
 		Entity entity = { m_Registry.create(), this };
 		entity.AddComponent<TransformComponent>();
 		auto& tag = entity.AddComponent<TagComponent>();
@@ -53,11 +55,10 @@ namespace Hazel {
 		glm::mat4 cameraTransform;
 		{
 			auto view = m_Registry.view<TransformComponent, CameraComponent>();
-
 			for (auto entity : view)
 			{
 				auto [transform, camera] = view.get<TransformComponent, CameraComponent>(entity);
-
+				
 				if (camera.Primary)
 				{
 					mainCamera = &camera.Camera;
@@ -69,7 +70,7 @@ namespace Hazel {
 
 		if (mainCamera)
 		{
-			Renderer2D::BeginScene(mainCamera->GetProjection(), cameraTransform);
+			Renderer2D::BeginScene(*mainCamera, cameraTransform);
 
 			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 			for (auto entity : group)
@@ -81,23 +82,22 @@ namespace Hazel {
 
 			Renderer2D::EndScene();
 		}
+
 	}
-  
+
 	void Scene::OnUpdateEditor(Timestep ts, EditorCamera& camera)
 	{
+		Renderer2D::BeginScene(camera);
+
+		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+		for (auto entity : group)
 		{
-			Renderer2D::BeginScene(camera);
+			auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
 
-			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-			for (auto entity : group)
-			{
-				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-
-				Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
-			}
-
-			Renderer2D::EndScene();
+			Renderer2D::DrawSprite(transform.GetTransform(), sprite, (int)entity);
 		}
+
+		Renderer2D::EndScene();
 	}
 
 	void Scene::OnViewportResize(uint32_t width, uint32_t height)
@@ -110,37 +110,10 @@ namespace Hazel {
 		for (auto entity : view)
 		{
 			auto& cameraComponent = view.get<CameraComponent>(entity);
-			if (!cameraComponent.FixedAspectRatio) {
+			if (!cameraComponent.FixedAspectRatio)
 				cameraComponent.Camera.SetViewportSize(width, height);
-			}
 		}
-	}
 
-	void Scene::DrawIDBuffer(Ref<Framebuffer> target, EditorCamera& camera)
-	{
-		target->Bind();
-		{
-			// Render to ID buffer
-			Renderer2D::BeginScene(camera);
-
-			auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
-			for (auto entity : group)
-			{
-				auto [transform, sprite] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-
-				Renderer2D::DrawQuad(transform.GetTransform(), sprite.Color, (uint32_t)entity);
-			}
-
-			Renderer2D::EndScene();
-		}
-	}
-
-	int Scene::Pixel(int x, int y)
-	{
-		glReadBuffer(GL_COLOR_ATTACHMENT1);
-		int pixelData;
-		glReadPixels(x, y, 1, 1, GL_RED_INTEGER, GL_INT, &pixelData);
-		return pixelData;
 	}
 
 	Entity Scene::GetPrimaryCameraEntity()
@@ -150,9 +123,7 @@ namespace Hazel {
 		{
 			const auto& camera = view.get<CameraComponent>(entity);
 			if (camera.Primary)
-			{
-				return Entity{ entity, this };
-			}
+				return Entity{entity, this};
 		}
 		return {};
 	}
@@ -171,7 +142,8 @@ namespace Hazel {
 	template<>
 	void Scene::OnComponentAdded<CameraComponent>(Entity entity, CameraComponent& component)
 	{
-		component.Camera.SetViewportSize(m_ViewportWidth, m_ViewportHeight);
+		if (m_ViewportWidth > 0 && m_ViewportHeight > 0)
+			component.Camera.SetViewportSize(m_ViewportWidth, m_ViewportHeight);
 	}
 
 	template<>
@@ -189,20 +161,5 @@ namespace Hazel {
 	{
 	}
 
-	Scene::~Scene()
-	{
-		// Destroy scripts
-		{
-			m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc)
-				{
-					// TODO: Move to Scene::OnSceneStop
-					if (nsc.Instance)
-					{
-						nsc.Instance->OnDestroy();
-						nsc.DestroyScript(&nsc);
-					}
-				});
-		}
-	}
 
 }

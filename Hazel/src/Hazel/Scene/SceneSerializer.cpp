@@ -4,8 +4,9 @@
 #include "Entity.h"
 #include "Components.h"
 
-#include <yaml-cpp/yaml.h>
+#include <fstream>
 
+#include <yaml-cpp/yaml.h>
 
 namespace YAML {
 
@@ -18,14 +19,14 @@ namespace YAML {
 			node.push_back(rhs.x);
 			node.push_back(rhs.y);
 			node.push_back(rhs.z);
+			node.SetStyle(EmitterStyle::Flow);
 			return node;
 		}
 
 		static bool decode(const Node& node, glm::vec3& rhs)
 		{
-			if (!node.IsSequence() || node.size() != 3) {
+			if (!node.IsSequence() || node.size() != 3)
 				return false;
-			}
 
 			rhs.x = node[0].as<float>();
 			rhs.y = node[1].as<float>();
@@ -44,14 +45,14 @@ namespace YAML {
 			node.push_back(rhs.y);
 			node.push_back(rhs.z);
 			node.push_back(rhs.w);
+			node.SetStyle(EmitterStyle::Flow);
 			return node;
 		}
 
 		static bool decode(const Node& node, glm::vec4& rhs)
 		{
-			if (!node.IsSequence() || node.size() != 4) {
+			if (!node.IsSequence() || node.size() != 4)
 				return false;
-			}
 
 			rhs.x = node[0].as<float>();
 			rhs.y = node[1].as<float>();
@@ -62,7 +63,6 @@ namespace YAML {
 	};
 
 }
-
 namespace Hazel {
 
 	YAML::Emitter& operator<<(YAML::Emitter& out, const glm::vec3& v)
@@ -87,12 +87,12 @@ namespace Hazel {
 	static void SerializeEntity(YAML::Emitter& out, Entity entity)
 	{
 		out << YAML::BeginMap; // Entity
-		out << YAML::Key << "Entity" << YAML::Value << "12345678987654321"; // TODO: Entity ID goes here
+		out << YAML::Key << "Entity" << YAML::Value << "12837192831273"; // TODO: Entity ID goes here
 
 		if (entity.HasComponent<TagComponent>())
 		{
 			out << YAML::Key << "TagComponent";
-			out << YAML::BeginMap; // Tag Component
+			out << YAML::BeginMap; // TagComponent
 
 			auto& tag = entity.GetComponent<TagComponent>().Tag;
 			out << YAML::Key << "Tag" << YAML::Value << tag;
@@ -104,11 +104,12 @@ namespace Hazel {
 		{
 			out << YAML::Key << "TransformComponent";
 			out << YAML::BeginMap; // TransformComponent
-			
+
 			auto& tc = entity.GetComponent<TransformComponent>();
 			out << YAML::Key << "Translation" << YAML::Value << tc.Translation;
 			out << YAML::Key << "Rotation" << YAML::Value << tc.Rotation;
 			out << YAML::Key << "Scale" << YAML::Value << tc.Scale;
+
 			out << YAML::EndMap; // TransformComponent
 		}
 
@@ -122,13 +123,13 @@ namespace Hazel {
 
 			out << YAML::Key << "Camera" << YAML::Value;
 			out << YAML::BeginMap; // Camera
-			out << YAML::Key << "ProjectionType"   << YAML::Value << (int)camera.GetProjectionType();
-			out << YAML::Key << "PerspectiveFOV"   << YAML::Value << camera.GetPerspectiveVerticalFOV();
-			out << YAML::Key << "PerspectiveNear"  << YAML::Value << camera.GetPerspectiveNearClip();
-			out << YAML::Key << "PerspectiveFar"   << YAML::Value << camera.GetPerspectiveFarClip();
+			out << YAML::Key << "ProjectionType" << YAML::Value << (int)camera.GetProjectionType();
+			out << YAML::Key << "PerspectiveFOV" << YAML::Value << camera.GetPerspectiveVerticalFOV();
+			out << YAML::Key << "PerspectiveNear" << YAML::Value << camera.GetPerspectiveNearClip();
+			out << YAML::Key << "PerspectiveFar" << YAML::Value << camera.GetPerspectiveFarClip();
 			out << YAML::Key << "OrthographicSize" << YAML::Value << camera.GetOrthographicSize();
 			out << YAML::Key << "OrthographicNear" << YAML::Value << camera.GetOrthographicNearClip();
-			out << YAML::Key << "OrthographicFar"  << YAML::Value << camera.GetOrthographicFarClip();
+			out << YAML::Key << "OrthographicFar" << YAML::Value << camera.GetOrthographicFarClip();
 			out << YAML::EndMap; // Camera
 
 			out << YAML::Key << "Primary" << YAML::Value << cameraComponent.Primary;
@@ -148,18 +149,6 @@ namespace Hazel {
 			out << YAML::EndMap; // SpriteRendererComponent
 		}
 
-		if (entity.HasComponent<NativeScriptComponent>())
-		{
-			out << YAML::Key << "NativeScriptComponent";
-			auto& tc = entity.GetComponent<NativeScriptComponent>();
-			out << YAML::BeginMap; // NativeScriptComponent
-
-			auto& nativeScriptComponent = entity.GetComponent<NativeScriptComponent>();
-			// TODO ...
-
-			out << YAML::EndMap; // NativeScriptComponent
-		}
-
 		out << YAML::EndMap; // Entity
 	}
 
@@ -173,9 +162,7 @@ namespace Hazel {
 		{
 			Entity entity = { entityID, m_Scene.get() };
 			if (!entity)
-			{
 				return;
-			}
 
 			SerializeEntity(out, entity);
 		});
@@ -194,14 +181,9 @@ namespace Hazel {
 
 	bool SceneSerializer::Deserialize(const std::string& filepath)
 	{
-		std::ifstream stream(filepath);
-		std::stringstream strStream;
-		strStream << stream.rdbuf();
-
-		YAML::Node data = YAML::Load(strStream.str());
-		if (!data["Scene"]) {
+		YAML::Node data = YAML::LoadFile(filepath);
+		if (!data["Scene"])
 			return false;
-		}
 
 		std::string sceneName = data["Scene"].as<std::string>();
 		HZ_CORE_TRACE("Deserializing scene '{0}'", sceneName);
@@ -215,9 +197,8 @@ namespace Hazel {
 
 				std::string name;
 				auto tagComponent = entity["TagComponent"];
-				if (tagComponent) {
+				if (tagComponent)
 					name = tagComponent["Tag"].as<std::string>();
-				}
 
 				HZ_CORE_TRACE("Deserialized entity with ID = {0}, name = {1}", uuid, name);
 
@@ -229,8 +210,8 @@ namespace Hazel {
 					// Entities always have transforms
 					auto& tc = deserializedEntity.GetComponent<TransformComponent>();
 					tc.Translation = transformComponent["Translation"].as<glm::vec3>();
-					tc.Rotation    = transformComponent["Rotation"].as<glm::vec3>();
-					tc.Scale       = transformComponent["Scale"].as<glm::vec3>();
+					tc.Rotation = transformComponent["Rotation"].as<glm::vec3>();
+					tc.Scale = transformComponent["Scale"].as<glm::vec3>();
 				}
 
 				auto cameraComponent = entity["CameraComponent"];
@@ -247,7 +228,7 @@ namespace Hazel {
 
 					cc.Camera.SetOrthographicSize(cameraProps["OrthographicSize"].as<float>());
 					cc.Camera.SetOrthographicNearClip(cameraProps["OrthographicNear"].as<float>());
-					cc.Camera.SetOrthographicFarClip(cameraProps["OrthographicFar" ].as<float>());
+					cc.Camera.SetOrthographicFarClip(cameraProps["OrthographicFar"].as<float>());
 
 					cc.Primary = cameraComponent["Primary"].as<bool>();
 					cc.FixedAspectRatio = cameraComponent["FixedAspectRatio"].as<bool>();
@@ -269,7 +250,6 @@ namespace Hazel {
 	{
 		// Not implemented
 		HZ_CORE_ASSERT(false);
-
 		return false;
 	}
 

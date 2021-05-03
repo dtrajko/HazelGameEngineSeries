@@ -1,8 +1,14 @@
 #include "hzpch.h"
-
 #include "EditorCamera.h"
-#include "Hazel/Core/Input.h"
 
+#include "Hazel/Core/Input.h"
+#include "Hazel/Core/KeyCodes.h"
+#include "Hazel/Core/MouseCodes.h"
+
+#include <glfw/glfw3.h>
+
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
 
 namespace Hazel {
 
@@ -61,15 +67,12 @@ namespace Hazel {
 			glm::vec2 delta = (mouse - m_InitialMousePosition) * 0.003f;
 			m_InitialMousePosition = mouse;
 
-			if (Input::IsMouseButtonPressed(Mouse::ButtonMiddle)) {
+			if (Input::IsMouseButtonPressed(Mouse::ButtonMiddle))
 				MousePan(delta);
-			}
-			else if (Input::IsMouseButtonPressed(Mouse::ButtonLeft)) {
+			else if (Input::IsMouseButtonPressed(Mouse::ButtonLeft))
 				MouseRotate(delta);
-			}
-			else if (Input::IsMouseButtonPressed(Mouse::ButtonRight)) {
+			else if (Input::IsMouseButtonPressed(Mouse::ButtonRight))
 				MouseZoom(delta.y);
-			}
 		}
 
 		UpdateView();

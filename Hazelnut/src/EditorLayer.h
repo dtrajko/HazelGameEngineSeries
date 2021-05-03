@@ -1,16 +1,14 @@
 #pragma once
 
 #include "Hazel.h"
-#include "Hazel/Renderer/Framebuffer.h"
 #include "Panels/SceneHierarchyPanel.h"
-#include "Hazel/Renderer/EditorCamera.h"
 
+#include "Hazel/Renderer/EditorCamera.h"
 
 namespace Hazel {
 
 	class EditorLayer : public Layer
 	{
-
 	public:
 		EditorLayer();
 		virtual ~EditorLayer() = default;
@@ -18,10 +16,9 @@ namespace Hazel {
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
 
-		void OnUpdate(Timestep timestep) override;
+		void OnUpdate(Timestep ts) override;
 		virtual void OnImGuiRender() override;
 		void OnEvent(Event& e) override;
-
 	private:
 		bool OnKeyPressed(KeyPressedEvent& e);
 		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
@@ -29,31 +26,28 @@ namespace Hazel {
 		void NewScene();
 		void OpenScene();
 		void SaveSceneAs();
-
 	private:
-		OrthographicCameraController m_CameraController;
+		Hazel::OrthographicCameraController m_CameraController;
 
 		// Temp
 		Ref<VertexArray> m_SquareVA;
 		Ref<Shader> m_FlatColorShader;
 		Ref<Framebuffer> m_Framebuffer;
-		Ref<Framebuffer> m_IDFramebuffer;
 
 		Ref<Scene> m_ActiveScene;
 		Entity m_SquareEntity;
 		Entity m_CameraEntity;
-
 		Entity m_SecondCamera;
+		
+		Entity m_HoveredEntity;
+
 		bool m_PrimaryCamera = true;
 
 		EditorCamera m_EditorCamera;
 
-		Entity m_HoveredEntity;
-
 		Ref<Texture2D> m_CheckerboardTexture;
 
-		bool m_ViewportFocused = false;
-		bool m_ViewportHovered = false;
+		bool m_ViewportFocused = false, m_ViewportHovered = false;
 		glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
 		glm::vec2 m_ViewportBounds[2];
 
@@ -63,7 +57,6 @@ namespace Hazel {
 
 		// Panels
 		SceneHierarchyPanel m_SceneHierarchyPanel;
-
 	};
 
 }

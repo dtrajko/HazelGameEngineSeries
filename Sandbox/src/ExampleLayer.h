@@ -2,12 +2,8 @@
 
 #include "Hazel.h"
 
-#include "Hazel/Renderer/Renderer2D.h"
-
-
 class ExampleLayer : public Hazel::Layer
 {
-
 public:
 	ExampleLayer();
 	virtual ~ExampleLayer() = default;
@@ -15,25 +11,20 @@ public:
 	virtual void OnAttach() override;
 	virtual void OnDetach() override;
 
-	void OnUpdate(Hazel::Timestep timestep) override;
+	void OnUpdate(Hazel::Timestep ts) override;
 	virtual void OnImGuiRender() override;
 	void OnEvent(Hazel::Event& e) override;
-
 private:
-	void DrawOpenGLTriangle();
-	void UpdateInputPolling(Hazel::Timestep timestep);
+	Hazel::ShaderLibrary m_ShaderLibrary;
+	Hazel::Ref<Hazel::Shader> m_Shader;
+	Hazel::Ref<Hazel::VertexArray> m_VertexArray;
 
-private:
+	Hazel::Ref<Hazel::Shader> m_FlatColorShader;
+	Hazel::Ref<Hazel::VertexArray> m_SquareVA;
+
+	Hazel::Ref<Hazel::Texture2D> m_Texture, m_ChernoLogoTexture;
+
 	Hazel::OrthographicCameraController m_CameraController;
-
-	Hazel::Ref<Hazel::Texture2D> m_Texture;
-	Hazel::Ref<Hazel::Texture2D> m_ChernoLogoTexture;
-
-	glm::vec3 m_TrianglePosition = glm::vec3(0.0f, 0.0f, 0.0f);
-	float m_SquareMoveSpeed = 1.0f;
-	glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
-	glm::vec4 m_BackgroundColor = { 0.9f, 0.8f, 0.8f, 1.0f };
-
-	unsigned int m_FPS = 0;
-
+	glm::vec3 m_SquareColor = { 0.2f, 0.3f, 0.8f };
 };
+

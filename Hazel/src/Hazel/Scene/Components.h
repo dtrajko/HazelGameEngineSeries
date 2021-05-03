@@ -9,22 +9,16 @@
 #include "SceneCamera.h"
 #include "ScriptableEntity.h"
 
-
-namespace Hazel
-{
+namespace Hazel {
 
 	struct TagComponent
 	{
 		std::string Tag;
 
 		TagComponent() = default;
-
 		TagComponent(const TagComponent&) = default;
-		TagComponent(std::string tag)
-			: Tag(tag) {};
-
-		operator std::string& () { return Tag; };
-		operator const std::string& () const { return Tag; };
+		TagComponent(const std::string& tag)
+			: Tag(tag) {}
 	};
 
 	struct TransformComponent
@@ -42,9 +36,9 @@ namespace Hazel
 		{
 			glm::mat4 rotation = glm::toMat4(glm::quat(Rotation));
 
-			return glm::translate(glm::mat4(1.0f), Translation) *
-				rotation *
-				glm::scale(glm::mat4(1.0f), Scale);
+			return glm::translate(glm::mat4(1.0f), Translation)
+				* rotation
+				* glm::scale(glm::mat4(1.0f), Scale);
 		}
 	};
 
@@ -55,7 +49,7 @@ namespace Hazel
 		SpriteRendererComponent() = default;
 		SpriteRendererComponent(const SpriteRendererComponent&) = default;
 		SpriteRendererComponent(const glm::vec4& color)
-			: Color(color) {};
+			: Color(color) {}
 	};
 
 	struct CameraComponent
@@ -82,4 +76,5 @@ namespace Hazel
 			DestroyScript = [](NativeScriptComponent* nsc) { delete nsc->Instance; nsc->Instance = nullptr; };
 		}
 	};
+
 }

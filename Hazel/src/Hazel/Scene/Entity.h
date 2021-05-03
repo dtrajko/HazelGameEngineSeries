@@ -4,13 +4,10 @@
 
 #include "entt.hpp"
 
-
 namespace Hazel {
 
-	class Scene;
-
-	class Entity {
-
+	class Entity
+	{
 	public:
 		Entity() = default;
 		Entity(entt::entity handle, Scene* scene);
@@ -49,21 +46,18 @@ namespace Hazel {
 		operator entt::entity() const { return m_EntityHandle; }
 		operator uint32_t() const { return (uint32_t)m_EntityHandle; }
 
-		bool operator==(const Entity& other) const {
+		bool operator==(const Entity& other) const
+		{
 			return m_EntityHandle == other.m_EntityHandle && m_Scene == other.m_Scene;
-		};
+		}
 
-		bool operator!=(const Entity& other) const {
+		bool operator!=(const Entity& other) const
+		{
 			return !(*this == other);
-		};
-
-		inline entt::entity GetHandle() { return m_EntityHandle; }
-		inline bool IsValid() { return m_EntityHandle != entt::null && (int)m_EntityHandle != 0 && std::abs((int)m_EntityHandle) < 100000; }
-
+		}
 	private:
 		entt::entity m_EntityHandle{ entt::null };
 		Scene* m_Scene = nullptr;
-
 	};
 
 }
