@@ -50,7 +50,7 @@ namespace Hazel
 
 		ImGui::Begin("Properties");
 
-		if (m_SelectionContext && m_SelectionContext.IsValid())
+		if (m_SelectionContext/* && m_SelectionContext.IsValid()*/)
 		{
 			DrawComponents(m_SelectionContext);
 		}

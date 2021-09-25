@@ -153,7 +153,7 @@ namespace Hazel {
 		int mouseX = (int)mx;
 		int mouseY = (int)my;
 
-		HZ_CORE_WARN("Mouse = {0}, {1}", mouseX, mouseY);
+		// HZ_CORE_WARN("Mouse = {0}, {1}", mouseX, mouseY);
 
 		if (mouseX >= 0 && mouseY >= 0 && mouseX < (int)viewportSize.x && mouseY < (int)viewportSize.y)
 		{
