@@ -1,3 +1,9 @@
 .vs/
 bin/
 bin-int/
+Hazel/vendor/GLFW
+Hazel/vendor/glm
+Hazel/vendor/imgui
+Hazel/vendor/spdlog
+Hazel/vendor/yaml-cpp
+Hazelnut/imgui.ini

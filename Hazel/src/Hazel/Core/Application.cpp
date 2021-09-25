@@ -64,10 +64,26 @@ namespace Hazel {
 
 	void Application::Run()
 	{
+		WindowResizeEvent e(1280, 720);
+		if (e.IsInCategory(EventCategoryApplication))
+		{
+			HZ_TRACE(e);
+		}
+
+		if (e.IsInCategory(EventCategoryInput))
+		{
+			HZ_TRACE(e);
+		}
+
 		if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer2D)
+		{
 			Renderer2D::Init();
+		}
+
 		if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer3D)
+		{
 			Renderer3D::Init();
+		}
 
 		while (m_Running)
 		{
@@ -80,14 +96,18 @@ namespace Hazel {
 			if (!m_Minimized)
 			{
 				for (Layer* layer : m_LayerStack)
+				{
 					layer->OnUpdate(timestep);
+				}
 			}
 
 			if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
 			{
 				m_ImGuiLayer->Begin();
 				for (Layer* layer : m_LayerStack)
+				{
 					layer->OnImGuiRender();
+				}
 				m_ImGuiLayer->End();
 			}
 
@@ -120,9 +140,13 @@ namespace Hazel {
 		if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
 		{
 			if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer2D)
+			{
 				Renderer2D::OnWindowResize(e.GetWidth(), e.GetHeight());
+			}
 			if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer3D)
+			{
 				Renderer3D::OnWindowResize(e.GetWidth(), e.GetHeight());
+			}
 		}
 
 		return false;
