@@ -1,6 +1,7 @@
 #pragma once
+#include <functional>
 
-#include "hzpch.h"
+#include "Hazel/Debug/Instrumentor.h"
 #include "Hazel/Core/Base.h"
 
 namespace Hazel {
@@ -22,14 +23,14 @@ namespace Hazel {
 	enum EventCategory
 	{
 		None = 0,
-		EventCategoryApplication = BIT(0),
-		EventCategoryInput       = BIT(1),
-		EventCategoryKeyboard    = BIT(2),
-		EventCategoryMouse       = BIT(3),
-		EventCategoryMouseButton = BIT(4)
+		EventCategoryApplication    = BIT(0),
+		EventCategoryInput          = BIT(1),
+		EventCategoryKeyboard       = BIT(2),
+		EventCategoryMouse          = BIT(3),
+		EventCategoryMouseButton    = BIT(4)
 	};
 
-#define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::##type; }\
+#define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::type; }\
 								virtual EventType GetEventType() const override { return GetStaticType(); }\
 								virtual const char* GetName() const override { return #type; }
 
@@ -37,8 +38,8 @@ namespace Hazel {
 
 	class Event
 	{
-		friend class EventDispatcher;
 	public:
+		virtual ~Event() = default;
 
 		bool Handled = false;
 
@@ -47,7 +48,7 @@ namespace Hazel {
 		virtual int GetCategoryFlags() const = 0;
 		virtual std::string ToString() const { return GetName(); }
 
-		inline bool IsInCategory(EventCategory category)
+		bool IsInCategory(EventCategory category)
 		{
 			return GetCategoryFlags() & category;
 		}
@@ -55,21 +56,19 @@ namespace Hazel {
 
 	class EventDispatcher
 	{
-		template<typename T>
-		using EventFn = std::function<bool(T&)>;
 	public:
 		EventDispatcher(Event& event)
 			: m_Event(event)
 		{
 		}
-
-		// F will be deducted by the compiler
+		
+		// F will be deduced by the compiler
 		template<typename T, typename F>
 		bool Dispatch(const F& func)
 		{
 			if (m_Event.GetEventType() == T::GetStaticType())
 			{
-				m_Event.Handled = func(static_cast<T&>(m_Event));
+				m_Event.Handled |= func(static_cast<T&>(m_Event));
 				return true;
 			}
 			return false;
@@ -82,4 +81,6 @@ namespace Hazel {
 	{
 		return os << e.ToString();
 	}
+
 }
+

@@ -15,7 +15,7 @@ namespace Hazel
 	{
 		HZ_CORE_ASSERT(windowHandle, "Window handle is null!");
 
-		RendererAPI::SetAPI(RendererAPI::API::Vulkan);
+		// RendererAPI::SetAPI(RendererAPI::API::Vulkan);
 	}
 
 	void VulkanContext::Init()

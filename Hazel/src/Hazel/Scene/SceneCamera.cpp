@@ -3,20 +3,10 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-
 namespace Hazel {
 
 	SceneCamera::SceneCamera()
 	{
-		RecalculateProjection();
-	}
-
-	void SceneCamera::SetOrthographic(float size, float nearClip, float farClip)
-	{
-		m_ProjectionType = ProjectionType::Orthographic;
-		m_OrthographicSize = size;
-		m_OrthographicNear = nearClip;
-		m_OrthographicFar = farClip;
 		RecalculateProjection();
 	}
 
@@ -29,13 +19,19 @@ namespace Hazel {
 		RecalculateProjection();
 	}
 
+	void SceneCamera::SetOrthographic(float size, float nearClip, float farClip)
+	{
+		m_ProjectionType = ProjectionType::Orthographic;
+		m_OrthographicSize = size;
+		m_OrthographicNear = nearClip;
+		m_OrthographicFar = farClip;
+		RecalculateProjection();
+	}
+
 	void SceneCamera::SetViewportSize(uint32_t width, uint32_t height)
 	{
-		m_ViewportWidth = width;
-		m_ViewportHeight = height;
-
-		m_AspectRatio  = (float)width / (float)height;
-
+		HZ_CORE_ASSERT(width > 0 && height > 0);
+		m_AspectRatio = (float)width / (float)height;
 		RecalculateProjection();
 	}
 
@@ -45,16 +41,17 @@ namespace Hazel {
 		{
 			m_Projection = glm::perspective(m_PerspectiveFOV, m_AspectRatio, m_PerspectiveNear, m_PerspectiveFar);
 		}
-		else if (m_ProjectionType == ProjectionType::Orthographic)
+		else
 		{
 			float orthoLeft = -m_OrthographicSize * m_AspectRatio * 0.5f;
 			float orthoRight = m_OrthographicSize * m_AspectRatio * 0.5f;
 			float orthoBottom = -m_OrthographicSize * 0.5f;
 			float orthoTop = m_OrthographicSize * 0.5f;
 
-			m_Projection = glm::ortho(orthoLeft, orthoRight, orthoBottom, orthoTop,
-				m_OrthographicNear, m_OrthographicFar);
+			m_Projection = glm::ortho(orthoLeft, orthoRight,
+				orthoBottom, orthoTop, m_OrthographicNear, m_OrthographicFar);
 		}
+		
 	}
 
 }

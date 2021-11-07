@@ -1,44 +1,53 @@
 #include "hzpch.h"
+#include "Hazel/Core/Application.h"
 
-#include "Application.h"
 #include "Hazel/Core/Log.h"
+
+#include "Hazel/Renderer/Renderer.h"
+
 #include "Hazel/Core/Input.h"
-#include "Hazel/Renderer/Renderer2D.h"
-#include "Hazel/Renderer/Renderer3D.h"
-#include "Hazel/Core/KeyCodes.h"
 
 #include <GLFW/glfw3.h>
 
-
 namespace Hazel {
-
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application(const std::string& name)
+	Application::Application(const std::string& name, ApplicationCommandLineArgs args)
+		: m_CommandLineArgs(args)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		HZ_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
+		m_Window = Window::Create(WindowProps(name));
+		m_Window->SetEventCallback(HZ_BIND_EVENT_FN(Application::OnEvent));
 
-		m_Window = std::unique_ptr<Window>(Window::Create(WindowProps(name)));
-		m_Window->SetEventCallback(BIND_EVENT_FN(OnEvent));
+		Renderer::Init();
 
-		if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
-		{
-			m_ImGuiLayer = new Hazel::ImGuiLayer();
-			PushOverlay(m_ImGuiLayer);
-		}
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
+	}
+
+	Application::~Application()
+	{
+		HZ_PROFILE_FUNCTION();
+
+		Renderer::Shutdown();
 	}
 
 	void Application::PushLayer(Layer* layer)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		m_LayerStack.PushLayer(layer);
 		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* layer)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		m_LayerStack.PushOverlay(layer);
 		layer->OnAttach();
 	}
@@ -50,63 +59,47 @@ namespace Hazel {
 
 	void Application::OnEvent(Event& e)
 	{
+		HZ_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+		dispatcher.Dispatch<WindowCloseEvent>(HZ_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(HZ_BIND_EVENT_FN(Application::OnWindowResize));
 
-		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
+		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it)
 		{
-			(*--it)->OnEvent(e);
-			if (e.Handled)
+			if (e.Handled) 
 				break;
+			(*it)->OnEvent(e);
 		}
 	}
 
 	void Application::Run()
 	{
-		WindowResizeEvent e(1280, 720);
-		if (e.IsInCategory(EventCategoryApplication))
-		{
-			HZ_TRACE(e);
-		}
-
-		if (e.IsInCategory(EventCategoryInput))
-		{
-			HZ_TRACE(e);
-		}
-
-		if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer2D)
-		{
-			Renderer2D::Init();
-		}
-
-		if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer3D)
-		{
-			Renderer3D::Init();
-		}
+		HZ_PROFILE_FUNCTION();
 
 		while (m_Running)
 		{
-			float time = (float)glfwGetTime(); // Platform::GetTime()
+			HZ_PROFILE_SCOPE("RunLoop");
+
+			float time = (float)glfwGetTime();
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
-			auto [x, y] = Input::GetMousePosition();
-
 			if (!m_Minimized)
 			{
-				for (Layer* layer : m_LayerStack)
 				{
-					layer->OnUpdate(timestep);
-				}
-			}
+					HZ_PROFILE_SCOPE("LayerStack OnUpdate");
 
-			if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
-			{
+					for (Layer* layer : m_LayerStack)
+						layer->OnUpdate(timestep);
+				}
+
 				m_ImGuiLayer->Begin();
-				for (Layer* layer : m_LayerStack)
 				{
-					layer->OnImGuiRender();
+					HZ_PROFILE_SCOPE("LayerStack OnImGuiRender");
+
+					for (Layer* layer : m_LayerStack)
+						layer->OnImGuiRender();
 				}
 				m_ImGuiLayer->End();
 			}
@@ -121,10 +114,6 @@ namespace Hazel {
 		return true;
 	}
 
-	Application::~Application()
-	{
-	}
-
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
 		HZ_PROFILE_FUNCTION();
@@ -136,18 +125,7 @@ namespace Hazel {
 		}
 
 		m_Minimized = false;
-
-		if (RendererAPI::GetAPI() == RendererAPI::API::OpenGL)
-		{
-			if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer2D)
-			{
-				Renderer2D::OnWindowResize(e.GetWidth(), e.GetHeight());
-			}
-			if (RendererAPI::GetMode() == RendererAPI::Mode::Renderer3D)
-			{
-				Renderer3D::OnWindowResize(e.GetWidth(), e.GetHeight());
-			}
-		}
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
 
 		return false;
 	}

@@ -4,11 +4,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-
 Sandbox2D::Sandbox2D()
 	: Layer("Sandbox2D"), m_CameraController(1280.0f / 720.0f), m_SquareColor({ 0.2f, 0.3f, 0.8f, 1.0f })
 {
-	Hazel::RendererAPI::SetMode(Hazel::RendererAPI::Mode::Renderer2D);
 }
 
 void Sandbox2D::OnAttach()
@@ -16,8 +14,6 @@ void Sandbox2D::OnAttach()
 	HZ_PROFILE_FUNCTION();
 
 	m_CheckerboardTexture = Hazel::Texture2D::Create("assets/textures/Checkerboard.png");
-
-	// Hazel::Renderer2D::Init();
 }
 
 void Sandbox2D::OnDetach()

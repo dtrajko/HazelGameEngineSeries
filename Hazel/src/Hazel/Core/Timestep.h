@@ -1,8 +1,6 @@
 #pragma once
 
-
-namespace Hazel
-{
+namespace Hazel {
 
 	class Timestep
 	{
@@ -16,10 +14,8 @@ namespace Hazel
 
 		float GetSeconds() const { return m_Time; }
 		float GetMilliseconds() const { return m_Time * 1000.0f; }
-
 	private:
 		float m_Time;
-
 	};
 
 }

@@ -4,7 +4,6 @@
 
 #include "Hazel/Core/PlatformDetection.h"
 
-
 #ifdef HZ_DEBUG
 	#if defined(HZ_PLATFORM_WINDOWS)
 		#define HZ_DEBUGBREAK() __debugbreak()
@@ -26,9 +25,7 @@
 
 #define HZ_BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
 
-
-namespace Hazel
-{
+namespace Hazel {
 
 	template<typename T>
 	using Scope = std::unique_ptr<T>;

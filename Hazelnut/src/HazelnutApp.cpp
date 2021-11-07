@@ -3,28 +3,25 @@
 
 #include "EditorLayer.h"
 
-
 namespace Hazel {
 
-	class HazelnutApp : public Application
+	class Hazelnut : public Application
 	{
 	public:
-		HazelnutApp()
-			: Application("Hazelnut")
+		Hazelnut(ApplicationCommandLineArgs args)
+			: Application("Hazelnut", args)
 		{
 			PushLayer(new EditorLayer());
 		}
 
-		~HazelnutApp()
+		~Hazelnut()
 		{
 		}
 	};
 
-	Application* CreateApplication()
+	Application* CreateApplication(ApplicationCommandLineArgs args)
 	{
-		RendererAPI::SetAPI(RendererAPI::API::OpenGL);
-
-		return new HazelnutApp();
+		return new Hazelnut(args);
 	}
 
 }
